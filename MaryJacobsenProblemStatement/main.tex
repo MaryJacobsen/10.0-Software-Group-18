@@ -1,0 +1,49 @@
+\documentclass[letterpaper,10pt,draftclsnofoot,onecolumn,]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \textbf{Gymnastics Scoring Software}
+        
+        \vspace{0.5cm}
+        The purpose of this paper is to define and describe a problem statement for the proposed gymnastics scoring software.
+        
+        \vspace{1.5cm}
+        
+        \textbf{Mary Jacobsen}
+        
+        Problem Statement\\
+        CS 461\\
+        Senior Software Engineering Project\\
+        Fall 2018
+        
+    \end{center}
+\end{titlepage}
+
+\begin{center}
+\textbf{Project Abstract}\\
+\end{center}
+The gymnastics meets held in Gill Coliseum are fast paced, usually televised competitions attended by thousands of fans. In order to run the competitions smoothly and provide a positive experience for fans, athletes, and staff, there must be a way to record, organize, and display the scores that the judges give to each routine using the hardware already in Gill Coliseum. A scoring software built exactly for what is available in Gill Coliseum would provide a solution. For the software to be a working prototype, it must be able to complete a mock gymnastics meet with correctly displayed scores in all the specified sorted orders and export the final scores in the correct format.\\
+
+\begin{center}
+\textbf{Definition and Description}\\
+\end{center}
+Oregon State Gymnastics is looking to improve the quality of experience for athletes, fans, and staff in regards to scoring at their gymnastics meets. They need a good way to get the scores from the judges and announce the official scores of athletes and teams to everyone within a couple of minutes of routines happening. Gill Coliseum holds five to six gymnastics meets per year against other PAC-12 and NCAA opponents. Oregon State Gymnastics will even be hosting the NCAA champion, UCLA this season. Because these meets are televised and accuracy is important in gymnastics, there cannot be any mistakes in scoring. Before each meet, it takes an hour or so to set up the current scoring system and make sure it is working. During the meet, after a gymnast finishes a routine, each judge gives their score on paper to a person who inputs the score. The paper scores are then given to another person who checks to make sure the average of the scores match the software output that will be shown on PAC-12 Network and the display boards. This is repeated 6 to 7 times for each team on vault, bars, beam, and floor. he scores are sometimes changed after the fact if inquiries are submitted or there is a mistake inputting scores. On each event, the scores are displayed in the order each gymnast went and separated by team. The team score for each event is displayed at the bottom of each team's scores and is calculated by averaging the top five scores for that event. The total team score is calculated by adding up all the event team scores. The scores also have to be sorted from highest to lowest for each event regardless of team for awards. And gymnasts that compete all four events must have their all around scores added up and sorted from highest to lowest regardless of team for awards. The current software has dependability and compatibility issues that cause problems during meets. The set up time for the scoring system should be shortened and the process during the meet should be simplified and made more dependable. The most substantial barrier is that the hardware that is already in Gill Coliseum must be used for scoring.\\
+
+
+\begin{center}
+\textbf{Proposed Solution}\\
+\end{center}
+A better scoring system could help the meets run more smoothly and reduce the stress of those involved in running scoring. A custom software that is built for the specific needs and hardware that Oregon State is using would be ideal for optimum performance. A software system that is compatible with Gill Coliseum hardware, able to read in scores from multiple score input stations, able to sort the scores in multiple orders, able to display scores on digital display boards, able to modify input after it has been received, and able to export them to multiple platforms in a specific format would decrease the amount of time it takes to set up for meets, improve the efficiency of running scoring during meets, and improve the fan experience. An additional part of the solution that is not necessary in solving the problem but could improve the fan experience even more is to make an API layer that provides live scoring data for fans. Some tools that could be used for this solution are python or another language, libraries, and the hardware in Gill Coliseum to help in reading in user entries, parsing the scores, processing the scores, displaying the output, and exporting scoring data into csv files.\\
+
+\begin{center}
+\textbf{Performance Metrics}\\
+\end{center}
+To complete the project we must have a working prototype. The prototype will also need to be tested. Users will test it following what would happen at a meet and it must be able to successfully complete the scoring of an entire meet. All the scores must be calculated, sorted, displayed, and exported successfully.\\
+
+\end{document}
+        
