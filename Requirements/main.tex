@@ -1,9 +1,8 @@
 \documentclass[letterpaper,10pt,draftclsnofoot,onecolumn,]{article}
-% \usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage[margin=0.75in]{geometry}
-% \usepackage{listings}
+\usepackage{pgfgantt}
 \usepackage{tikz}
-% \setlengthindent{0pt}
 \begin{document}
 \noindent
 \begin{titlepage}
@@ -68,6 +67,73 @@ All Around is all four events which is vault, bars, beam, and floor for women's 
 % \begin{center}
 % \section{References}
 % \end{center}
+\begin{center}
+\section{Gantt Chart}
+\end{center}
+     \begin{ganttchart}[
+        title/.append style={fill=black!10},
+        x unit=2pt,
+        hgrid,
+        %compress calendar,
+        time slot format=simple,
+        ]{1}{181}
+
+    \gantttitle{2018}{61}
+    \gantttitle{2019}{120} \\
+    \gantttitle{November}{30}
+    \gantttitle{December}{31}
+    \gantttitle{January}{31}
+    \gantttitle{February}{28}
+    \gantttitle{March}{31}
+    \gantttitle{April}{30}\\
+    \gantttitle{1}{3}
+    \gantttitle{2}{7}
+    \gantttitle{3}{7}
+    \gantttitle{4}{7}
+    \gantttitle{1}{7}
+    \gantttitle{2}{7}
+    \gantttitle{3}{7} 
+    \gantttitle{4}{7}
+    \gantttitle{1}{7}
+    \gantttitle{2}{7}
+    \gantttitle{3}{7}
+    \gantttitle{4}{7}
+    \gantttitle{1}{7}
+    \gantttitle{2}{7}
+    \gantttitle{3}{7}
+    \gantttitle{4}{7}
+    \gantttitle{1}{7}
+    \gantttitle{2}{7}
+    \gantttitle{3}{7}
+    \gantttitle{4}{7}
+    \gantttitle{1}{7}
+    \gantttitle{2}{7}
+    \gantttitle{3}{7}
+    \gantttitle{4}{7}
+    \gantttitle{1}{7}
+    \gantttitle{2}{7}
+    \gantttitle{3}{3}\\
+
+\ganttgroup{Design}{2}{61} \\
+\ganttbar{Req Doc}{2}{30} \\
+\ganttbar{Tech Reviews}{30}{61} \\
+\ganttgroup{Back-end}{61}{141} \\
+\ganttbar[name=DBI]{Databases: Initial set-up}{61}{75} \\
+\ganttbar[name=API]{API}{76}{141} \\
+\ganttbar{Databases: Continued}{75}{90} \\
+\ganttbar[name=SBB]{Scoreboard: Back-end}{90}{105} \\
+\ganttbar[name=PB]{Printing: Back-end}{90}{105} \\
+\ganttgroup{Front-end}{105}{141} \\
+\ganttbar[name=SBF]{Scoreboard: Front-end}{106}{120} \\
+\ganttbar[name=PF]{Printing: Front-end}{110}{120} \\
+\ganttbar{Client-side}{111}{141} \\
+\ganttbar{User-interface}{111}{141} \\
+\ganttmilestone{Project Completed} {141} \\
+\ganttgroup{Polish}{141}{180}
+\ganttlink[link type=f-s]{DBI}{API}
+\ganttlink[link type=f-s]{SBB}{SBF}
+\ganttlink[link type=f-s]{PB}{PF}
+\end{ganttchart}
 
 \begin{center}
 \section{System Requirements}
