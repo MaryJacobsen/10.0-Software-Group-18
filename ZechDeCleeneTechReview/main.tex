@@ -1,0 +1,70 @@
+\documentclass[letterpaper,10pt,draftclsnofoot,onecolumn,]{article}
+
+%% Language and font encodings
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+
+%% Sets page size and margins
+\usepackage[a4paper,top=3cm,bottom=2cm,left=3cm,right=3cm,marginparwidth=1.75cm]{geometry}
+
+%% Useful packages
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        \textbf{\huge Oregon State University}\\
+        \vspace{1cm}
+        \textbf{\LARGE Tech Review}
+        
+        \vspace{0.5cm}
+        \Large Zech DeCleene \\
+        \Large CS461 Fall 2018\\
+        \Large Group 18: Gymnastics Scoring Software
+         \vspace*{\fill}
+        \begin{center}
+            \textbf{\large{Abstract}}
+        \end{center}
+        \normalsize{This document outlines tech specifications and various options for particular systems in the gymnastics scoring system project}
+        
+
+
+    \end{center}
+\end{titlepage}
+\section*{Introduction}
+    The Oregon State Gymnastics team is in need of new software to take in scores from the judges and display the information on the scoreboards. The current system is outdated and has issues with dependencies. Our team has been tasked with designing a new system, capable of taking in scores from multiple judges, as well as a database to save the information. The purpose of this tech review is to examine various parts of the system and identify its function and the options we have for said part. The aspects of the system I will be identifying are the type of database, the options for the scoreboard, and the data format.
+
+\section{Database}
+The system will be incorporating an API for potential stretch goals. As such, we must incorporate a database to save all the gymnastics meet data. The options for the database that we will be examining are MySQL, MongoDB, and Firebase. 
+\subsection*{Firebase}
+Firebase is a mobile and web application platform. One feature of the platform is the Firebase database. The database features a NoSQL, real-time database, which allows for the data to be updated without the page needing to be refreshed.\cite{khedkar} The major pro’s to this database is that it’s very easy to use and the real-time data synchronization is exactly what we need with multiple judges all entering scores at the same time. The database also being cloud-based means that large amounts of traffic would place the load on Google’s servers rather than the server at Gill. This is not as much of an advantage for our system however as the only people on the server will be the judges and their helpers.
+Because there is data being collected on the athletes however, their names, athlete ID, and scores, our database must be run locally to avoid any potential legal issues. Additionally, Firebase is a Google service and there is a cost associated with the product.  If we were to use Firebase as our database a monthly fee would be introduced to the costs. 
+\subsection*{MongoDB}
+MongoDB is an open-source NoSQL or non-relational database, very similar to Firebase.  It features a good scalable database system that can be hosted locally on the Gill servers. MongoDB allows a lot more flexibility, such as custom queries,  when compared to Firebase at the cost of MongoDB being more complex.\cite{youtube} With MongoDB being a non-relational database, it simplifies horizontal scaling, which is the addition of additional nodes or access points. This specific project would benefit from horizontal scalability as a potential stretch goal is to create a mobile app to access data from the database. The major cons to MongoDB would be that someone in the group would need to learn to use it. Additionally, the server at Gill runs everything using MySQL so implementing a MongoDB database would annoying to the people who work IT in Gill Coliseum. 
+\subsection*{MySQL}
+MySQL is a Structured Query Language (SQL), meaning it organizes the data into tables featuring standard rows and columns.\cite{dbengines} Each row is given an identifier that ties all the data in the row together. This type of database would work perfectly with the gymnastics scoring software as all the data can be associated with the athlete’s unique identifier. The databases managed by the IT team in Gill also use MySQL so it would be better for us to follow their standards as they will be the primary ones using it.
+
+\section{Scoreboards}
+The scoreboard is the most important piece of hardware in this project because it is the focal point of the software we are going to develop. There are many factors that go into a scoreboard such as size, type of scoreboard, and costs, but the main focus will be on the methods data can be sent to the scoreboard.
+\subsection*{Nevco}
+One popular brand of scoreboards are the Nevco scoreboards. They offer a very wide variety of different sized scoreboards. One thing they emphasize is their easy to setup and use systems. Their scoreboards come with either a wired or wireless console to control the scoreboards. This means that connecting the scoreboard console to the scoring software would be very difficult and require us to build a custom adapter. To further add to the difficulty of this option, there is very little documentation on how data is interpreted by the scoreboard.
+\subsection*{Daktronics}
+The daktronics scoreboard is the one currently inside Gill. Daktronics scoreboards are often cheaper than Nevco. They offer nearly similar features but have less options to choose from in terms of sizing and color. The main reason for choosing Daktronics however is the documentation online, as their website features manuals on every scoreboard. Daktronics scoreboards can take in serial data as well as XML data to display information. Another reason to use Daktronics is because the previous software is designed for their boards and we have templates for exporting the data.
+
+\section{Data Format}
+Because the main component of the system will be the collection and storage of data, the format we use is important.  The different data formats have different methods of organization as well as special attributes to make searching easier. The three formats we will examine are plain text, JSON, and XML.
+\subsection*{Plain Text}
+Plain text is a data format that is simply a long string. This string of data consists entirely of characters and so the data must be parsed and interpreted manually. Plain text is often used with loose data and it can be used to solve incompatibility issues involving endianness. Because we want our system to pair data such as names and scores, plain text is a poor option. Plain text offers no real advantages and instead adds complexity to create and interpret the data.
+\subsection*{JSON}
+JSON, short for JavaScript Object Notation, is a human readable data format derived from JavaScript. Should we choose Node, a javascript based framework, the implementation will be extremely easy. JSON is however a language independent format, meaning any language can use this data. Because of its popularity many programming languages include functions to generate and parse JSON data automatically.
+JSON data is very concise and often takes up much less space when compared to other formats such as XML.\cite{nurseitov2009comparison} This reduction in size generally leads to faster transmission and processing making it a very fast format. 
+\subsection*{XML}
+XML is a markup language and is another viable option for this project.  XML organizes data with opening and closing tags. One of the main advantages of XML is their metadata support, which is the ability to add descriptions such as title, author, etc., to name-value pairs.\cite{JSONvsXML} XML also features a variety of schema or rules the data must follow, such as order of organization. Many browsers also commonly feature a XML viewer which creates visual representations of XML data, typically in the form of a tree-diagram. Because the primary access point to the data will be through a web application, this build in feature would be beneficial in creating a good format for the data.
+  
+\bibliographystyle{unsrt}
+\bibliography{bib}
+\end{document}
