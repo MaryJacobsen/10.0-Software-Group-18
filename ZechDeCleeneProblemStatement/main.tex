@@ -1,0 +1,43 @@
+\documentclass[a4paper, 10pt, draftclsnofoot, onecolumn]{article}
+\usepackage[letterpaper, margin=0.75in]{geometry}
+
+
+
+\begin{document}
+
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        \textbf{\huge Oregon State University}\\
+        \vspace{1cm}
+        \textbf{\LARGE Problem Statement}
+        
+        \vspace{0.5cm}
+        \Large Zech DeCleene \\
+        \Large CS461 Fall 2018\\
+        \Large Group 18: Gymnastics Scoring Software
+         \vspace*{\fill}
+        \begin{center}
+            \textbf{\large{Abstract}}
+        \end{center}
+        \normalsize{The current software used at Gill Colosseum is facing issues regarding its dependencies and compatibility. In order to enhance the experience of Oregon State hosted gymnastics meets we will be implementing custom software to read in scores from multiple stations, display the scores using appropriate formats, and the ability to organize and edit the scores live.}
+        
+
+
+    \end{center}
+\end{titlepage}
+
+
+
+\section*{Project Description}
+In this project my team will be performing an upgrade on the current scoring system at Oregon State University's Gill Colosseum. The software used for inputting and projecting the scores at Gill Colosseum is having issues with dependencies and compatibility. The goal of this project is to use python to create custom software to pair with the current hardware in Gill Colosseum. The software needs to be able to read inputs from multiple stations, sort the scores, display them on the digital scoreboard, as well as live editing of scores. Additionally the data will be exportable in multiple formats and as a stretch goal we hope to implement an API, allowing access to live scoring data.
+
+One of the main challenges we face during this project is learning how to use the current hardware at Gill Colosseum and to be able to read in data from multiple sources while keeping the data organized. Additionally, allowing for users to edit scores live without causing any issues in the data is another obstacle we must overcome. 
+\section*{Proposed Solution}
+Using python we plan on building an application capable of reading in user data from multiple stations and organizing them. The application will need to be compatible with the current hardware in Gill Colosseum and have a method allowing the user to display scores onto the digital scoreboard at Gill Colosseum as well as allowing the user to export them in multiple formats. In addition to adding usability with Gill's current hardware the application will allow the user to make edits on the spot to scores and have them update on the digital scoreboard. Finally, we aim to create an API with a database containing a live update on the current scores. The scores would be accessible by a third-party to give up-to-date information on current scores.
+
+\section*{Performance Metrics}
+The major deliverable of this project are the ability to input scores from multiple stations and have them sorted, formatted and accessible for viewing on the digital scoreboards. This process needs to be quick and allow for scores to be added and sorted with minimal delay. Additionally the user needs the ability to edit and update the scores live as well as the ability to export them in multiple formats, one such format being a csv file. Lastly, if possible the implementation of an API that allows for access to live scoring data should be implemented. In addition to these deliverables, documentation for the entire system should be provided. The documentation should include information such as programming language, problem description, pre-conditions and post-conditions, as well as assumptions and restrictions of the software. The documentations should also include information on the interfaces, implementation, and details on how to build the program.
+
+\bibliography{references}
+\end{document}
