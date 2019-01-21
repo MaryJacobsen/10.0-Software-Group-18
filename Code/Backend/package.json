@@ -1,0 +1,36 @@
+{
+  "name": "gymnastics-api",
+  "version": "1.0.0",
+  "description": "An api that handles scoring for collegiate level gymnastics",
+  "main": "server.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "morgan": "^1.9.1",
+    "mysql": "^2.16.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MaryJacobsen/10.0-Software-Group-18.git"
+  },
+  "keywords": [
+    "scoring",
+    "gymnastics",
+    "api",
+    "express",
+    "docker"
+  ],
+  "author": "10.0 Software",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MaryJacobsen/10.0-Software-Group-18/issues"
+  },
+  "homepage": "https://github.com/MaryJacobsen/10.0-Software-Group-18#readme"
+}
