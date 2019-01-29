@@ -19,7 +19,7 @@
 
     <header>
       <h1 class="site-title"><a href="#">Scoring Software</a><span class="site-brand">10.0</span></h1>
-
+<!-- Not needed for the login page
       <nav class="navbar">
         <ul class="navlist">
           <li class="navitem navlink"><a href="#">Meet</a></li>
@@ -27,12 +27,22 @@
           <li class="navitem navlink"><a href="#">Score</a></li>
           <li class="navitem navlink"><a href="#">Print</a></li>
         </ul>
-      </nav>
+      </nav> -->
     </header>
 
-    <main>
-      
-    </main>
+    <main class="login-container">
+      <div class="login-box">
+        <h1 class="login-text">Log in</h1>
+        <form action="login-page.js">
+          <label for="uname">Username:</label>
+          <input type="text" id="uname" name="username" placeholder="Username">
 
+          <label for="pword">Password:</label>
+          <input type="password" id="pword" name="password" placeholder="Password">
+
+          <input type="submit" value="Log in">
+        </form>
+      </div>
+    </main>
   </body>
 </html>
