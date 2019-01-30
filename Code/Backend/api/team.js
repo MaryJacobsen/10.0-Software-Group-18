@@ -12,6 +12,13 @@ const teamSchema = {
   floorScore: { required: false } //int
 };
 
+/*
+|-----------------------------------------------
+| Team Score
+|-----------------------------------------------
+| router.get('./team/:teamName', ...) returns the team score
+| that :teamName has
+*/
 router.get('/:teamName', function (req, res, next) {
     //console.log(" -- req.params:", req.params.teamName);
     const mysqlPool = req.app.locals.mysqlPool;
@@ -30,15 +37,47 @@ router.get('/:teamName', function (req, res, next) {
 
     //});
 });
-//router.get('/:teamName',function(req, res, next){
-//  console.log("got it");
-//});
 
 function getScoreByName(teamName, mysqlPool) {
 //  return new Promise((resolve, reject) => {
-    console.log(teamName);
+    console.log("Team score of " + teamName);
   //});
 };
+
+/*
+|------------------------------------------------------------
+| Team Vault Score
+|------------------------------------------------------------
+| router.get('./team/vault/:teamName', ...) returns the team
+| vault score that :teamName has
+*/
+router.get('/vault/:teamName', function (req, res, next) {
+    // console.log(" -- req.params:", req.params);
+    const mysqlPool = req.app.locals.mysqlPool;
+    const teamName = req.params.teamName;
+    getTeamVaultScoreByName(teamName, mysqlPool)
+  //  .then((teamScore) => {
+      if (teamName) {
+        res.status(200).json(teamName);
+      } else {
+        res.status(500).json({
+          error: "Unable to fetch vaultScore.  Please try again later."
+        });
+      }
+    //})
+    //.catch((err) => {
+
+    //});
+});
+
+function getTeamVaultScoreByName(teamName, mysqlPool) {
+//  return new Promise((resolve, reject) => {
+    console.log("Vault score of " + teamName);
+  //});
+};
+
+
+
 
 
 exports.router = router;
