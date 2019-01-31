@@ -93,7 +93,7 @@ router.get('/bars/:teamName', function (req, res, next) {
         res.status(200).json(teamName);
       } else {
         res.status(500).json({
-          error: "Unable to fetch vaultScore.  Please try again later."
+          error: "Unable to fetch barsScore.  Please try again later."
         });
       }
     //})
@@ -101,7 +101,6 @@ router.get('/bars/:teamName', function (req, res, next) {
 
     //});
 });
-<<<<<<< HEAD
 
 function getTeamBarsScoreByName(teamName, mysqlPool) {
 //  return new Promise((resolve, reject) => {
@@ -126,7 +125,7 @@ router.get('/beam/:teamName', function (req, res, next) {
         res.status(200).json(teamName);
       } else {
         res.status(500).json({
-          error: "Unable to fetch vaultScore.  Please try again later."
+          error: "Unable to fetch beamScore.  Please try again later."
         });
       }
     //})
@@ -153,59 +152,27 @@ router.get('/floor/:teamName', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const teamName = req.params.teamName;
     getTeamFloorScoreByName(teamName, mysqlPool)
-=======
+    //  .then((teamScore) => {
+        if (teamName) {
+          res.status(200).json(teamName);
+        } else {
+          res.status(500).json({
+            error: "Unable to fetch floorScore.  Please try again later."
+          });
+        }
+      //})
+      //.catch((err) => {
 
-function getTeamBarsScoreByName(teamName, mysqlPool) {
-//  return new Promise((resolve, reject) => {
-    console.log("Bars score of " + teamName);
-  //});
-};
-
-/*
-|------------------------------------------------------------
-| Team Beam Score
-|------------------------------------------------------------
-| router.get('./team/beam/:teamName', ...) returns the team
-| vault score that :teamName has
-*/
-router.get('/beam/:teamName', function (req, res, next) {
-    // console.log(" -- req.params:", req.params);
-    const mysqlPool = req.app.locals.mysqlPool;
-    const teamName = req.params.teamName;
-    getTeamBeamScoreByName(teamName, mysqlPool)
->>>>>>> 6c476a6ebf882575b93c887d5237691ced426335
-  //  .then((teamScore) => {
-      if (teamName) {
-        res.status(200).json(teamName);
-      } else {
-        res.status(500).json({
-<<<<<<< HEAD
-          error: "Unable to fetch floorScore.  Please try again later."
-=======
-          error: "Unable to fetch vaultScore.  Please try again later."
->>>>>>> 6c476a6ebf882575b93c887d5237691ced426335
-        });
-      }
-    //})
-    //.catch((err) => {
-
-    //});
+      //});
 });
 
-<<<<<<< HEAD
 function getTeamFloorScoreByName(teamName, mysqlPool) {
 //  return new Promise((resolve, reject) => {
     console.log("Floor score of " + teamName);
-=======
-function getTeamBeamScoreByName(teamName, mysqlPool) {
-  //return new Promise((resolve, reject) => {
-    console.log("Beam score of " + teamName);
->>>>>>> 6c476a6ebf882575b93c887d5237691ced426335
   //});
 };
 
 /*
-<<<<<<< HEAD
 |-----------------------------------------------
 | Hail Mary
 |-----------------------------------------------
@@ -216,47 +183,26 @@ router.get('/', function (req, res, next) {
     // console.log(" -- req.params:", req.params);
     const mysqlPool = req.app.locals.mysqlPool;
     const teamName = req.params;
-=======
-|------------------------------------------------------------
-| Team Floor Score
-|------------------------------------------------------------
-| router.get('./team/vault/:teamName', ...) returns the team
-| vault score that :teamName has
-*/
-router.get('/floor/:teamName', function (req, res, next) {
-    // console.log(" -- req.params:", req.params);
-    const mysqlPool = req.app.locals.mysqlPool;
-    const teamName = req.params.teamName;
->>>>>>> 6c476a6ebf882575b93c887d5237691ced426335
-    getTeamFloorScoreByName(teamName, mysqlPool)
-  //  .then((teamScore) => {
-      if (teamName) {
-        res.status(200).json(teamName);
-      } else {
-        res.status(500).json({
-<<<<<<< HEAD
-          error: "Unable to fetch everything.  Please try again later."
-=======
-          error: "Unable to fetch floorScore.  Please try again later."
->>>>>>> 6c476a6ebf882575b93c887d5237691ced426335
-        });
-      }
-    //})
-    //.catch((err) => {
+    getEverything(teamName, mysqlPool)
+    //  .then((teamScore) => {
+        if (teamName) {
+          res.status(200).json("Everything. We got all the scores of all the teams, you name it");
+        } else {
+          res.status(500).json({
+            error: "Unable to fetch everything.  Please try again later."
+          });
+        }
+      //})
+      //.catch((err) => {
 
-    //});
+      //});
 });
 
-function getTeamFloorScoreByName(teamName, mysqlPool) {
+function getEverything(teamName, mysqlPool) {
 //  return new Promise((resolve, reject) => {
-<<<<<<< HEAD
-    console.log("Sending all the info on everything" + teamName);
-=======
-    console.log("Floor score of " + teamName);
->>>>>>> 6c476a6ebf882575b93c887d5237691ced426335
+    console.log("Everything. We got all the scores of all the teams, you name it" + teamName);
   //});
 };
-
 
 
 exports.router = router;
