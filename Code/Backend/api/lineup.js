@@ -10,4 +10,11 @@ const lineupSchema = {
   event: { required: true } //varchar
 };
 
+/*
+|-----------------------------------------------
+| Get Lineup by event
+|-----------------------------------------------
+| This function returns the lineup for :event
+*/
+
 exports.router = router;

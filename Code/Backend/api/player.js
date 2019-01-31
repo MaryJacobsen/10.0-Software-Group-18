@@ -15,6 +15,12 @@ const playerSchema = {
   floorEx: { required: true } //bool
 };
 
+/*
+|-----------------------------------------------
+| Dont know what this is for yet
+|-----------------------------------------------
+| stuff.
+*/
 router.get('/:playerNum', function (req, res, next) {
     //console.log(" -- req.params:", req.params.teamName);
     const mysqlPool = req.app.locals.mysqlPool;
