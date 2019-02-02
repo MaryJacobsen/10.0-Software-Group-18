@@ -208,6 +208,7 @@ input[type=submit]:hover {
 .form-hide-button {
   margin-left: auto;
   font-size: 30px;
+  font-weight: 100;
   border: none;
   background: none;
   padding: 10px 0px;
