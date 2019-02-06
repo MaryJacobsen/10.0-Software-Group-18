@@ -19,29 +19,36 @@ const playerSchema = {
 |-----------------------------------------------
 | stuff.
 */
-router.get('/:playerNum', function (req, res, next) {
+router.get('/:name', function (req, res, next) {
     //console.log(" -- req.params:", req.params.teamName);
     const mysqlPool = req.app.locals.mysqlPool;
-    const playerNum = req.params.playerNum;
-    getScoreByName(playerNum, mysqlPool)
-    //.then((playerNum) => {
-      if (playerNum) {
-        res.status(200).json(playerNum);
+    const name = req.params.name;
+    getScoreByName(name, mysqlPool)
+    .then((name) => {
+      if (name) {
+        res.status(200).json(name);
       } else {
-        res.status(500).json({
-          error: "Unable to fetch playerNum.  Please try again later."
-        });
+          next();
       }
-    //})
-    //.catch((err) => {
-
-    //});
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch name.  Please try again later."
+      });
+    });
 });
 
-function getScoreByName(playerNum, mysqlPool) {
-  //return new Promise((resolve, reject) => {
-    console.log(playerNum);
-  //});
+function getScoreByName(name, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM player WHERE id = ?', [ 1 ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+    console.log(name);
+  });
 };
 
 function insertNewPlayer(player) {
@@ -78,15 +85,17 @@ function insertNewPlayer(player) {
 | app.post('./player/ inserts a player
 |
 */
-router.post('/:player', function (req, res, next) {
-
+router.post('/', function (req, res, next) {
+  console.log("request: " + req.body.name)
   if (req.body && req.body.name && req.body.team) {
     insertNewPlayer(req.body)
       .then((id) => {
         res.status(201).json({
           id: id,
           links: {
-            player: '/player/' + id
+            player: '/player/' + id//,
+          //  name: req.body.name,
+          //  team: req.body.name
           }
         });
       })
