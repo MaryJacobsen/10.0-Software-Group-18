@@ -6,5 +6,5 @@ CREATE TABLE `lineup` (
   `order` int NOT NULL,
   `team` varchar NOT NULL,
   `event` varchar,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
