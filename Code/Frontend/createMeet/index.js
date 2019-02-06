@@ -1,27 +1,31 @@
-function checkIfOpen() {
-  var form = document.getElementById('number-of-teams-content');
-  if (form.classList.contains('hidden'))
-    openForm();
+var order = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth"];
+function checkIfOpen(button) {
+  header = button.parentNode;
+  box = header.parentNode;
+  content = box.childNodes[3];
+  if (button.value == "opened")
+    closeForm(button, content);
   else {
-    closeForm();
+    openForm(button, content);
   }
 }
 
-function closeForm() {
-  var form = document.getElementById('number-of-teams-content');
-  var button = document.getElementById('number-of-teams-button');
-  form.classList.add('hidden');
+function closeForm(button, content) {
+  content.classList.add('hidden');
   button.innerText = "open";
+  button.value = "closed";
   console.log("closed");
 }
 
-function openForm() {
-  var form = document.getElementById('number-of-teams-content');
-  var button = document.getElementById('number-of-teams-button');
-  form.classList.remove('hidden');
+function openForm(button, content) {
+  content.classList.remove('hidden');
   button.innerText = "hide";
+  button.value = "open";
   console.log("opened");
 }
 
-var numTeamsCloseBtn = document.getElementById('number-of-teams-button');
-numTeamsCloseBtn.addEventListener("click", checkIfOpen());
+var numTeamsBtn = document.getElementById('number-of-teams-button');
+numTeamsBtn.addEventListener("click", checkIfOpen(numTeamsBtn));
+
+var nameTeamBtn = document.getElementById('name-team-button');
+nameTeamBtn.addEventListener("click", checkIfOpen(nameTeamBtn));
