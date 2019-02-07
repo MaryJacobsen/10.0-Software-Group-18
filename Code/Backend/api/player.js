@@ -51,7 +51,7 @@ function getScoreByName(name, mysqlPool) {
   });
 };
 
-function insertNewPlayer(player) {
+function insertNewPlayer(player, mysqlPool) {
   return new Promise((resolve, reject) => {
     const playerValues = {
       id: null,
@@ -86,9 +86,10 @@ function insertNewPlayer(player) {
 |
 */
 router.post('/', function (req, res, next) {
+  const mysqlPool = req.app.locals.mysqlPool;
   console.log("request: " + req.body.name)
   if (req.body && req.body.name && req.body.team) {
-    insertNewPlayer(req.body)
+    insertNewPlayer(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
           id: id,
@@ -103,6 +104,7 @@ router.post('/', function (req, res, next) {
         res.status(500).json({
           error: "Error inserting player."
         });
+        console.log(err);
       });
   } else {
     res.status(400).json({
