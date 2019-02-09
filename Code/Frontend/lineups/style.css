@@ -148,29 +148,65 @@ a:focus {
   border-radius: 5px;
   margin: 20px 0px;
 }
-/*
-.form-box-header  {
-  display: flex;
-} */
 
-.form-text {
-  margin: 0;
+.lineup-number {
+  margin: 0px;
+  margin-right: 1em;
   padding: 10px 0px;
   font-size: 30px;
   font-weight: 100;
 }
-/*
-.form-hide-button {
-  margin-left: auto;
-  font-size: 30px;
-  border: none;
-  background: none;
+
+.form-text {
+  margin: 0px;
   padding: 10px 0px;
+  font-size: 30px;
+  font-weight: 100;
+}
+
+.player-card {
+  display: flex;
+  /* margin: 5px 0px 5px 0px; */
+  border-bottom: 1px solid #EE801E;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+}
+
+.up-button {
+  height: 50%;
+  border: 1px solid #000;
+  margin-top: 1vh;
+  background: none;
   cursor: pointer;
 }
 
-.form-hide-button:hover,
-.form-hide-button:focus {
-  outline: none;
-  color: #EE801E;
-} */
+.down-button {
+  height: 50%;
+  border: 1px solid #000;
+  margin-bottom: 1vh;
+  background: none;
+  cursor: pointer;
+}
+
+.first {
+  border-top: 1px solid #EE801E;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #EE801E;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 5px 0px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #E75B10;
+}

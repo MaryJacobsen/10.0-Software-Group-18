@@ -1,5 +1,5 @@
 var order = ["First", "Second", "Third", "Fourth", "Fifth", "Sixth", "Seventh", "Eighth", "Ninth", "Tenth", "Eleventh", "Twelfth", "Thirteenth", "Fourteenth", "Fifteenth"];
-function checkIfOpen(button) {
+function checkIfOpen(event) {
   header = button.parentNode;
   box = header.parentNode;
   content = box.childNodes[3];
@@ -25,7 +25,7 @@ function openForm(button, content) {
 }
 
 var numTeamsBtn = document.getElementById('number-of-teams-button');
-numTeamsBtn.addEventListener("click", checkIfOpen(numTeamsBtn));
+numTeamsBtn.addEventListener("click", checkIfOpen);
 
 var nameTeamBtn = document.getElementById('name-team-button');
-nameTeamBtn.addEventListener("click", checkIfOpen(nameTeamBtn));
+nameTeamBtn.addEventListener("click", checkIfOpen);
