@@ -9,9 +9,73 @@ let once = {
   once : true
 }
 
-function getPlayers(event) {
+var teamIndex;
+var playerIndex = 1;
 
+function getPlayers(event) {
+  for (var i = 0; i < teams.length; i++) {
+    if(teams[i][0] == event.target.value) {
+      teamIndex = i;
+      break;
+    }
+  }
+
+  var playerName = document.getElementById('player-score-name');
+  playerName.innerText = teams[teamIndex][playerIndex];
+
+  var scoringBox = document.getElementById('scoring-box');
+  scoringBox.classList.remove('hidden');
 }
 
-var teamSelector = document.getElementsByID('team-select');
+var teamSelector = document.getElementById('team-select');
 teamSelector.addEventListener('change', getPlayers, once);
+
+function makeActive(event) {
+  var previousActive = document.getElementsByClassName('active');
+  if (previousActive[0]) {
+    previousActive[0].classList.remove('active');
+  }
+
+  event.target.classList.add('active');
+}
+
+var scoreButtons = document.getElementsByClassName('score-button');
+for (var i = 0; i < scoreButtons.length; i++) {
+  scoreButtons[i].addEventListener('click', makeActive);
+}
+
+function advancePlayers(event) {
+  console.log(teams[teamIndex]);
+  var active = document.getElementsByClassName('active');
+  if (active[0] == undefined) {
+    alert("Please select a score");
+    return;
+  }
+
+  var scoreObject = {
+    teamName: teams[teamIndex][0],
+    playerName: teams[teamIndex][playerIndex],
+    vaultScore: parseInt(active[0].innerText, 10)
+  }
+
+  console.log(scoreObject);
+
+  playerIndex++;
+  var playerName = document.getElementById('player-score-name');
+  playerName.innerText = teams[teamIndex][playerIndex];
+
+  active[0].classList.remove('active');
+
+  if (playerIndex == 8) {
+    var scoringBox = document.getElementById('scoring-box');
+    var teamsSelectBox = document.getElementById('team-select-box');
+    var scoreComplete = document.getElementById('score-complete-box');
+
+    scoringBox.classList.add('hidden');
+    teamsSelectBox.classList.add('hidden');
+    scoreComplete.classList.remove('hidden');
+  }
+}
+
+var acceptButton = document.getElementById('score-accept');
+acceptButton.addEventListener('click', advancePlayers);
