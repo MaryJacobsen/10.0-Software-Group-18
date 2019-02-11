@@ -55,7 +55,7 @@ function advancePlayers(event) {
   var scoreObject = {
     teamName: teams[teamIndex][0],
     playerName: teams[teamIndex][playerIndex],
-    vaultScore: parseInt(active[0].innerText, 10)
+    vaultScore: parseFloat(active[0].innerText)
   }
 
   console.log(scoreObject);
