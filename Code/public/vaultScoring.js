@@ -13,14 +13,15 @@ var teamIndex;
 var playerIndex = 1;
 
 function getTeamData() {
-  $.getJSON("http://localhost:8000/team/teams", (data) => {
+  var url = window.location.origin;
+  $.getJSON(url + "/team/teams", (data) => {
     var teams = [];
     $.each(data, (key, val) => {
       teams.push("<option value='" + val + "'>" + val + "</option>");
     });
 
-    $("#team-select").append(items.join(""));
-  })
+    $("#team-select").append(teams.join(""));
+  });
 }
 
 window.onload = getTeamData();
@@ -33,6 +34,7 @@ function getPlayers(event) {
     }
   }
 
+  $("#player-score-name")
   var playerName = document.getElementById('player-score-name');
   playerName.innerText = teams[teamIndex][playerIndex];
 
