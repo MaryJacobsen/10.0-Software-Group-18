@@ -14,6 +14,44 @@ const teamSchema = {
 
 /*
 |-----------------------------------------------
+| Get team names
+|-----------------------------------------------
+| Gets all team names
+| 
+*/
+router.get('/teams', function (req, res, next) {
+    console.log(" -- req.params:", req.params.id);
+    const mysqlPool = req.app.locals.mysqlPool;
+    getTeams(mysqlPool)
+    .then((teams) => {
+      if (teams) {
+        res.status(200).json(teams);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch teams.  Please try again later."
+      });
+    });
+});
+
+function getTeams(mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT teamName FROM team', function (err, results) {
+      // console.log(results);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+/*
+|-----------------------------------------------
 | Get team by ID
 |-----------------------------------------------
 | Gets team name by /:id
