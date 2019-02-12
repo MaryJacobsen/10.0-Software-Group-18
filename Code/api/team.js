@@ -17,7 +17,7 @@ const teamSchema = {
 | Get team names
 |-----------------------------------------------
 | Gets all team names
-| 
+|
 */
 router.get('/teams', function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
@@ -91,7 +91,7 @@ function getTeamByID(id, mysqlPool) {
 |-----------------------------------------------
 | Insert player
 |-----------------------------------------------
-| app.post('./player/ inserts a player
+| app.post('./team/ inserts a player
 |
 */
 router.post('/', function (req, res, next) {
@@ -103,13 +103,13 @@ router.post('/', function (req, res, next) {
         res.status(201).json({
           id: id,
           links: {
-            player: '/player/' + id
+            team: '/team/' + id
           }
         });
       })
       .catch((err) => {
         res.status(500).json({
-          error: "Error inserting player."
+          error: "Error inserting team."
         });
         console.log(err);
       });

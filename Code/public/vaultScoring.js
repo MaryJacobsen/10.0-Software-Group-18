@@ -16,8 +16,9 @@ function getTeamData() {
   var url = window.location.origin;
   $.getJSON(url + "/team/teams", (data) => {
     var teams = [];
+    console.log(data)
     $.each(data, (key, val) => {
-      teams.push("<option value='" + val + "'>" + val + "</option>");
+      teams.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
     });
 
     $("#team-select").append(teams.join(""));
