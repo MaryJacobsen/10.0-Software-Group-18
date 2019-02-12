@@ -15,6 +15,43 @@ const playerSchema = {
 
 /*
 |-----------------------------------------------
+| Get players
+|-----------------------------------------------
+| router.get('/:team'
+*/
+router.get('/:team', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const team = req.params.team;
+    getPlayersByTeam(team, mysqlPool)
+    .then((team) => {
+      if (team) {
+        res.status(200).json(team);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch players.  Please try again later."
+      });
+    });
+});
+
+function getPlayersByTeam(team, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT name FROM player WHERE team = ?', [ team ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+    //console.log(name);
+  });
+};
+
+/*
+|-----------------------------------------------
 | Get vault score by name (Should it be id instead of name?)
 |-----------------------------------------------
 | router.get('/:name/vault'

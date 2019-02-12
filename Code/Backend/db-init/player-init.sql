@@ -14,6 +14,6 @@ CREATE TABLE `player` (
   KEY `idx_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
-LOCK TABLES `player` WRITE;
+/*LOCK TABLES `player` WRITE;
 INSERT INTO `player` VALUES (1, null, 'Mary Jacobsen', 'OSU', null, null, null, null, 40.0);
-UNLOCK TABLES;
+UNLOCK TABLES;*/
