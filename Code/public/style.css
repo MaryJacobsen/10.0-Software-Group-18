@@ -122,7 +122,7 @@ a:focus {
   background-color: #EE801E;
 }
 
-.team-picker {
+input[type=text], select {
   width: 100%;
   padding: 10px 20px;
   margin: 5px 0px;
@@ -132,9 +132,54 @@ a:focus {
   box-sizing: border-box;
 }
 
-.team-picker:focus,
-.team-picker:hover {
+input[type=text]:focus, input[type=password]:focus {
+  background-color: #E3E0DD;
+  border: 2px solid #EE801E;
+  padding: 9px 20px;
   outline: none;
+}
+
+input[type=password], select {
+  width: 100%;
+  padding: 10px 20px;
+  margin: 5px 0px;
+  display: inline-block;
+  border: 1px solid #EE801E;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+input[type=submit] {
+  width: 100%;
+  background-color: #EE801E;
+  color: #fff;
+  padding: 10px 20px;
+  margin: 5px 0px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input[type=submit]:hover {
+  background-color: #E75B10;
+}
+
+.login-container {
+  margin: 50px 10%;
+  background-color: #D6D1CE;
+}
+
+.login-box {
+  padding: 10px;
+  background-color: #fff;
+  border-radius: 5px;
+}
+
+.login-text {
+  margin: 0;
+  padding: 0px calc(50% - 2em);
+  font-size: 30px;
+  font-weight: 100;
 }
 
 .form-container {
@@ -149,19 +194,44 @@ a:focus {
   margin: 20px 0px;
 }
 
-.lineup-number {
-  margin: 0px;
-  margin-right: 1em;
+.form-box-header  {
+  display: flex;
+}
+
+.form-text {
+  margin: 0;
   padding: 10px 0px;
   font-size: 30px;
   font-weight: 100;
 }
 
-.form-text {
-  margin: 0px;
-  padding: 10px 0px;
+.form-hide-button {
+  margin-left: auto;
   font-size: 30px;
-  font-weight: 100;
+  border: none;
+  background: none;
+  padding: 10px 0px;
+  cursor: pointer;
+}
+
+.form-hide-button:hover,
+.form-hide-button:focus {
+  outline: none;
+  color: #EE801E;
+}
+
+.score-button {
+  width: 3em;
+  height: 2em;
+  margin: 5px;
+  background: none;
+  cursor: pointer;
+  border: 1px solid #000;
+}
+
+.active {
+  color: #fff;
+  background-color: #EE801E;
 }
 
 .player-card {
@@ -196,17 +266,24 @@ a:focus {
   border-top: 1px solid #EE801E;
 }
 
-input[type=submit] {
+.lineup-number {
+  margin: 0px;
+  margin-right: 1em;
+  padding: 10px 0px;
+  font-size: 30px;
+  font-weight: 100;
+}
+.team-picker {
   width: 100%;
-  background-color: #EE801E;
-  color: #fff;
   padding: 10px 20px;
   margin: 5px 0px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  display: inline-block;
+  border: 1px solid #EE801E;
+  border-radius: 4px;
+  box-sizing: border-box;
 }
 
-input[type=submit]:hover {
-  background-color: #E75B10;
+.team-picker:focus,
+.team-picker:hover {
+  outline: none;
 }
