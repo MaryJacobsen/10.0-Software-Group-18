@@ -13,14 +13,16 @@ var teamIndex;
 var playerIndex = 1;
 
 function getTeamData() {
-  $.getJSON("http://localhost:8000/team/teams", (data) => {
+  var url = window.location.origin;
+  $.getJSON(url + "/team/teams", (data) => {
     var teams = [];
+    console.log(data)
     $.each(data, (key, val) => {
-      teams.push("<option value='" + val + "'>" + val + "</option>");
+      teams.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
     });
 
-    $("#team-select").append(items.join(""));
-  })
+    $("#team-select").append(teams.join(""));
+  });
 }
 
 window.onload = getTeamData();

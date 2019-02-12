@@ -10,7 +10,7 @@ const port = process.env.PORT || 8000;
 
 app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 app.listen(port, () => {
       console.log("== Server is running on port", port);
@@ -39,4 +39,8 @@ app.use('*', function (req, res, next) {
   res.status(404).json({
     error: "Requested resource " + req.originalUrl + " does not exist"
   });
+});
+
+app.get('style', function (req, res, next) {
+  res.sendFile(path.join('style.css'));
 });
