@@ -1,5 +1,5 @@
 const router = require('express').Router();
-//const validation = require('../lib/validation');
+const validation = require('../lib/validation');
 
 const playerSchema = {
   id: { required: true },
@@ -15,15 +15,14 @@ const playerSchema = {
 
 /*
 |-----------------------------------------------
-| Dont know what this is for yet
+| Get vault score by name (Should it be id instead of name?)
 |-----------------------------------------------
-| stuff.
+| router.get('/:name/vault'
 */
-router.get('/:name', function (req, res, next) {
-    //console.log(" -- req.params:", req.params.teamName);
+router.get('/:name/vault', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const name = req.params.name;
-    getScoreByName(name, mysqlPool)
+    getVaultScoreByName(name, mysqlPool)
     .then((name) => {
       if (name) {
         res.status(200).json(name);
@@ -38,18 +37,167 @@ router.get('/:name', function (req, res, next) {
     });
 });
 
-function getScoreByName(name, mysqlPool) {
+function getVaultScoreByName(name, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM player WHERE id = ?', [ 1 ], function (err, results) {
+    mysqlPool.query('SELECT vaultScore FROM player WHERE name = ?', [ name ], function (err, results) {
       if (err) {
         reject(err);
       } else {
         resolve(results[0]);
       }
     });
-    console.log(name);
+    //console.log(name);
   });
 };
+
+/*
+|-----------------------------------------------
+| Get bars score by name (Should it be id instead of name?)
+|-----------------------------------------------
+| router.get('/:name/bars'
+*/
+router.get('/:name/bars', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const name = req.params.name;
+    getBarsScoreByName(name, mysqlPool)
+    .then((name) => {
+      if (name) {
+        res.status(200).json(name);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch name.  Please try again later."
+      });
+    });
+});
+
+function getBarsScoreByName(name, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT barsScore FROM player WHERE name = ?', [ name ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+    //console.log(name);
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get beam score by name (Should it be id instead of name?)
+|-----------------------------------------------
+| router.get('/:name/beam'
+*/
+router.get('/:name/beam', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const name = req.params.name;
+    getBeamScoreByName(name, mysqlPool)
+    .then((name) => {
+      if (name) {
+        res.status(200).json(name);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch name.  Please try again later."
+      });
+    });
+});
+
+function getBeamScoreByName(name, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT beamScore FROM player WHERE name = ?', [ name ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+    //console.log(name);
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get floor score by name (Should it be id instead of name?)
+|-----------------------------------------------
+| router.get('/:name/floor'
+*/
+router.get('/:name/floor', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const name = req.params.name;
+    getFloorScoreByName(name, mysqlPool)
+    .then((name) => {
+      if (name) {
+        res.status(200).json(name);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch name.  Please try again later."
+      });
+    });
+});
+
+function getFloorScoreByName(name, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT floorScore FROM player WHERE name = ?', [ name ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+    //console.log(name);
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get AA score by name (Should it be id instead of name?)
+|-----------------------------------------------
+| router.get('/:name/AA'
+*/
+router.get('/:name/AA', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const name = req.params.name;
+    getAAScoreByName(name, mysqlPool)
+    .then((name) => {
+      if (name) {
+        res.status(200).json(name);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch name.  Please try again later."
+      });
+    });
+});
+
+function getAAScoreByName(name, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT AAScore FROM player WHERE name = ?', [ name ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+    //console.log(name);
+  });
+};
+
 
 function insertNewPlayer(player, mysqlPool) {
   return new Promise((resolve, reject) => {
@@ -82,7 +230,7 @@ function insertNewPlayer(player, mysqlPool) {
 |-----------------------------------------------
 | Insert player
 |-----------------------------------------------
-| app.post('./player/ inserts a player
+| router.post('./player/ inserts a player
 |
 */
 router.post('/', function (req, res, next) {
@@ -94,9 +242,7 @@ router.post('/', function (req, res, next) {
         res.status(201).json({
           id: id,
           links: {
-            player: '/player/' + id//,
-          //  name: req.body.name,
-          //  team: req.body.name
+            player: '/player/' + id
           }
         });
       })
@@ -113,5 +259,92 @@ router.post('/', function (req, res, next) {
   }
 
 });
+
+/*
+|-----------------------------------------------
+| Edit player
+|-----------------------------------------------
+| Edit/Update a player with /:playerID
+|
+*/
+router.put('/:playerID', function (req, res, next) {
+  const mysqlPool = req.app.locals.mysqlPool;
+  const playerID = parseInt(req.params.playerID);
+  if (validation.validateAgainstSchema(req.body, playerSchema)) {
+    replacePlayerByID(playerID, req.body, mysqlPool)
+      .then((updateSuccessful) => {
+        if (updateSuccessful) {
+          res.status(200).json({
+            links: {
+              player: `/player/${playerID}`
+            }
+          });
+        } else {
+          next();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: "Unable to update specified player.  Please try again later."
+        });
+      });
+  } else {
+    res.status(400).json({
+      error: "Request body is not a valid player object"
+    });
+  }
+});
+
+function replacePlayerByID(playerID, player, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    player = validation.extractValidFields(player, playerSchema);
+    mysqlPool.query('UPDATE player SET ? WHERE id = ?', [ player, playerID ], function (err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result.affectedRows > 0);
+      }
+    });
+  });
+}
+
+/*
+|-----------------------------------------------
+| Delete player by ID
+|-----------------------------------------------
+| Deletes player with /:playerID
+|
+*/
+router.delete('/:playerID', function (req, res, next) {
+  const mysqlPool = req.app.locals.mysqlPool;
+  const playerID = parseInt(req.params.playerID);
+  deletePlayerByID(playerID, mysqlPool)
+    .then((deleteSuccessful) => {
+      if (deleteSuccessful) {
+        res.status(204).end();
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to delete player.  Please try again later."
+      });
+    });
+});
+
+function deletePlayerByID(playerID, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('DELETE FROM player WHERE id = ?', [ playerID ], function (err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result.affectedRows > 0);
+      }
+    });
+  });
+
+}
 
 exports.router = router;
