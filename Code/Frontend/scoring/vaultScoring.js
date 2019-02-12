@@ -12,6 +12,19 @@ let once = {
 var teamIndex;
 var playerIndex = 1;
 
+function getTeamData() {
+  $.getJSON("http://localhost:8000/team/teams", (data) => {
+    var teams = [];
+    $.each(data, (key, val) => {
+      teams.push("<option value='" + val + "'>" + val + "</option>");
+    });
+
+    $("#team-select").append(items.join(""));
+  })
+}
+
+window.onload = getTeamData();
+
 function getPlayers(event) {
   for (var i = 0; i < teams.length; i++) {
     if(teams[i][0] == event.target.value) {
