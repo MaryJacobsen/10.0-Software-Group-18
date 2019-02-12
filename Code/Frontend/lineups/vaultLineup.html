@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <title>10.0: Scoring Software</title>
+
+    <!-- This is a stylesheet that includes the font you should use -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet">
+
+    <!-- This is a 3rd-party stylesheet for Font Awesome: http://fontawesome.io/ -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="screen">
+
+    <link rel="stylesheet" href="./style.css" media="screen">
+
+  </head>
+
+  <body>
+
+    <header>
+      <h1 class="site-title"><a href="#">Scoring Software</a><span class="site-brand">10.0</span></h1>
+
+      <nav class="navbar">
+        <ul class="navlist">
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Meet</button>
+            <div class="dropdown-content">
+              <a href="#">Create Meet</a>
+            </div>
+          </li>
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Lineup</button>
+            <div class="dropdown-content">
+              <a href="#">Vault Lineup</a>
+              <a href="#">Bars Lineup</a>
+              <a href="#">Beam Lineup</a>
+              <a href="#">Floor Lineup</a>
+            </div>
+          </li>
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Print</button>
+            <div class="dropdown-content">
+              <a href="#">Print Scoresheets</a>
+              <a href="#">Print Judge Scoresheets</a>
+            </div>
+          </li>
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Score</button>
+            <div class="dropdown-content">
+              <a href="#">Score Vault</a>
+              <a href="#">Score Bars</a>
+              <a href="#">Score Beam</a>
+              <a href="#">Score Floor</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="form-container">
+      <div class="form-box">
+        <h3 class="form-text">Pick team to set Vault Lineup</h3>
+        <select class="team-picker" id="team-select">
+          <option value="" selected disabled hidden>Choose here</option>
+          <option value="OSU">OSU</option>
+          <option value="UW">UW</option>
+          <option value="UO">UO</option>
+          <option value="UCLA">UCLA</option>
+        </select>
+      </div>
+
+      <div class="form-box hidden" id="player-card-box">
+        <h3 class="form-text">Edit Lineup:</h3>
+
+        <div class="player-card first">
+          <h3 class="lineup-number">1:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="0">&and;</button>
+            <button class="down-button" value="0">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">2:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="1">&and;</button>
+            <button class="down-button" value="1">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">3:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="2">&and;</button>
+            <button class="down-button" value="2">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">4:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="3">&and;</button>
+            <button class="down-button" value="3">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">5:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="4">&and;</button>
+            <button class="down-button" value="4">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">6:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="5">&and;</button>
+            <button class="down-button" value="5">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">7:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="6">&and;</button>
+            <button class="down-button" value="6">&or;</button>
+          </div>
+        </div>
+
+        <div class="player-card">
+          <h3 class="lineup-number">8:</h3>
+          <h3 class="player-name"></h3>
+          <div class="button-container">
+            <button class="up-button" value="7">&and;</button>
+            <button class="down-button" value="7">&or;</button>
+          </div>
+        </div>
+
+        <input type="submit" name="number-teams-accept" value="Accept">
+      </div>
+    </main>
+
+  </body>
+
+  <script src="vaultLineup.js" charset="utf-8"></script>
+
+</html>
