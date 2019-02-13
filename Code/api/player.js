@@ -304,43 +304,76 @@ router.post('/', function (req, res, next) {
 | Edit/Update a player with /:playerID
 |
 */
-router.put('/:playerID', function (req, res, next) {
+router.put('/:playerName', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  const playerID = parseInt(req.params.playerID);
-  if (validation.validateAgainstSchema(req.body, playerSchema)) {
-    replacePlayerByID(playerID, req.body, mysqlPool)
-      .then((updateSuccessful) => {
-        if (updateSuccessful) {
-          res.status(200).json({
-            links: {
-              player: `/player/${playerID}`
-            }
-          });
-        } else {
-          next();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          error: "Unable to update specified player.  Please try again later."
+  const playerName = req.params.playerName;
+  // if (validation.validateAgainstSchema(req.body, playerSchema)) {
+  getIDbyPlayerName(playerName, mysqlPool)
+    .then((playerID) => {
+      // console.log(playerID);
+      replacePlayerByID(playerID, req.body, mysqlPool)
+    })
+    .then((updateSuccessful) => {
+      console.log(updateSuccessful);
+      if (updateSuccessful) {
+        res.status(200).json({
+          links: {
+            player: `/player/${playerName}`
+          }
         });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      if (err == 404) {
+        res.status(404).json({
+          error: "Player name not found."
+        });
+      }
+      res.status(500).json({
+        error: "Unable to update specified player.  Please try again later."
       });
-  } else {
-    res.status(400).json({
-      error: "Request body is not a valid player object"
     });
-  }
+  // } else {
+  //   res.status(400).json({
+  //     error: "Request body is not a valid player object"
+  //   });
+  // }
 });
 
 function replacePlayerByID(playerID, player, mysqlPool) {
   return new Promise((resolve, reject) => {
     player = validation.extractValidFields(player, playerSchema);
+    console.log(playerID);
     mysqlPool.query('UPDATE player SET ? WHERE id = ?', [ player, playerID ], function (err, result) {
+      if (err) {
+        console.log(err);
+        reject(err);
+      } else {
+        console.log(result.affectedRows > 0);
+        resolve(result.affectedRows > 0);
+      }
+    });
+  });
+}
+
+function getIDbyPlayerName(name, mysqlPool){
+  return new Promise((resolve, reject) => {
+    // console.log("getIDbyPlayerName");
+    mysqlPool.query('SELECT * FROM player', function (err, result) {
       if (err) {
         reject(err);
       } else {
-        resolve(result.affectedRows > 0);
+        for (var i = 0; i < result.length; i++) {
+          // console.log(result[i].name);
+          if(result[i].name == name){
+            // console.log(result[i].id);
+            resolve(result[i].id);
+          }
+        }
+        reject(404);
       }
     });
   });
