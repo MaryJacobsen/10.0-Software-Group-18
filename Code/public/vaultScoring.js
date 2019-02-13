@@ -27,21 +27,22 @@ function getTeamData() {
 
 window.onload = getTeamData();
 
-function getPlayers(event) {
-  for (var i = 0; i < teams.length; i++) {
-    if(teams[i][0] == event.target.value) {
-      teamIndex = i;
-      break;
-    }
-  }
+function getPlayers() {
+  var url = window.location.origin;
+  console.log(this);
+  var players[];
+  $.getJSON(url + "/players/" + this, (data) => {
+    $.each(data, (key, val) => {
+      players.push(val.name);
+    });
 
-  $("#player-score-name")
-  var playerName = document.getElementById('player-score-name');
-  playerName.innerText = teams[teamIndex][playerIndex];
+    $("#player-score-name").text(players[0]);
+  });
 
-  var scoringBox = document.getElementById('scoring-box');
-  scoringBox.classList.remove('hidden');
+  $("#scoring-box").removeClass("hidden");
 }
+
+$("#team-select").one("change", getPlayers);
 
 var teamSelector = document.getElementById('team-select');
 teamSelector.addEventListener('change', getPlayers, once);
