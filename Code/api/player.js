@@ -310,7 +310,7 @@ router.put('/:playerName', function (req, res, next) {
   // if (validation.validateAgainstSchema(req.body, playerSchema)) {
   getIDbyPlayerName(playerName, mysqlPool)
     .then((playerID) => {
-      // console.log(playerID);
+      console.log(req.body);
       return replacePlayerByID(playerID, req.body, mysqlPool)
     })
     .then((updateSuccessful) => {

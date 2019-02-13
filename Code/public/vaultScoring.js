@@ -35,29 +35,30 @@ $("#team-select").one("change", getPlayers);
 
 function makeActive(event) {
   $(".active").removeClass("active");
-
-  this.addClass("active");
+  var elem = $(this);
+  elem.addClass("active");
 }
 
 $(".score-button").click(makeActive);
 
 function advancePlayers() {
-  if ($(".active") == undefined) {
+  console.log("Advance");
+  if (!$(".score-button").hasClass("active")) {
     alert("Please select a score");
     return;
   }
 
   scoreObject = {
-    vaultScore: parseFloat($(".active").text())
+    'vaultScore': parseFloat($(".active").text())
   }
-
   var url = window.location.origin;
   $.ajax({
-    url: url + "player/" + $("#player-score-name").text(),
-    type: "put",
-    contentType: "application/JSON",
+    url: url + "/player/" + $("#player-score-name").text(),
+    method: "PUT",
+    // dataType: "json",
     data: scoreObject,
     success: () => {
+      console.log("In success");
       playerIndex++;
       $("#player-score-name").text(players[playerIndex]);
 
@@ -70,6 +71,7 @@ function advancePlayers() {
       }
     }
   });
+  // console.log(url + "player/" + $("#player-score-name").text());
 }
 
 $("#score-accept").click(advancePlayers);
