@@ -20,7 +20,7 @@ const teamSchema = {
 |
 */
 router.get('/teams', function (req, res, next) {
-    console.log(" -- req.params:", req.params.id);
+    // console.log("/team/teams");
     const mysqlPool = req.app.locals.mysqlPool;
     getTeams(mysqlPool)
     .then((teams) => {

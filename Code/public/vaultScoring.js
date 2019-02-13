@@ -29,9 +29,9 @@ window.onload = getTeamData();
 
 function getPlayers() {
   var url = window.location.origin;
-  console.log(this);
-  var players[];
-  $.getJSON(url + "/players/" + this, (data) => {
+  console.log(this.value);
+  var players = [];
+  $.getJSON(url + "/player/" + this.value, (data) => {
     $.each(data, (key, val) => {
       players.push(val.name);
     });
