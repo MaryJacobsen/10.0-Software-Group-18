@@ -30,14 +30,8 @@
               <a href="createMeet.html">Create Meet</a>
             </div>
           </li>
-          <li class="navitem navlink dropdown">
-            <button class="dropbtn">Lineup</button>
-            <div class="dropdown-content">
-              <a href="vaultLineup.html">Vault Lineup</a>
-              <a href="#">Bars Lineup</a>
-              <a href="#">Beam Lineup</a>
-              <a href="#">Floor Lineup</a>
-            </div>
+          <li class="navitem navlink">
+            <a href="./lineup.html">Lineup</a>
           </li>
           <li class="navitem navlink dropdown">
             <button class="dropbtn">Print</button>
@@ -46,14 +40,8 @@
               <a href="#">Print Judge Scoresheets</a>
             </div>
           </li>
-          <li class="navitem navlink dropdown">
-            <button class="dropbtn">Score</button>
-            <div class="dropdown-content">
-              <a href="#">Score Vault</a>
-              <a href="#">Score Bars</a>
-              <a href="#">Score Beam</a>
-              <a href="#">Score Floor</a>
-            </div>
+          <li class="navitem navlink">
+            <a href="./scoring.html">Score</a>
           </li>
         </ul>
       </nav>
@@ -294,8 +282,8 @@
         <input type="submit" name="score-accept" value="Accept" id="score-accept">
       </div>
 
-      <div class="form-box hidden" id="score-complete-box">
-        <center><h3 class="form-text">Scoring completed.</h3></center>
+      <div class="form-box hidden">
+        <center><h3 class="form-text" id="scoring-complete-text"></h3></center>
       </div>
     </main>
   </body>

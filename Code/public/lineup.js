@@ -59,28 +59,28 @@ $("[id='player-picker']").change(setPlayer);
 function sendLineup() {
   var players = $(".player-name");
   console.log(players);
-  var data = [];
+  var data;
+  var url = window.location.origin;
   for (var i = 0; i < players.length; i++) {
-    data.push({
+    data = {
       player: $(players[i]).text(),
       order: i,
       team: teamName,
       event: eventName
-    });
-  }
-
-  var url = window.location.origin;
-  $.ajax({
-    url: url + "/lineup",
-    method: "post",
-    // dataType: "json",
-    data: data,
-    success: () => {
-      console.log("In success");
-      $("#lineup-complete-text").text(eventName + " lineup for " + teamName + " has been made.");
-      $(".form-box").toggleClass("hidden");
     }
-  });
+
+    $.ajax({
+      url: url + "/lineup",
+      method: "post",
+      data: data,
+      success: () => {
+        console.log("Sent object: " + data);
+      }
+    });
+
+    $("#lineup-complete-text").text(eventName + " lineup for " + teamName + " has been made.");
+    $(".form-box").toggleClass("hidden");
+  }
 }
 
 $("#lineup-accept").click(sendLineup);

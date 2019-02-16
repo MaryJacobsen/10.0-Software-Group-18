@@ -50,7 +50,7 @@ function getPlayersByTeam(team, mysqlPool) {
       if (err) {
         reject(err);
       } else {
-        resolve(results[0]);
+        resolve(results);
       }
     });
     //console.log(name);

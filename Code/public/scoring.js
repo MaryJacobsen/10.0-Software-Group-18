@@ -27,12 +27,12 @@ function getTeamData() {
 
 window.onload = getTeamData();
 
-function getPlayers() {
+function getLineup() {
   var url = window.location.origin;
   teamName = this.value;
-  $.getJSON(url + "/player/" + this.value, (data) => {
+  $.getJSON(url + "/lineup/" + this.value + "/" + eventName, (data) => {
     $.each(data, (key, val) => {
-      players.push(val.name);
+      players.push(val.player);
     });
 
     $("#player-score-name").text(players[0]);
@@ -41,7 +41,7 @@ function getPlayers() {
   $("#scoring-box").removeClass("hidden");
 }
 
-$("#team-select").one("change", getPlayers);
+$("#team-select").one("change", getLineup);
 
 function makeActive(event) {
   $(".active").removeClass("active");
@@ -94,9 +94,8 @@ function advancePlayers() {
       $(".active").removeClass("active");
 
       if (players[playerIndex] == undefined) {
-        $("#scoring-box").addClass("hidden");
-        $("#team-select-box").addClass("hidden");
-        $("#score-complete-box").removeClass("hidden");
+        $("#scoring-complete-text").text(eventName + " scoring for " + teamName + " has been completed");
+        $(".form-box").toggleClass("hidden");
       }
     }
   });

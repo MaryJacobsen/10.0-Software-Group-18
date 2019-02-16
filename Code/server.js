@@ -10,6 +10,7 @@ const port = process.env.PORT || 8000;
 
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.json());
 app.use(express.static("public"));
 
 app.listen(port, () => {
@@ -33,7 +34,6 @@ app.locals.mysqlPool = mysql.createPool({
 });
 
 app.use('/', api);
-
 
 app.use('*', function (req, res, next) {
   res.status(404).json({

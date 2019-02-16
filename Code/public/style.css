@@ -60,7 +60,7 @@ a {
 
 .navlink a:hover,
 .navlink a:focus {
-  color: #fff;
+  background-color: #EE801E;
 }
 
 a:focus {

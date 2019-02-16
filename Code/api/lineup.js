@@ -70,7 +70,7 @@ function getLineupByTeamEvent(team, meetEvent, mysqlPool) {
 */
 router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  console.log("request: " + req.body)
+  console.log("request: " + req.body);
   if (req.body && req.body.event && req.body.team && req.body.order && req.body.player) {
     insertNewLineupPlayer(req.body, mysqlPool)
       .then((id) => {
