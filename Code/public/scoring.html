@@ -60,8 +60,19 @@
     </header>
 
     <main class="form-container">
-      <div class="form-box" id="team-select-box">
-        <h3 class="form-text">Pick team to score for Vault</h3>
+      <div class="form-box">
+        <h3 class="form-text">Pick event to score</h3>
+        <select id="event-select">
+          <option value="" selected disabled hidden>Choose here</option>
+          <option value="vault">Vault</option>
+          <option value="bars">Bars</option>
+          <option value="beam">Beam</option>
+          <option value="floor">Floor</option>
+        </select>
+      </div>
+
+      <div class="form-box hidden" id="team-select-box">
+        <h3 class="form-text" id="team-select-text"></h3>
         <select class="team-picker" id="team-select">
           <option value="" selected disabled hidden>Choose here</option>
         </select>
@@ -289,6 +300,6 @@
     </main>
   </body>
 
-  <script src="vaultScoring.js" charset="utf-8"></script>
+  <script src="scoring.js" charset="utf-8"></script>
 
 </html>
