@@ -15,9 +15,16 @@ const playerSchema = {
 
 /*
 |-----------------------------------------------
-| Get players
+| GET
 |-----------------------------------------------
-| router.get('/:team'
+*/
+
+/*
+|-----------------------------------------------
+| Get players names by Team name
+|-----------------------------------------------
+| Returns a json object containing the names of
+| all the players on a team.
 */
 router.get('/:team', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
@@ -43,12 +50,52 @@ function getPlayersByTeam(team, mysqlPool) {
       if (err) {
         reject(err);
       } else {
+        resolve(results[0]);
+      }
+    });
+    //console.log(name);
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get players by name
+|-----------------------------------------------
+| Returns a json object containing the names of
+| all the players on a team.
+*/
+router.get('/name/:name', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const name = req.params.name;
+    getPlayersByName(name, mysqlPool)
+    .then((name) => {
+      if (name) {
+        res.status(200).json(name);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch players.  Please try again later."
+      });
+    });
+});
+
+function getPlayersByName(name, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM player WHERE name = ?', [ name ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
         resolve(results);
       }
     });
     //console.log(name);
   });
 };
+
+
 
 /*
 |-----------------------------------------------
@@ -236,32 +283,11 @@ function getAAScoreByName(name, mysqlPool) {
 };
 
 
-function insertNewPlayer(player, mysqlPool) {
-  return new Promise((resolve, reject) => {
-    const playerValues = {
-      id: null,
-      playerNum: player.playerNum,
-      name: player.name,
-      team: player.team,
-      vaultScore: player.vaultScore,
-      barsScore: player.barsScore,
-      beamScore: player.beamScore,
-      floorScore: player.floorScore,
-      AAScore: player.AAScore
-    };
-    mysqlPool.query(
-      'INSERT INTO player SET ?',
-      playerValues,
-      function (err, result) {
-        if (err) {
-          reject(err);
-        } else {
-          resolve(result.insertId);
-        }
-      }
-    );
-  });
-}
+/*
+|-----------------------------------------------
+| POST
+|-----------------------------------------------
+*/
 
 /*
 |-----------------------------------------------
@@ -296,6 +322,39 @@ router.post('/', function (req, res, next) {
   }
 
 });
+
+function insertNewPlayer(player, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    const playerValues = {
+      id: null,
+      playerNum: player.playerNum,
+      name: player.name,
+      team: player.team,
+      vaultScore: player.vaultScore,
+      barsScore: player.barsScore,
+      beamScore: player.beamScore,
+      floorScore: player.floorScore,
+      AAScore: player.AAScore
+    };
+    mysqlPool.query(
+      'INSERT INTO player SET ?',
+      playerValues,
+      function (err, result) {
+        if (err) {
+          reject(err);
+        } else {
+          resolve(result.insertId);
+        }
+      }
+    );
+  });
+}
+
+/*
+|-----------------------------------------------
+| PUT
+|-----------------------------------------------
+*/
 
 /*
 |-----------------------------------------------
@@ -377,6 +436,12 @@ function getIDbyPlayerName(name, mysqlPool){
     });
   });
 }
+
+/*
+|-----------------------------------------------
+| DELETE
+|-----------------------------------------------
+*/
 
 /*
 |-----------------------------------------------

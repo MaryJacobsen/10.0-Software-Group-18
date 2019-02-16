@@ -9,7 +9,7 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(morgan('dev'));
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
 app.listen(port, () => {
