@@ -240,28 +240,6 @@ input[type=submit]:hover {
   border-bottom: 1px solid #EE801E;
 }
 
-.button-container {
-  display: flex;
-  flex-direction: column;
-  margin-left: auto;
-}
-
-.up-button {
-  height: 50%;
-  border: 1px solid #000;
-  margin-top: 1vh;
-  background: none;
-  cursor: pointer;
-}
-
-.down-button {
-  height: 50%;
-  border: 1px solid #000;
-  margin-bottom: 1vh;
-  background: none;
-  cursor: pointer;
-}
-
 .first {
   border-top: 1px solid #EE801E;
 }
@@ -273,7 +251,20 @@ input[type=submit]:hover {
   font-size: 30px;
   font-weight: 100;
 }
-.team-picker {
+
+.player-name {
+  margin: 0px 1em;
+  padding: 15px 0px;
+  font-size: 20px;
+  font-weight: 100;
+}
+
+.player-select {
+  width: 50%;
+  margin-left: auto;
+}
+
+select {
   width: 100%;
   padding: 10px 20px;
   margin: 5px 0px;

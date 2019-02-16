@@ -369,11 +369,9 @@ router.put('/:playerName', function (req, res, next) {
   // if (validation.validateAgainstSchema(req.body, playerSchema)) {
   getIDbyPlayerName(playerName, mysqlPool)
     .then((playerID) => {
-      console.log(req.body);
       return replacePlayerByID(playerID, req.body, mysqlPool)
     })
     .then((updateSuccessful) => {
-      console.log(updateSuccessful);
       if (updateSuccessful) {
         res.status(200).json({
           links: {
@@ -405,7 +403,6 @@ router.put('/:playerName', function (req, res, next) {
 function replacePlayerByID(playerID, player, mysqlPool) {
   return new Promise((resolve, reject) => {
     player = validation.extractValidFields(player, playerSchema);
-    console.log("ID: " + playerID);
     mysqlPool.query('UPDATE player SET ? WHERE id = ?', [ player, playerID ], function (err, result) {
       if (err) {
         console.log(err);
