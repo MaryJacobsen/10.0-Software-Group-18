@@ -8,7 +8,7 @@ Since our project calls for a containerized API based web server, Docker is need
 
 # Using Postman to Test
 
-To test endpoints with Postman you must enter the endpoint and the HTTP method and click on send.
+To test endpoints with Postman you must enter the endpoint and the HTTP method and click on send. Data must be sent using x-www-form-urlencoded format.
 > Ex. `GET http://localhost:8000/player/Oregon State University` will return a list of all players that are part of
 > the OSU gymnastics team.
 
@@ -28,9 +28,12 @@ To test endpoints with Postman you must enter the endpoint and the HTTP method a
 ### POST
   * /team/
     * Creates a new team
+      * Requires teamScore and teamName
   * /player/
     * Creates a new player
+      * Requires name and team
   * /lineup/
     * Creates a new lineup
+      * Requires player, order, team, event
 ### PUT 
 ### DELETE
