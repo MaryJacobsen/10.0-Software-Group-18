@@ -5,3 +5,32 @@ The gymnastics meets held in Gill Coliseum are fast paced, usually televised com
 # How to run code
 
 Since our project calls for a containerized API based web server, Docker is needed to run the code. You can install Docker [here](https://www.docker.com/products/docker-desktop), but it is important to note that if you are running any version of Windows that isn't enterprise edition you will instead need to download [Docker Toolbox](https://docs.docker.com/toolbox/toolbox_install_windows/). Once installed, open the `Code` folder and use the command `docker-compose up` this will run the server, to run as a background process use the command `docker-compose up -d`. Once the server is running open your favorite web browser and navigate to the [edit lineup page](http://localhost:8000/lineup.html) or the [scoring page](http://localhost:8000/scoring.html). Note, if you are using docker toolbox, `localhost:8000` will not work, and instead you will need to grab the ip address given by the virtual machine which can be found underneath Moby Dock (Docker's whale logo). Our current build only has these two web pages working, but we also have a plethora of API endpoints that can be accessed. These can be found by looking at the created endpoints in the  `api` folder inside the `Code` folder. We recommend an application called [postman](https://www.getpostman.com/) to query the API.
+
+# Using Postman to Test
+
+To test endpoints with Postman you must enter the endpoint and the HTTP method and click on send.
+> Ex. `GET http://localhost:8000/player/Oregon State University` will return a list of all players that are part of
+> the OSU gymnastics team.
+
+## Endpoints
+### GET
+#### Team
+  * /team/:id
+    * returns the team name with :id
+  * /team/teams
+    * returns all team names
+#### Player
+  * /player/:teamName
+    * returns all players that belong to the :teamName
+#### Lineup
+  * /lineup/:team/:event
+    * returns the ordered lineup of :team doing :event
+### POST
+  * /team/
+    * Creates a new team
+  * /player/
+    * Creates a new player
+  * /lineup/
+    * Creates a new lineup
+### PUT 
+### DELETE
