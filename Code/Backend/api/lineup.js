@@ -1,13 +1,13 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
 
-//schema for required and optional fields for a team object
+//schema for required and optional fields for a lineup object
 
 const lineupSchema = {
   id: {required: true }, //medium int
-  player: { required: true }, //varchar
+  playerID: { required: true }, //medium int
+  teamID: { required: true },
   order: { required: true }, //int
-  team: { required: true }, //varchar
   event: { required: true } //varchar
 };
 

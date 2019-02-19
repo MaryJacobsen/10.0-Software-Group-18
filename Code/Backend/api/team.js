@@ -4,12 +4,14 @@ const validation = require('../lib/validation');
 //schema for required and optional fields for a team object
 
 const teamSchema = {
-  teamScore: { required: true }, //int
+  id: { required: true }, //mediumint
+  teamScore: { required: true }, //decimal
   teamName: { required: true }, //varchar
-  vaultScore: { required: false }, //int
-  barsScore: { required: false }, //int
-  beamScore: { required: false }, //int
-  floorScore: { required: false } //int
+  vaultScore: { required: false }, //decimal
+  barsScore: { required: false }, //decimal
+  beamScore: { required: false }, //decimal
+  floorScore: { required: false }, //decimal
+  meetID: { required: true } //mediumint
 };
 
 /*
@@ -17,8 +19,9 @@ const teamSchema = {
 | Get team names
 |-----------------------------------------------
 | Gets all team names
-| 
+|
 */
+
 router.get('/teams', function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
@@ -56,6 +59,7 @@ function getTeams(mysqlPool) {
 |-----------------------------------------------
 | Gets team name by /:id
 */
+
 router.get('/:id', function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
@@ -94,10 +98,11 @@ function getTeamByID(id, mysqlPool) {
 | app.post('./player/ inserts a player
 |
 */
+
 router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  console.log("request: " + req.body.teamName)
-  if (req.body && req.body.teamName) {
+  console.log("request: " + req.body.teamName + req.body.meetID)
+  if (req.body && req.body.teamName && req.body.meetID) {
     insertNewTeam(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
@@ -130,7 +135,8 @@ function insertNewTeam(team, mysqlPool) {
       vaultScore: team.vaultScore,
       barsScore: team.bardScore,
       beamScore: team.beamScore,
-      floorScore: team.floorScore
+      floorScore: team.floorScore,
+      meetID: team.meetID
     };
     /*
     Check if team exists
@@ -157,6 +163,7 @@ function insertNewTeam(team, mysqlPool) {
 | Edit/Update a team with /:teamID
 |
 */
+
 router.put('/:teamID', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const teamID = parseInt(req.params.teamID);
@@ -206,6 +213,7 @@ function replaceTeamByID(teamID, team, mysqlPool) {
 | Deletes player with /:teamID
 |
 */
+
 router.delete('/:teamID', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const teamID = parseInt(req.params.teamID);
@@ -236,8 +244,5 @@ function deleteTeamByID(teamID, mysqlPool) {
   });
 
 }
-
-
-
 
 exports.router = router;

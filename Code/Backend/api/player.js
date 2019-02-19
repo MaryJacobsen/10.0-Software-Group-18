@@ -2,15 +2,15 @@ const router = require('express').Router();
 const validation = require('../lib/validation');
 
 const playerSchema = {
-  id: { required: true },
+  id: { required: true }, //mediumint
   playerNum: { required: false }, //int
   name: { required: true }, //vrachar
-  team: { required: true }, //varchar
-  vaultScore: { required: false }, //int
-  barsScore: { required: false }, //int
-  beamScore: { required: false }, //int
-  floorScore: { required: false }, //int
-  AAScore: { required: false } //int
+  teamID: { required: true }, //mediumint
+  vaultScore: { required: false }, //decimal
+  barsScore: { required: false }, //decimal
+  beamScore: { required: false }, //decimal
+  floorScore: { required: false }, //decimal
+  AAScore: { required: false } //decimal
 };
 
 /*
@@ -235,6 +235,39 @@ function getAAScoreByName(name, mysqlPool) {
   });
 };
 
+/*
+|-----------------------------------------------
+| Insert player
+|-----------------------------------------------
+| router.post('./player/ inserts a player
+|
+*/
+router.post('/', function (req, res, next) {
+  const mysqlPool = req.app.locals.mysqlPool;
+  console.log("request: " + req.body.name + req.body.teamID)
+  if (req.body && req.body.name && req.body.teamID) {
+    insertNewPlayer(req.body, mysqlPool)
+      .then((id) => {
+        res.status(201).json({
+          id: id,
+          links: {
+            player: '/player/' + id
+          }
+        });
+      })
+      .catch((err) => {
+        res.status(500).json({
+          error: "Error inserting player."
+        });
+        console.log(err);
+      });
+  } else {
+    res.status(400).json({
+      error: "Request needs a JSON body with a name and a teamID"
+    });
+  }
+
+});
 
 function insertNewPlayer(player, mysqlPool) {
   return new Promise((resolve, reject) => {
@@ -242,7 +275,7 @@ function insertNewPlayer(player, mysqlPool) {
       id: null,
       playerNum: player.playerNum,
       name: player.name,
-      team: player.team,
+      teamID: player.teamID,
       vaultScore: player.vaultScore,
       barsScore: player.barsScore,
       beamScore: player.beamScore,
@@ -262,40 +295,6 @@ function insertNewPlayer(player, mysqlPool) {
     );
   });
 }
-
-/*
-|-----------------------------------------------
-| Insert player
-|-----------------------------------------------
-| router.post('./player/ inserts a player
-|
-*/
-router.post('/', function (req, res, next) {
-  const mysqlPool = req.app.locals.mysqlPool;
-  console.log("request: " + req.body.name)
-  if (req.body && req.body.name && req.body.team) {
-    insertNewPlayer(req.body, mysqlPool)
-      .then((id) => {
-        res.status(201).json({
-          id: id,
-          links: {
-            player: '/player/' + id
-          }
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({
-          error: "Error inserting player."
-        });
-        console.log(err);
-      });
-  } else {
-    res.status(400).json({
-      error: "Request needs a JSON body with a name and a team"
-    });
-  }
-
-});
 
 /*
 |-----------------------------------------------

@@ -8,6 +8,7 @@ CREATE TABLE `team` (
   `barsScore` DECIMAL(13,10),
   `beamScore` DECIMAL(13,10),
   `floorScore` DECIMAL(13,10),
+  `meetID` mediumint(9) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `idx_teamName` (`teamName`)
+  FOREIGN KEY (meetID) REFERENCES meet(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
