@@ -7,8 +7,8 @@ CREATE TABLE `lineup` (
   `order` mediumint(9) NOT NULL,
   `event` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (playerID) REFERENCES player(id),
-  FOREIGN KEY (teamID) REFERENCES team(id)
+  FOREIGN KEY (`playerID`) REFERENCES `player`(`id`),
+  FOREIGN KEY (`teamID`) REFERENCES `team`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 /*LOCK TABLES `lineup` WRITE;

@@ -11,7 +11,7 @@ CREATE TABLE `player` (
   `floorScore` DECIMAL(13,10),
   `AAScore` DECIMAL(13,10),
   PRIMARY KEY (`id`),
-  FOREIGN KEY (teamID) REFERENCES team(id)
+  FOREIGN KEY (`teamID`) REFERENCES `team`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
 /*LOCK TABLES `player` WRITE;

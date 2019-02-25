@@ -9,7 +9,7 @@ CREATE TABLE `score` (
   `exhibition` BIT NOT NULL,
   `meetID` mediumint(9) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (playerID) REFERENCES player(id),
-  FOREIGN KEY (judgeID) REFERENCES judge(id),
-  FOREIGN KEY (meetID) REFERENCES meet(id)
+  FOREIGN KEY (`playerID`) REFERENCES `player`(`id`),
+  FOREIGN KEY (`judgeID`) REFERENCES `judge`(`id`),
+  FOREIGN KEY (`meetID`) REFERENCES `meet`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;

@@ -10,5 +10,5 @@ CREATE TABLE `team` (
   `floorScore` DECIMAL(13,10),
   `meetID` mediumint(9) NOT NULL,
   PRIMARY KEY (`id`),
-  FOREIGN KEY (meetID) REFERENCES meet(id)
+  FOREIGN KEY (`meetID`) REFERENCES `meet`(`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
