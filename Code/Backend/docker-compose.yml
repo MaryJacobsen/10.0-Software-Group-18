@@ -18,7 +18,12 @@ services:
     restart: always
     volumes:
       - mysql-data:/var/lib/mysql
-      - ./db-init/:/docker-entrypoint-initdb.d
+      - ./db-init/meet-init.sql/docker-entrypoint-initdb.d
+      - ./db-init/team-init.sql/docker-entrypoint-initdb.d
+      - ./db-init/player-init.sqp/docker-entrypoint-initdb.d
+      - ./db-init/judge-init.sqp/docker-entrypoint-initdb.d
+      - ./db-init/score-init.sql/docker-entrypoint-initdb.d
+      - ./db-init/lineup-init.sql/docker-entrypoint-initdb.d
     environment:
       MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
       MYSQL_DATABASE: ${MYSQL_DATABASE}
