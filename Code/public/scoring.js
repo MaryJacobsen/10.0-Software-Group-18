@@ -1,6 +1,16 @@
 var players = [];
 var playerIndex = 0;
 var teamName;
+var eventName;
+
+function chooseEvent() {
+  var elem = $(this);
+  eventName = elem.val();
+  $("#team-select-text").text("Pick team to score for " + eventName);
+  $("#team-select-box").removeClass("hidden");
+}
+
+$("#event-select").one("change", chooseEvent);
 
 function getTeamData() {
   var url = window.location.origin;
@@ -41,6 +51,26 @@ function makeActive(event) {
 
 $(".score-button").click(makeActive);
 
+function getScoreObject() {
+  if (eventName == "vault") {
+    return scoreObject = {
+      vaultScore: parseFloat($(".active").text())
+    }
+  } else if (eventName == "bars") {
+    return scoreObject = {
+      barsScore: parseFloat($(".active").text())
+    }
+  } else if (eventName == "beam") {
+    return scoreObject = {
+      beamScore: parseFloat($(".active").text())
+    }
+  } else {
+    return scoreObject = {
+      floorScore: parseFloat($(".active").text())
+    }
+  }
+}
+
 function advancePlayers() {
   console.log("Advance");
   if (!$(".score-button").hasClass("active")) {
@@ -48,9 +78,8 @@ function advancePlayers() {
     return;
   }
 
-  scoreObject = {
-    'vaultScore': parseFloat($(".active").text())
-  }
+  scoreObject = getScoreObject();
+
   var url = window.location.origin;
   $.ajax({
     url: url + "/player/" + $("#player-score-name").text(),

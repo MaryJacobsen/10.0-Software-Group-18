@@ -16,6 +16,7 @@
   </head>
 
   <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <header>
       <h1 class="site-title"><a href="#">Scoring Software</a><span class="site-brand">10.0</span></h1>
@@ -59,97 +60,84 @@
 
     <main class="form-container">
       <div class="form-box">
-        <h3 class="form-text">Pick team to set Vault Lineup</h3>
+        <h3 class="form-text">Pick event to score</h3>
+        <select id="event-select">
+          <option value="" selected disabled hidden>Choose here</option>
+          <option value="vault">Vault</option>
+          <option value="bars">Bars</option>
+          <option value="beam">Beam</option>
+          <option value="floor">Floor</option>
+        </select>
+      </div>
+
+      <div class="form-box hidden" id="team-select-box">
+        <h3 class="form-text" id="team-select-text"></h3>
         <select class="team-picker" id="team-select">
           <option value="" selected disabled hidden>Choose here</option>
-          <option value="OSU">OSU</option>
-          <option value="UW">UW</option>
-          <option value="UO">UO</option>
-          <option value="UCLA">UCLA</option>
         </select>
       </div>
 
       <div class="form-box hidden" id="player-card-box">
-        <h3 class="form-text">Edit Lineup:</h3>
+        <h3 class="form-text" id="player-card-text"></h3>
 
         <div class="player-card first">
           <h3 class="lineup-number">1:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="0">&and;</button>
-            <button class="down-button" value="0">&or;</button>
-          </div>
+          <h3 class="player-name hidden"></h3>
+          <select id="player-picker">
+            <option value="" selected disabled hidden>Choose gymnast</option>
+          </select>
         </div>
 
         <div class="player-card">
           <h3 class="lineup-number">2:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="1">&and;</button>
-            <button class="down-button" value="1">&or;</button>
-          </div>
+          <h3 class="player-name hidden"></h3>
+          <select id="player-picker">
+            <option value="" selected disabled hidden>Choose gymnast</option>
+          </select>
         </div>
 
         <div class="player-card">
           <h3 class="lineup-number">3:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="2">&and;</button>
-            <button class="down-button" value="2">&or;</button>
-          </div>
+          <h3 class="player-name hidden"></h3>
+          <select id="player-picker">
+            <option value="" selected disabled hidden>Choose gymnast</option>
+          </select>
         </div>
 
         <div class="player-card">
           <h3 class="lineup-number">4:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="3">&and;</button>
-            <button class="down-button" value="3">&or;</button>
-          </div>
+          <h3 class="player-name hidden"></h3>
+          <select id="player-picker">
+            <option value="" selected disabled hidden>Choose gymnast</option>
+          </select>
         </div>
 
         <div class="player-card">
           <h3 class="lineup-number">5:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="4">&and;</button>
-            <button class="down-button" value="4">&or;</button>
-          </div>
+          <h3 class="player-name hidden"></h3>
+          <select id="player-picker">
+            <option value="" selected disabled hidden>Choose gymnast</option>
+          </select>
         </div>
 
         <div class="player-card">
           <h3 class="lineup-number">6:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="5">&and;</button>
-            <button class="down-button" value="5">&or;</button>
-          </div>
+          <h3 class="player-name hidden"></h3>
+          <select id="player-picker">
+            <option value="" selected disabled hidden>Choose gymnast</option>
+          </select>
         </div>
 
-        <div class="player-card">
-          <h3 class="lineup-number">7:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="6">&and;</button>
-            <button class="down-button" value="6">&or;</button>
-          </div>
-        </div>
+        <input type="submit" id="lineup-accept" value="Accept">
+      </div>
 
-        <div class="player-card">
-          <h3 class="lineup-number">8:</h3>
-          <h3 class="player-name"></h3>
-          <div class="button-container">
-            <button class="up-button" value="7">&and;</button>
-            <button class="down-button" value="7">&or;</button>
-          </div>
-        </div>
-
-        <input type="submit" name="number-teams-accept" value="Accept">
+      <div class="form-box hidden" id="lineup-complete">
+        <h3 class="form-text" id="lineup-complete-text"></h3>
       </div>
     </main>
 
   </body>
 
-  <script src="vaultLineup.js" charset="utf-8"></script>
+  <script src="lineup.js" charset="utf-8"></script>
 
 </html>
