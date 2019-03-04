@@ -22,8 +22,8 @@ const teamSchema = {
 |
 */
 
-router.get('/teams', function (req, res, next) {
-    console.log(" -- req.params:", req.params.id);
+router.get('/', function (req, res, next) {
+    // console.log("/team/teams");
     const mysqlPool = req.app.locals.mysqlPool;
     getTeams(mysqlPool)
     .then((teams) => {
@@ -34,6 +34,7 @@ router.get('/teams', function (req, res, next) {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({
         error: "Unable to fetch teams.  Please try again later."
       });
@@ -42,7 +43,7 @@ router.get('/teams', function (req, res, next) {
 
 function getTeams(mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT teamName FROM team', function (err, results) {
+    mysqlPool.query('SELECT * FROM team', function (err, results) {
       // console.log(results);
       if (err) {
         reject(err);
