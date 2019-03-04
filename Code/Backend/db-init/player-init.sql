@@ -14,6 +14,6 @@ CREATE TABLE `player` (
   FOREIGN KEY (teamID) REFERENCES team(id)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
-/*LOCK TABLES `player` WRITE;
-INSERT INTO `player` VALUES (1, null, 'Mary Jacobsen', 'OSU', null, null, null, null, 40.0);
-UNLOCK TABLES;*/
+LOCK TABLES `player` WRITE;
+INSERT INTO `player` VALUES (0, null, 'Mary Jacobsen', 0, null, null, null, null, null);
+UNLOCK TABLES;
