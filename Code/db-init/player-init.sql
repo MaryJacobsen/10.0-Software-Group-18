@@ -14,50 +14,6 @@ CREATE TABLE `player` (
   KEY `idx_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
 
-LOCK TABLES `player` WRITE;
-INSERT INTO `player` VALUES (1, null, 'Mary Jacobsen', 'Oregon State University', null, null, null, null, null),
-  (2, null, 'Leah Bivrell', 'Oregon State University', null, null, null, null, null),
-  (3, null, 'Halli Briscoe', 'Oregon State University', null, null, null, null, null),
-  (4, null, 'Lacy Dagen', 'Oregon State University', null, null, null, null, null),
-  (5, null, 'Madi Dagen', 'Oregon State University', null, null, null, null, null),
-  (6, null, 'Destinee Davis', 'Oregon State University', null, null, null, null, null),
-  (7, null, 'Mariana Colussi-Pelaez', 'Oregon State University', null, null, null, null, null),
-  (8, null, 'Savanna Force', 'Oregon State University', null, null, null, null, null),
-  (9, null, 'Sabrina Gill', 'Oregon State University', null, null, null, null, null),
-  (10, null, 'Lexie Gonzales', 'Oregon State University', null, null, null, null, null),
-  (11, null, 'Lena Greene', 'Oregon State University', null, null, null, null, null),
-  (12, null, 'Jaime Law', 'Oregon State University', null, null, null, null, null),
-  (13, null, 'Maela Lazaro', 'Oregon State University', null, null, null, null, null),
-  (14, null, 'Isis Lowry', 'Oregon State University', null, null, null, null, null),
-  (15, null, 'Niya Mack', 'Oregon State University', null, null, null, null, null),
-  (16, null, 'Alex McClung', 'Oregon State University', null, null, null, null, null),
-  (17, null, 'Alyssa Minyard', 'Oregon State University', null, null, null, null, null),
-  (18, null, 'Kristina Peterson', 'Oregon State University', null, null, null, null, null),
-  (19, null, 'McKenna Singley', 'Oregon State University', null, null, null, null, null),
-  (20, null, 'Colette Yamaoka', 'Oregon State University', null, null, null, null, null),
-  (21, null, 'Kaitlyn Yanish', 'Oregon State University', null, null, null, null, null),
-  (22, null, 'Brenna Brooks', 'University of Washington', null, null, null, null, null),
-  (23, null, 'Talia Brovedani', 'University of Washington', null, null, null, null, null),
-  (24, null, 'Madison Copiak', 'University of Washington', null, null, null, null, null),
-  (25, null, 'Amara Cunningham', 'University of Washington', null, null, null, null, null),
-  (26, null, 'Kristyn Hoffa', 'University of Washington', null, null, null, null, null),
-  (27, null, 'Madeline Mclellan', 'University of Washington', null, null, null, null, null),
-  (28, null, 'Michaela Nelson', 'University of Washington', null, null, null, null, null),
-  (29, null, 'Monica Riley', 'University of Washington', null, null, null, null, null),
-  (30, null, 'Nia Dennis', 'University of California Los Angeles', null, null, null, null, null),
-  (31, null, 'Norah Flatley', 'University of California Los Angeles', null, null, null, null, null),
-  (32, null, 'Margzetta Frazier', 'University of California Los Angeles', null, null, null, null, null),
-  (33, null, 'Anna Glenn', 'University of California Los Angeles', null, null, null, null, null),
-  (34, null, 'Grace Glenn', 'University of California Los Angeles', null, null, null, null, null),
-  (35, null, 'Felicia Hano', 'University of California Los Angeles', null, null, null, null, null),
-  (36, null, 'Madison Kocian', 'University of California Los Angeles', null, null, null, null, null),
-  (37, null, 'Savannah Kooyman', 'University of California Los Angeles', null, null, null, null, null),
-  (38, null, 'Alexia Burch', 'University of Utah', null, null, null, null, null),
-  (39, null, 'Hunter Dala', 'University of Utah', null, null, null, null, null),
-  (40, null, 'Cammy Hall', 'University of Utah', null, null, null, null, null),
-  (41, null, 'Cristal Isa', 'University of Utah', null, null, null, null, null),
-  (42, null, 'Kari Lee', 'University of Utah', null, null, null, null, null),
-  (43, null, 'Shannon McNatt', 'University of Utah', null, null, null, null, null),
-  (44, null, 'MaKenna Merell-Giles', 'University of Utah', null, null, null, null, null),
-  (45, null, 'Adrienne Randall', 'University of Utah', null, null, null, null, null);
-UNLOCK TABLES;
+/*LOCK TABLES `player` WRITE;
+INSERT INTO `player` VALUES (1, null, 'Mary Jacobsen', 'OSU', null, null, null, null, 40.0);
+UNLOCK TABLES;*/

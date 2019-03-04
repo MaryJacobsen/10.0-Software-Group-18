@@ -11,10 +11,3 @@ CREATE TABLE `team` (
   PRIMARY KEY (`id`),
   KEY `idx_teamName` (`teamName`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
-
-LOCK TABLES `team` WRITE;
-INSERT INTO `team` VALUES (1, null, 'Oregon State University', null, null, null, null),
-  (2, null, 'University of Washington', null, null, null, null),
-  (3, null, 'University of California Los Angeles', null, null, null, null),
-  (4, null, 'University of Utah', null, null, null, null);
-UNLOCK TABLES;
