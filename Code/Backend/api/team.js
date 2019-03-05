@@ -74,6 +74,7 @@ router.get('/:id', function (req, res, next) {
       }
     })
     .catch((err) => {
+      console.log(err);
       res.status(500).json({
         error: "Unable to fetch team.  Please try again later."
       });
