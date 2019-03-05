@@ -135,7 +135,7 @@ function insertNewTeam(team, mysqlPool) {
       teamScore: team.teamScore,
       teamName: team.teamName,
       vaultScore: team.vaultScore,
-      barsScore: team.bardScore,
+      barsScore: team.barsScore,
       beamScore: team.beamScore,
       floorScore: team.floorScore,
       meetID: team.meetID
