@@ -16,9 +16,9 @@ const teamSchema = {
 
 /*
 |-----------------------------------------------
-| Get team names
+| Get all teams
 |-----------------------------------------------
-| Gets all team names
+| app.get('./team/') gets all teams
 |
 */
 
@@ -95,9 +95,46 @@ function getTeamByID(id, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Insert player
+| Get teams by meetID (DOES NOT WORK YET)
 |-----------------------------------------------
-| app.post('./player/ inserts a player
+| Gets teams by /comp/:/meetID
+*/
+router.get('/comp/:meetID', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const meetID = req.params.meetID;
+    getTeamByMeetID(meetID, mysqlPool)
+    .then((meetID) => {
+      if (meetID) {
+        res.status(200).json(meetID);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to fetch teams.  Please try again later."
+      });
+    });
+});
+
+function getTeamByMeetID(meetID, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM team WHERE meetID = ?', [ meetID ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+/*
+|-----------------------------------------------
+| Insert team
+|-----------------------------------------------
+| app.post('./team/ inserts a team
 |
 */
 
@@ -110,19 +147,19 @@ router.post('/', function (req, res, next) {
         res.status(201).json({
           id: id,
           links: {
-            player: '/player/' + id
+            team: '/team/' + id
           }
         });
       })
       .catch((err) => {
         res.status(500).json({
-          error: "Error inserting player."
+          error: "Error inserting team."
         });
         console.log(err);
       });
   } else {
     res.status(400).json({
-      error: "Request needs a JSON body with a team name"
+      error: "Request needs a JSON body with a teamName and meetID"
     });
   }
 
@@ -210,9 +247,9 @@ function replaceTeamByID(teamID, team, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Delete player by ID
+| Delete team by ID
 |-----------------------------------------------
-| Deletes player with /:teamID
+| Deletes team with /:teamID
 |
 */
 
