@@ -64,7 +64,7 @@ router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
     const meetID = req.params.meetID;
     const teamID = req.params.teamID;
     const gymEvent = req.params.event;
-    getScoresByMeetID(meetID, teamID, gymEvent, mysqlPool)
+    getLineupByMeetID(meetID, teamID, gymEvent, mysqlPool)
     .then((lineup) => {
       console.log(lineup)
       //Get event/score for each player
@@ -83,7 +83,7 @@ router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
     });
 });
 
-function getScoresByMeetID(meetID, teamID, gymEvent, mysqlPool) {
+function getLineupByMeetID(meetID, teamID, gymEvent, mysqlPool) {
   return new Promise((resolve, reject) => {
     mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND event = ? AND teamID = ?', [ meetID, gymEvent, teamID ], function (err, results) {
       if (err) {
