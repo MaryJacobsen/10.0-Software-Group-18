@@ -19,9 +19,9 @@ const playerSchema = {
 |-----------------------------------------------
 | router.get('/:team'
 */
-router.get('/:team', function (req, res, next) {
+router.get('/:teamID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const team = req.params.team;
+    const team = req.params.teamID;
     getPlayersByTeam(team, mysqlPool)
     .then((team) => {
       if (team) {
@@ -39,7 +39,7 @@ router.get('/:team', function (req, res, next) {
 
 function getPlayersByTeam(team, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT name FROM player WHERE team = ?', [ team ], function (err, results) {
+    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ team ], function (err, results) {
       if (err) {
         reject(err);
       } else {
