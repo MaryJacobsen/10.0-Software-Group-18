@@ -13,57 +13,90 @@ const lineupSchema = {
 
 /*
 |-----------------------------------------------
-| Get Lineup by event
+| Get lineup by event
 |-----------------------------------------------
-| This function returns the lineup for :event
+| Gets teams by /event/:/event
 */
+router.get('/event/:event', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const event = req.params.event;
+    getLineupByEvent(event, mysqlPool)
+    .then((event) => {
+      if (event) {
+        res.status(200).json(event);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to fetch lineup.  Please try again later."
+      });
+    });
+});
+
+function getLineupByEvent(event, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM lineup WHERE event = ?', [ event ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
 
 /*
 |-----------------------------------------------
-| Insert a player into lineup
+| Insert player into lineup
 |-----------------------------------------------
-| router.post('./lineup/ inserts a player into lineup
+| app.post('./lineup/ inserts a player into a lineup position
 |
 */
-/*router.post('/', function (req, res, next) {
+
+router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  console.log("request: " + req.body.name)
-  if (req.body && req.body.event && req.body.team && req.body.order && req.body.player) {
-    insertNewLineupPlayer(req.body, mysqlPool)
+  if (req.body && req.body.playerID && req.body.teamID && req.body.order && req.body.event) {
+    insertNewLineup(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
           id: id,
           links: {
-            player: '/lineup/' + id
+            lineup: '/lineup/' + id
           }
         });
       })
       .catch((err) => {
         res.status(500).json({
-          error: "Error inserting player into lineup."
+          error: "Error inserting lineup."
         });
         console.log(err);
       });
   } else {
     res.status(400).json({
-      error: "Request needs a JSON body with a player, a team, an order, and an event"
+      error: "Request needs a JSON body with a playerID, teamID, order, and event."
     });
   }
 
 });
 
-function insertNewLineupPlayer(lineup, mysqlPool) {
+function insertNewLineup(lineup, mysqlPool) {
   return new Promise((resolve, reject) => {
     const lineupValues = {
       id: null,
-      player: player.player,
-      order: player.order,
-      team: player.team,
-      event: player.event
+      playerID: lineup.playerID,
+      teamID: lineup.teamID,
+      order: lineup.order,
+      event: lineup.event
     };
+    /*
+    Check if lineup exists
+    */
     mysqlPool.query(
       'INSERT INTO lineup SET ?',
-      playerValues,
+      lineupValues,
       function (err, result) {
         if (err) {
           reject(err);
@@ -73,6 +106,95 @@ function insertNewLineupPlayer(lineup, mysqlPool) {
       }
     );
   });
-}*/
+}
+
+/*
+|-----------------------------------------------
+| Edit lineup
+|-----------------------------------------------
+| Edit/Update a lineup with /:lineupID
+|
+*/
+
+router.put('/:lineupID', function (req, res, next) {
+  const mysqlPool = req.app.locals.mysqlPool;
+  const lineupID = parseInt(req.params.lineupID);
+  if (validation.validateAgainstSchema(req.body, lineupSchema)) {
+    replaceLineupByID(lineupID, req.body, mysqlPool)
+      .then((updateSuccessful) => {
+        if (updateSuccessful) {
+          res.status(200).json({
+            links: {
+              lineup: `/lineup/${lineupID}`
+            }
+          });
+        } else {
+          next();
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        res.status(500).json({
+          error: "Unable to update specified lineup.  Please try again later."
+        });
+      });
+  } else {
+    res.status(400).json({
+      error: "Request body is not a valid lineup object"
+    });
+  }
+});
+
+function replaceLineupByID(lineupID, lineup, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    team = validation.extractValidFields(lineup, lineupSchema);
+    mysqlPool.query('UPDATE lineup SET ? WHERE id = ?', [ lineup, lineupID ], function (err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result.affectedRows > 0);
+      }
+    });
+  });
+}
+
+/*
+|-----------------------------------------------
+| Delete player in lineup by ID
+|-----------------------------------------------
+| Deletes lineup row with /:lineupID
+|
+*/
+
+router.delete('/:lineupID', function (req, res, next) {
+  const mysqlPool = req.app.locals.mysqlPool;
+  const lineupID = parseInt(req.params.lineupID);
+  deleteLineupByID(lineupID, mysqlPool)
+    .then((deleteSuccessful) => {
+      if (deleteSuccessful) {
+        res.status(204).end();
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to delete lineup entry.  Please try again later."
+      });
+    });
+});
+
+function deleteLineupByID(lineupID, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('DELETE FROM lineup WHERE id = ?', [ lineupID ], function (err, result) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(result.affectedRows > 0);
+      }
+    });
+  });
+
+}
 
 exports.router = router;

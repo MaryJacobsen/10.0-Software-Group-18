@@ -95,7 +95,7 @@ function getTeamByID(id, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Get teams by meetID (DOES NOT WORK YET)
+| Get teams by meetID
 |-----------------------------------------------
 | Gets teams by /comp/:/meetID
 */
