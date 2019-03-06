@@ -244,7 +244,7 @@ function getAAScoreByID(player, mysqlPool) {
 router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   console.log("request: " + req.body.name + req.body.teamID)
-  if (req.body && req.body.name && req.body.teamID) {
+  if (req.body && req.body.name && req.body.teamID && req.body.meetID) {
     insertNewPlayer(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
@@ -279,7 +279,8 @@ function insertNewPlayer(player, mysqlPool) {
       barsScore: player.barsScore,
       beamScore: player.beamScore,
       floorScore: player.floorScore,
-      AAScore: player.AAScore
+      AAScore: player.AAScore,
+      meetID: player.meetID
     };
     mysqlPool.query(
       'INSERT INTO player SET ?',
