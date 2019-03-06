@@ -18,7 +18,7 @@ const lineupSchema = {
 |-----------------------------------------------
 | Gets teams by /event/:/event
 */
-router.get('/event/:event/:meetID', function (req, res, next) {
+router.get('/event/:meetID/:event', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const event = req.params.event;
     const meet = req.params.meetID;
@@ -41,6 +41,51 @@ router.get('/event/:event/:meetID', function (req, res, next) {
 function getLineupByEvent(event, meet, mysqlPool) {
   return new Promise((resolve, reject) => {
     mysqlPool.query('SELECT * FROM lineup WHERE event = ? AND meetID = ?', [ event, meet ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get lineup score (top 5)
+|-----------------------------------------------
+| Gets the average score of
+| Returns: total score of top 5
+*/
+
+router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
+    console.log(" -- req.params:", req.params.playerID, req.params.event);
+    const mysqlPool = req.app.locals.mysqlPool;
+    const meetID = req.params.meetID;
+    const teamID = req.params.teamID;
+    const gymEvent = req.params.event;
+    getScoresByMeetID(meetID, teamID, gymEvent, mysqlPool)
+    .then((lineup) => {
+      console.log(lineup)
+      //Get event/score for each player
+
+      if (lineup) {
+        res.status(200).json(lineup);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to average scores for playerID: " + playerID + ". Please try again later."
+      });
+    });
+});
+
+function getScoresByMeetID(meetID, teamID, gymEvent, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND event = ? AND teamID = ?', [ meetID, gymEvent, teamID ], function (err, results) {
       if (err) {
         reject(err);
       } else {
