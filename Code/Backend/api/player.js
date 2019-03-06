@@ -11,16 +11,16 @@ const playerSchema = {
   beamScore: { required: false }, //decimal
   floorScore: { required: false }, //decimal
   AAScore: { required: false }, //decimal
-  meetID: { required: true } //medium
+  meetID: { required: true } //medium int
 };
 
 /*
 |-----------------------------------------------
 | Get players on team
 |-----------------------------------------------
-| router.get('/:team'
+| router.get('/:meetID/:teamID')
 */
-router.get('/:teamID/:meetID', function (req, res, next) {
+router.get('/:teamID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const teamID = req.params.teamID;
     const meetID = req.params.meetID;
@@ -39,46 +39,45 @@ router.get('/:teamID/:meetID', function (req, res, next) {
     });
 });
 
-function getPlayersByTeam(teamID, meetID, mysqlPool) {
+function getPlayersByTeam(teamID, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM player WHERE teamID = ? AND meetID = ?', [ teamID, meetID ], function (err, results) {
+    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ teamID ], function (err, results) {
       if (err) {
         reject(err);
       } else {
         resolve(results);
       }
     });
-    //console.log(name);
   });
 };
 
 /*
 |-----------------------------------------------
-| Get vault score by name (Should it be id instead of name?)
+| Get vault score by playerID, event, and meetID
 |-----------------------------------------------
-| router.get('/:name/vault'
+| router.get('/:meet/:name/vault')
 */
-router.get('/:name/vault', function (req, res, next) {
+router.get('/:playerID/vault', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const name = req.params.name;
-    getVaultScoreByName(name, mysqlPool)
-    .then((name) => {
-      if (name) {
-        res.status(200).json(name);
+    const player = req.params.playerID;
+    getVaultScoreByID(player, mysqlPool)
+    .then((player) => {
+      if (player) {
+        res.status(200).json(player);
       } else {
           next();
       }
     })
     .catch((err) => {
       res.status(500).json({
-        error: "Unable to fetch name.  Please try again later."
+        error: "Unable to fetch vault score.  Please try again later."
       });
     });
 });
 
-function getVaultScoreByName(name, mysqlPool) {
+function getVaultScoreByID(player, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT vaultScore FROM player WHERE name = ?', [ name ], function (err, results) {
+    mysqlPool.query('SELECT vaultScore FROM player WHERE id = ?', [ player ], function (err, results) {
       if (err) {
         reject(err);
       } else {
@@ -91,31 +90,103 @@ function getVaultScoreByName(name, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Get bars score by name (Should it be id instead of name?)
+| Get bars score by id
 |-----------------------------------------------
-| router.get('/:name/bars'
+| router.get('/:playerID/bars'
 */
-router.get('/:name/bars', function (req, res, next) {
+router.get('/:playerID/bars', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const name = req.params.name;
-    getBarsScoreByName(name, mysqlPool)
-    .then((name) => {
-      if (name) {
-        res.status(200).json(name);
+    const player = req.params.playerID;
+    getBarsScoreByID(player, mysqlPool)
+    .then((player) => {
+      if (player) {
+        res.status(200).json(player);
       } else {
           next();
       }
     })
     .catch((err) => {
       res.status(500).json({
-        error: "Unable to fetch name.  Please try again later."
+        error: "Unable to fetch bars score.  Please try again later."
       });
     });
 });
 
-function getBarsScoreByName(name, mysqlPool) {
+function getBarsScoreByID(player, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT barsScore FROM player WHERE name = ?', [ name ], function (err, results) {
+    mysqlPool.query('SELECT barsScore FROM player WHERE id = ?', [ player ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get beam score by id
+|-----------------------------------------------
+| router.get('/:playerID/beam'
+*/
+router.get('/:playerID/beam', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const player = req.params.playerID;
+    getBeamScoreByID(player, mysqlPool)
+    .then((player) => {
+      if (player) {
+        res.status(200).json(player);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch beam score.  Please try again later."
+      });
+    });
+});
+
+function getBeamScoreByID(player, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT beamScore FROM player WHERE id = ?', [ player ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results[0]);
+      }
+    });
+  });
+};
+
+/*
+|-----------------------------------------------
+| Get floor score by id
+|-----------------------------------------------
+| router.get('/:playerID/floor'
+*/
+router.get('/:playerID/floor', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const player = req.params.playerID;
+    getFloorScoreByID(player, mysqlPool)
+    .then((player) => {
+      if (player) {
+        res.status(200).json(player);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch floor score.  Please try again later."
+      });
+    });
+});
+
+function getFloorScoreByID(player, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT floorScore FROM player WHERE id = ?', [ player ], function (err, results) {
       if (err) {
         reject(err);
       } else {
@@ -128,105 +199,31 @@ function getBarsScoreByName(name, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Get beam score by name (Should it be id instead of name?)
+| Get AA score by id
 |-----------------------------------------------
-| router.get('/:name/beam'
+| router.get('/:playerID/AA'
 */
-router.get('/:name/beam', function (req, res, next) {
+router.get('/:playerID/AA', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const name = req.params.name;
-    getBeamScoreByName(name, mysqlPool)
-    .then((name) => {
-      if (name) {
-        res.status(200).json(name);
+    const player = req.params.playerID;
+    getAAScoreByID(player, mysqlPool)
+    .then((player) => {
+      if (player) {
+        res.status(200).json(player);
       } else {
           next();
       }
     })
     .catch((err) => {
       res.status(500).json({
-        error: "Unable to fetch name.  Please try again later."
+        error: "Unable to fetch AA score.  Please try again later."
       });
     });
 });
 
-function getBeamScoreByName(name, mysqlPool) {
+function getAAScoreByID(player, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT beamScore FROM player WHERE name = ?', [ name ], function (err, results) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results[0]);
-      }
-    });
-    //console.log(name);
-  });
-};
-
-/*
-|-----------------------------------------------
-| Get floor score by name (Should it be id instead of name?)
-|-----------------------------------------------
-| router.get('/:name/floor'
-*/
-router.get('/:name/floor', function (req, res, next) {
-    const mysqlPool = req.app.locals.mysqlPool;
-    const name = req.params.name;
-    getFloorScoreByName(name, mysqlPool)
-    .then((name) => {
-      if (name) {
-        res.status(200).json(name);
-      } else {
-          next();
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: "Unable to fetch name.  Please try again later."
-      });
-    });
-});
-
-function getFloorScoreByName(name, mysqlPool) {
-  return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT floorScore FROM player WHERE name = ?', [ name ], function (err, results) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results[0]);
-      }
-    });
-    //console.log(name);
-  });
-};
-
-/*
-|-----------------------------------------------
-| Get AA score by name (Should it be id instead of name?)
-|-----------------------------------------------
-| router.get('/:name/AA'
-*/
-router.get('/:name/AA', function (req, res, next) {
-    const mysqlPool = req.app.locals.mysqlPool;
-    const name = req.params.name;
-    getAAScoreByName(name, mysqlPool)
-    .then((name) => {
-      if (name) {
-        res.status(200).json(name);
-      } else {
-          next();
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({
-        error: "Unable to fetch name.  Please try again later."
-      });
-    });
-});
-
-function getAAScoreByName(name, mysqlPool) {
-  return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT AAScore FROM player WHERE name = ?', [ name ], function (err, results) {
+    mysqlPool.query('SELECT AAScore FROM player WHERE id = ?', [ player ], function (err, results) {
       if (err) {
         reject(err);
       } else {
