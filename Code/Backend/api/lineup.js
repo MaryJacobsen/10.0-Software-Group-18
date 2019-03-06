@@ -6,9 +6,10 @@ const validation = require('../lib/validation');
 const lineupSchema = {
   id: {required: true }, //medium int
   playerID: { required: true }, //medium int
-  teamID: { required: true },
-  order: { required: true }, //int
-  event: { required: true } //varchar
+  teamID: { required: true }, //medium int
+  order: { required: true }, //medium int
+  event: { required: true }, //varchar
+  meetID: {required: true} //medium int
 };
 
 /*
@@ -17,10 +18,11 @@ const lineupSchema = {
 |-----------------------------------------------
 | Gets teams by /event/:/event
 */
-router.get('/event/:event', function (req, res, next) {
+router.get('/event/:event/:meetID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const event = req.params.event;
-    getLineupByEvent(event, mysqlPool)
+    const meet = req.params.meetID;
+    getLineupByEvent(event, meet, mysqlPool)
     .then((event) => {
       if (event) {
         res.status(200).json(event);
@@ -36,9 +38,9 @@ router.get('/event/:event', function (req, res, next) {
     });
 });
 
-function getLineupByEvent(event, mysqlPool) {
+function getLineupByEvent(event, meet, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM lineup WHERE event = ?', [ event ], function (err, results) {
+    mysqlPool.query('SELECT * FROM lineup WHERE event = ? AND meetID = ?', [ event, meet ], function (err, results) {
       if (err) {
         reject(err);
       } else {
@@ -58,7 +60,7 @@ function getLineupByEvent(event, mysqlPool) {
 
 router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  if (req.body && req.body.playerID && req.body.teamID && req.body.order && req.body.event) {
+  if (req.body && req.body.playerID && req.body.teamID && req.body.order && req.body.event && req.body.meetID) {
     insertNewLineup(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
@@ -89,7 +91,8 @@ function insertNewLineup(lineup, mysqlPool) {
       playerID: lineup.playerID,
       teamID: lineup.teamID,
       order: lineup.order,
-      event: lineup.event
+      event: lineup.event,
+      meetID: lineup.meetID
     };
     /*
     Check if lineup exists

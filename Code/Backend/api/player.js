@@ -10,7 +10,8 @@ const playerSchema = {
   barsScore: { required: false }, //decimal
   beamScore: { required: false }, //decimal
   floorScore: { required: false }, //decimal
-  AAScore: { required: false } //decimal
+  AAScore: { required: false }, //decimal
+  meetID: { required: true } //medium
 };
 
 /*
@@ -19,21 +20,14 @@ const playerSchema = {
 |-----------------------------------------------
 | router.get('/:team'
 */
-router.get('/:teamID', function (req, res, next) {
+router.get('/:teamID/:meetID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-<<<<<<< HEAD
     const teamID = req.params.teamID;
-    getPlayersByTeam(teamID, mysqlPool)
+    const meetID = req.params.meetID;
+    getPlayersByTeam(teamID, meetID, mysqlPool)
     .then((teamID) => {
       if (teamID) {
         res.status(200).json(teamID);
-=======
-    const team = req.params.teamID;
-    getPlayersByTeam(team, mysqlPool)
-    .then((team) => {
-      if (team) {
-        res.status(200).json(team);
->>>>>>> b3f8f05bd026f0c9f8125cec50035ac6c33a5e68
       } else {
           next();
       }
@@ -45,13 +39,9 @@ router.get('/:teamID', function (req, res, next) {
     });
 });
 
-function getPlayersByTeam(teamID, mysqlPool) {
+function getPlayersByTeam(teamID, meetID, mysqlPool) {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD
-    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ teamID ], function (err, results) {
-=======
-    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ team ], function (err, results) {
->>>>>>> b3f8f05bd026f0c9f8125cec50035ac6c33a5e68
+    mysqlPool.query('SELECT * FROM player WHERE teamID = ? AND meetID = ?', [ teamID, meetID ], function (err, results) {
       if (err) {
         reject(err);
       } else {
