@@ -21,19 +21,11 @@ const playerSchema = {
 */
 router.get('/:teamID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-<<<<<<< HEAD
     const teamID = req.params.teamID;
     getPlayersByTeam(teamID, mysqlPool)
     .then((teamID) => {
       if (teamID) {
         res.status(200).json(teamID);
-=======
-    const team = req.params.teamID;
-    getPlayersByTeam(team, mysqlPool)
-    .then((team) => {
-      if (team) {
-        res.status(200).json(team);
->>>>>>> b3f8f05bd026f0c9f8125cec50035ac6c33a5e68
       } else {
           next();
       }
@@ -47,11 +39,7 @@ router.get('/:teamID', function (req, res, next) {
 
 function getPlayersByTeam(teamID, mysqlPool) {
   return new Promise((resolve, reject) => {
-<<<<<<< HEAD
     mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ teamID ], function (err, results) {
-=======
-    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ team ], function (err, results) {
->>>>>>> b3f8f05bd026f0c9f8125cec50035ac6c33a5e68
       if (err) {
         reject(err);
       } else {

@@ -91,6 +91,56 @@ function getScoresByMeetID(id, mysqlPool) {
   });
 };
 
+
+/*
+|-----------------------------------------------
+| Get Average Score
+|-----------------------------------------------
+| Gets the average score of
+| Returns: averageScore
+*/
+
+router.get('/average/:meetID/:playerID/:event/', function (req, res, next) {
+    console.log(" -- req.params:", req.params.playerID, req.params.event);
+    const mysqlPool = req.app.locals.mysqlPool;
+    const meetID = req.params.meetID;
+    const playerID = req.params.playerID;
+    const gymEvent = req.params.event;
+    getScoresByMeetID(playerID, gymEvent, meetID, mysqlPool)
+    .then((scores) => {
+      //Average scores
+      let avg = 0;
+      for (var i = 0; i < scores.length; i++) {
+        avg += scores[i].score;
+      }
+      avg = avg/scores.length;
+
+      if (avg) {
+        res.status(200).json(avg);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to average scores for playerID: " + playerID + ". Please try again later."
+      });
+    });
+});
+
+function getScoresByMeetID(playerID, gymEvent, meetID, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND playerID = ? AND event = ?', [ meetID, playerID, gymEvent ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
 /*
 |-----------------------------------------------
 | Insert score
