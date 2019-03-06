@@ -16,17 +16,18 @@ const playerSchema = {
 
 /*
 |-----------------------------------------------
-| Get player
+| Get players on team
 |-----------------------------------------------
 | router.get('/:meetID/:teamID')
 */
 router.get('/:teamID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const teamID = req.params.teamID;
-    getPlayersByTeam(teamID, mysqlPool)
-    .then((teamID) => {
-      if (teamID) {
-        res.status(200).json(teamID);
+    const meetID = req.params.meetID;
+    getPlayersByTeam(teamID, meetID, mysqlPool)
+    .then((players) => {
+      if (players) {
+        res.status(200).json(players);
       } else {
           next();
       }
