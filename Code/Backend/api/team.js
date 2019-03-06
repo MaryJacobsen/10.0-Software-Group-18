@@ -16,19 +16,17 @@ const teamSchema = {
 
 /*
 |-----------------------------------------------
-| Get all teams
+| Get all teams in a meet
 |-----------------------------------------------
-| app.get('./team/') gets all teams
-|
+| Gets teams by /:meetID/meet
 */
-
-router.get('/', function (req, res, next) {
-    // console.log("/team/teams");
+router.get('/:meetID/meet', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    getTeams(mysqlPool)
-    .then((teams) => {
-      if (teams) {
-        res.status(200).json(teams);
+    const meetID = req.params.meetID;
+    getTeamByMeetID(meetID, mysqlPool)
+    .then((meetID) => {
+      if (meetID) {
+        res.status(200).json(meetID);
       } else {
           next();
       }
@@ -41,10 +39,9 @@ router.get('/', function (req, res, next) {
     });
 });
 
-function getTeams(mysqlPool) {
+function getTeamByMeetID(meetID, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM team', function (err, results) {
-      // console.log(results);
+    mysqlPool.query('SELECT * FROM team WHERE meetID = ?', [ meetID ], function (err, results) {
       if (err) {
         reject(err);
       } else {
@@ -88,43 +85,6 @@ function getTeamByID(id, mysqlPool) {
         reject(err);
       } else {
         resolve(results[0]);
-      }
-    });
-  });
-};
-
-/*
-|-----------------------------------------------
-| Get teams by meetID
-|-----------------------------------------------
-| Gets teams by /comp/:/meetID
-*/
-router.get('/comp/:meetID', function (req, res, next) {
-    const mysqlPool = req.app.locals.mysqlPool;
-    const meetID = req.params.meetID;
-    getTeamByMeetID(meetID, mysqlPool)
-    .then((meetID) => {
-      if (meetID) {
-        res.status(200).json(meetID);
-      } else {
-          next();
-      }
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({
-        error: "Unable to fetch teams.  Please try again later."
-      });
-    });
-});
-
-function getTeamByMeetID(meetID, mysqlPool) {
-  return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM team WHERE meetID = ?', [ meetID ], function (err, results) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results);
       }
     });
   });

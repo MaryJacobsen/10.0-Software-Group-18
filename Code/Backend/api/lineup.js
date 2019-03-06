@@ -14,15 +14,16 @@ const lineupSchema = {
 
 /*
 |-----------------------------------------------
-| Get lineup by event
+| Get lineup by meet, team, and event
 |-----------------------------------------------
-| Gets teams by /event/:/event
+| Gets teams by /:meetID/:teamID/:event
 */
-router.get('/event/:event/:meetID', function (req, res, next) {
+router.get('/:meetID/:teamID/:event/', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const event = req.params.event;
     const meet = req.params.meetID;
-    getLineupByEvent(event, meet, mysqlPool)
+    const team = req.params.teamID;
+    const event = req.params.event;
+    getLineupByEvent(meet, team, event, mysqlPool)
     .then((event) => {
       if (event) {
         res.status(200).json(event);
@@ -38,9 +39,9 @@ router.get('/event/:event/:meetID', function (req, res, next) {
     });
 });
 
-function getLineupByEvent(event, meet, mysqlPool) {
+function getLineupByEvent(meet, team, event, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM lineup WHERE event = ? AND meetID = ?', [ event, meet ], function (err, results) {
+    mysqlPool.query('SELECT * FROM lineup WHERE meetID = ? AND teamID = ? AND event = ?', [ meet, team, event ], function (err, results) {
       if (err) {
         reject(err);
       } else {
