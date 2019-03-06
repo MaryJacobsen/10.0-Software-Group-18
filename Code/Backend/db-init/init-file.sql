@@ -49,12 +49,20 @@ CREATE TABLE `player` (
   `beamScore` DECIMAL(13,10),
   `floorScore` DECIMAL(13,10),
   `AAScore` DECIMAL(13,10),
+  `meetID`mediumint(9),
   PRIMARY KEY (`id`),
   KEY `fk_team_player` (`teamID`),
+  KEY `fk_meet_player` (`meetID`),
 
   CONSTRAINT `team_fk_1`
   FOREIGN KEY (`teamID`)
   REFERENCES `team`(`id`)
+  ON UPDATE CASCADE
+  ON DELETE NO ACTION,
+
+  CONSTRAINT `meet_fk_2`
+  FOREIGN KEY (meetID)
+  REFERENCES meet(id)
   ON UPDATE CASCADE
   ON DELETE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
@@ -74,7 +82,7 @@ CREATE TABLE `judge` (
   PRIMARY KEY (`id`),
   KEY `fk_meet_judge` (`meetID`),
 
-  CONSTRAINT `meet_fk_2`
+  CONSTRAINT `meet_fk_3`
   FOREIGN KEY (`meetID`)
   REFERENCES `meet`(`id`)
   ON UPDATE CASCADE
@@ -95,9 +103,11 @@ CREATE TABLE `lineup` (
   `teamID` mediumint(9) NOT NULL,
   `order` mediumint(9) NOT NULL,
   `event` varchar(255) NOT NULL,
+  `meetID` mediumint(9) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_player_lineup` (`playerID`),
   KEY `fk_team_lineup` (`teamID`),
+  KEY `fk_meet_lineup` (`meetID`),
 
   CONSTRAINT `player_fk_1`
   FOREIGN KEY (playerID)
@@ -108,6 +118,12 @@ CREATE TABLE `lineup` (
   CONSTRAINT `team_fk_2`
   FOREIGN KEY (teamID)
   REFERENCES team(id)
+  ON UPDATE CASCADE
+  ON DELETE NO ACTION,
+
+  CONSTRAINT `meet_fk_4`
+  FOREIGN KEY (`meetID`)
+  REFERENCES `meet`(`id`)
   ON UPDATE CASCADE
   ON DELETE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
@@ -139,7 +155,7 @@ CREATE TABLE `score` (
   ON UPDATE CASCADE
   ON DELETE NO ACTION,
 
-  CONSTRAINT `meet_fk_3`
+  CONSTRAINT `meet_fk_5`
   FOREIGN KEY (meetID)
   REFERENCES meet(id)
   ON UPDATE CASCADE

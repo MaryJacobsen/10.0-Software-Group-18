@@ -10,7 +10,8 @@ const playerSchema = {
   barsScore: { required: false }, //decimal
   beamScore: { required: false }, //decimal
   floorScore: { required: false }, //decimal
-  AAScore: { required: false } //decimal
+  AAScore: { required: false }, //decimal
+  meetID: { required: true } //medium
 };
 
 /*
@@ -19,10 +20,11 @@ const playerSchema = {
 |-----------------------------------------------
 | router.get('/:team'
 */
-router.get('/:teamID', function (req, res, next) {
+router.get('/:teamID/:meetID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const teamID = req.params.teamID;
-    getPlayersByTeam(teamID, mysqlPool)
+    const meetID = req.params.meetID;
+    getPlayersByTeam(teamID, meetID, mysqlPool)
     .then((teamID) => {
       if (teamID) {
         res.status(200).json(teamID);
@@ -37,9 +39,9 @@ router.get('/:teamID', function (req, res, next) {
     });
 });
 
-function getPlayersByTeam(teamID, mysqlPool) {
+function getPlayersByTeam(teamID, meetID, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ teamID ], function (err, results) {
+    mysqlPool.query('SELECT * FROM player WHERE teamID = ? AND meetID = ?', [ teamID, meetID ], function (err, results) {
       if (err) {
         reject(err);
       } else {
