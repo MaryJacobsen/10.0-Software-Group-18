@@ -15,31 +15,31 @@ const playerSchema = {
 
 /*
 |-----------------------------------------------
-| Get players
+| Get player
 |-----------------------------------------------
 | router.get('/:team'
 */
-router.get('/:team', function (req, res, next) {
+router.get('/:teamID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const team = req.params.team;
-    getPlayersByTeam(team, mysqlPool)
-    .then((team) => {
-      if (team) {
-        res.status(200).json(team);
+    const teamID = req.params.teamID;
+    getPlayersByTeam(teamID, mysqlPool)
+    .then((teamID) => {
+      if (teamID) {
+        res.status(200).json(teamID);
       } else {
           next();
       }
     })
     .catch((err) => {
       res.status(500).json({
-        error: "Unable to fetch players.  Please try again later."
+        error: "Unable to fetch players on team with ID: " + teamID + ". Please try again later."
       });
     });
 });
 
-function getPlayersByTeam(team, mysqlPool) {
+function getPlayersByTeam(teamID, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT name FROM player WHERE team = ?', [ team ], function (err, results) {
+    mysqlPool.query('SELECT * FROM player WHERE teamID = ?', [ teamID ], function (err, results) {
       if (err) {
         reject(err);
       } else {

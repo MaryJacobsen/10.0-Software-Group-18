@@ -120,7 +120,7 @@ CREATE TABLE `score` (
   `judgeID` mediumint(9) NOT NULL,
   `score` DECIMAL(13,10) NOT NULL,
   `event` varchar(255) NOT NULL,
-  `exhibition` BIT NOT NULL,
+  `exhibition` mediumint(9) NOT NULL,
   `meetID` mediumint(9) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_player_score` (`playerID`),
