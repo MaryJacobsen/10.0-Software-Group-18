@@ -22,11 +22,11 @@ router.get('/:meetID/:teamID/:event/', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meet = req.params.meetID;
     const team = req.params.teamID;
-    const event = req.params.event;
-    getLineupByEvent(meet, team, event, mysqlPool)
-    .then((event) => {
-      if (event) {
-        res.status(200).json(event);
+    const gymEvent = req.params.gymEvent;
+    getLineupByEvent(meet, team, gymEvent, mysqlPool)
+    .then((gymEvent) => {
+      if (gymEvent) {
+        res.status(200).json(gymEvent);
       } else {
           next();
       }
@@ -39,9 +39,9 @@ router.get('/:meetID/:teamID/:event/', function (req, res, next) {
     });
 });
 
-function getLineupByEvent(meet, team, event, mysqlPool) {
+function getLineupByEvent(meet, team, gymEvent, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM lineup WHERE meetID = ? AND teamID = ? AND event = ?', [ meet, team, event ], function (err, results) {
+    mysqlPool.query('SELECT * FROM lineup WHERE meetID = ? AND teamID = ? AND event = ?', [ meet, team, gymEvent ], function (err, results) {
       if (err) {
         reject(err);
       } else {
@@ -60,18 +60,19 @@ function getLineupByEvent(meet, team, event, mysqlPool) {
 */
 
 router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
-    console.log(" -- req.params:", req.params.playerID, req.params.event);
+    console.log(" -- req.params:", req.params.teamID, req.params.event);
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
     const teamID = req.params.teamID;
     const gymEvent = req.params.event;
-    getLineupByMeetID(meetID, teamID, gymEvent, mysqlPool)
-    .then((lineup) => {
-      console.log(lineup)
-      //Get event/score for each player
-
-      if (lineup) {
-        res.status(200).json(lineup);
+    getTop5(meetID, teamID, gymEvent, mysqlPool)
+    .then((playerScore) => {
+      playerScore.sort(function(a, b){
+        return b.score-a.score;
+      })
+      playerScore = playerScore.splice(0, 5);
+      if (playerScore) {
+        res.status(200).json(playerScore);
       } else {
           next();
       }
@@ -84,17 +85,55 @@ router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
     });
 });
 
-function getLineupByMeetID(meetID, teamID, gymEvent, mysqlPool) {
+function getTop5(meetID, teamID, gymEvent, mysqlPool) {
+  let playerScore = [];
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND event = ? AND teamID = ?', [ meetID, gymEvent, teamID ], function (err, results) {
+    mysqlPool.query('SELECT * FROM lineup WHERE meetID = ? AND event = ? AND teamID = ?', [ meetID, gymEvent, teamID ], function (err, result) {
       if (err) {
         reject(err);
       } else {
-        resolve(results);
+        // resolve(results);
+        for (var x = 0; x < result.length; x++) {
+          // playerIDs.push(results[x].playerID);
+          mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND playerID = ? AND event = ?', [ meetID, result[x].playerID, gymEvent ], function (err, results) {
+            // console.log(results)
+            if (err) {
+              reject(err);
+            } else {
+              playerScore.push(results[0]);
+              if(playerScore.length == result.length){
+                resolve(playerScore);
+              }
+            }
+
+          });
+        }
       }
     });
   });
 };
+
+// function getScoresByPlayerID(meetID, playerID, gymEvent, mysqlPool) {
+//   return new Promise((resolve, reject) => {
+//     mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND playerID = ? AND event = ?', [ meetID, playerID, gymEvent ], function (err, results) {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(results);
+//       }
+//     });
+//   });
+// };
+//
+// async function getScoresFromLineup(meetID, playerIDs, gymEvent, mysqlPool){
+//   let scores = [];
+//   for (var i = 0; i < playerIDs.length; i++) {
+//     tmp = await getScoresByPlayerID(meetID, playerIDs[i], gymEvent, mysqlPool);
+//     scores.push(tmp);
+//   }
+//   return scores;
+// }
+
 
 /*
 |-----------------------------------------------

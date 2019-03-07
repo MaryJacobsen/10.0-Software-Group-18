@@ -151,9 +151,8 @@ function getScoresByMeetID(playerID, gymEvent, meetID, mysqlPool) {
 
 router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  data = req.body
-  console.log("request: " + data.playerID + data.score)
-  if (data && data.playerID && data.judgeID && data.score && data.event && data.exhibition && data.meetID) {
+  console.log("request: \nplayerID:" + req.body.playerID + "\nscore:" + req.body.score + "\njudgeID:" + req.body.judgeID + "\nevent:" + req.body.event + "\nmeetID:" + req.body.meetID);
+  if (req.body && req.body.playerID && req.body.judgeID && req.body.score && req.body.event && req.body.exhibition && req.body.meetID) {
     insertNewScore(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
