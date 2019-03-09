@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <meta charset="utf-8">
+    <title>10.0: Scoring Software</title>
+
+    <!-- This is a stylesheet that includes the font you should use -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700" rel="stylesheet">
+
+    <!-- This is a 3rd-party stylesheet for Font Awesome: http://fontawesome.io/ -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" media="screen">
+
+    <link rel="stylesheet" href="style.css" media="screen">
+
+  </head>
+
+  <body>
+
+    <header>
+      <h1 class="site-title"><a href="#">Scoring Software</a><span class="site-brand">10.0</span></h1>
+
+      <nav class="navbar">
+        <ul class="navlist">
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Meet</button>
+            <div class="dropdown-content">
+              <a href="#">Create Meet</a>
+            </div>
+          </li>
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Lineup</button>
+            <div class="dropdown-content">
+              <a href="vaultLineup.html">Vault Lineup</a>
+              <a href="#">Bars Lineup</a>
+              <a href="#">Beam Lineup</a>
+              <a href="#">Floor Lineup</a>
+            </div>
+          </li>
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Print</button>
+            <div class="dropdown-content">
+              <a href="#">Print Scoresheets</a>
+              <a href="#">Print Judge Scoresheets</a>
+            </div>
+          </li>
+          <li class="navitem navlink dropdown">
+            <button class="dropbtn">Score</button>
+            <div class="dropdown-content">
+              <a href="vaultScoring.html">Score Vault</a>
+              <a href="#">Score Bars</a>
+              <a href="#">Score Beam</a>
+              <a href="#">Score Floor</a>
+            </div>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="form-container">
+      <div class="form-box" id="number-of-teams-form">
+        <div class="form-box-header">
+          <h3 class="form-text">Number of Teams</h3>
+          <button type="button" class="form-hide-button" id="number-of-teams-button" value = "opened">hide</button>
+        </div>
+
+        <div class="form-box-content" id="number-of-teams-content">
+          <label for="num-teams">Number of Teams:</label>
+          <input type="text" id="num-teams" name="number-of-teams" placeholder="Insert Number of Teams">
+          <input type="submit" name="number-teams-accept" value="Accept">
+        </div>
+      </div>
+
+      <div class="form-box" id="name-of-teams">
+        <div class="form-box-header">
+          <h3 class="form-text">Name of teams</h3>
+          <button type="button" class="form-hide-button" id="name-team-button" value="close">open</button>
+        </div>
+
+        <div class="form-box-content hidden">
+          <label for="name-of-teams"> First team name:</label>
+          <input type="text" id="team-name" name="name-of-team" placeholder="Insert First Team Name">
+          <input type="submit" name="team-names" value="Accept">
+        </div>
+      </div>
+    </main>
+
+  </body>
+
+  <script src="createMeet.js" charset="utf-8"></script>
+
+</html>
