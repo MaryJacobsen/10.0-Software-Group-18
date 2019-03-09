@@ -1,32 +1,27 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
 
-//schema for required and optional fields for a team object
+//schema for required and optional fields for a meet object
 
-const teamSchema = {
-  id: { required: true }, //mediumint
-  teamScore: { required: true }, //decimal
-  teamName: { required: true }, //varchar
-  vaultScore: { required: false }, //decimal
-  barsScore: { required: false }, //decimal
-  beamScore: { required: false }, //decimal
-  floorScore: { required: false }, //decimal
-  meetID: { required: true } //mediumint
+const meetSchema = {
+  id: {required: true }, //medium int
+  name: { required: true } //var char
 };
 
 /*
 |-----------------------------------------------
-| Get all teams in a meet
+| get meet
 |-----------------------------------------------
-| Gets teams by /:meetID/meet
+| app.get('./meet/') gets all meets
+|
 */
-router.get('/:meetID/meet', function (req, res, next) {
+
+router.get('/', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
-    const meetID = req.params.meetID;
-    getTeamByMeetID(meetID, mysqlPool)
-    .then((meetID) => {
-      if (meetID) {
-        res.status(200).json(meetID);
+    getMeets(mysqlPool)
+    .then((meets) => {
+      if (meets) {
+        res.status(200).json(meets);
       } else {
           next();
       }
@@ -34,14 +29,15 @@ router.get('/:meetID/meet', function (req, res, next) {
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        error: "Unable to fetch teams.  Please try again later."
+        error: "Unable to fetch meets.  Please try again later."
       });
     });
 });
 
-function getTeamByMeetID(meetID, mysqlPool) {
+function getMeets(mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM team WHERE meetID = ?', [ meetID ], function (err, results) {
+    mysqlPool.query('SELECT * FROM meet', function (err, results) {
+      // console.log(results);
       if (err) {
         reject(err);
       } else {
@@ -53,16 +49,15 @@ function getTeamByMeetID(meetID, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Get team by ID
+| Get meet by id
 |-----------------------------------------------
-| Gets team name by /:id
+| Gets meet by /:id
 */
 
 router.get('/:id', function (req, res, next) {
-    console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;
-    getTeamByID(id, mysqlPool)
+    getMeetByID(id, mysqlPool)
     .then((id) => {
       if (id) {
         res.status(200).json(id);
@@ -73,14 +68,14 @@ router.get('/:id', function (req, res, next) {
     .catch((err) => {
       console.log(err);
       res.status(500).json({
-        error: "Unable to fetch team.  Please try again later."
+        error: "Unable to fetch meet  Please try again later."
       });
     });
 });
 
-function getTeamByID(id, mysqlPool) {
+function getMeetByID(id, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM team WHERE id = ?', [ id ], function (err, results) {
+    mysqlPool.query('SELECT * FROM meet WHERE id = ?', [ id ], function (err, results) {
       if (err) {
         reject(err);
       } else {
@@ -92,57 +87,50 @@ function getTeamByID(id, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Insert team
+| Insert meet
 |-----------------------------------------------
-| app.post('./team/ inserts a team
+| app.post('./meet/ inserts a meet
 |
 */
 
 router.post('/', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  console.log("request: " + req.body.teamName + req.body.meetID)
-  if (req.body && req.body.teamName && req.body.meetID) {
-    insertNewTeam(req.body, mysqlPool)
+  if (req.body && req.body.name) {
+    insertNewMeet(req.body, mysqlPool)
       .then((id) => {
         res.status(201).json({
           id: id,
           links: {
-            team: '/team/' + id
+            meet: '/meet/' + id
           }
         });
       })
       .catch((err) => {
         res.status(500).json({
-          error: "Error inserting team."
+          error: "Error inserting meet."
         });
         console.log(err);
       });
   } else {
     res.status(400).json({
-      error: "Request needs a JSON body with a teamName and meetID"
+      error: "Request needs a JSON body with a meet name"
     });
   }
 
 });
 
-function insertNewTeam(team, mysqlPool) {
+function insertNewMeet(meet, mysqlPool) {
   return new Promise((resolve, reject) => {
-    const teamValues = {
+    const meetValues = {
       id: null,
-      teamScore: team.teamScore,
-      teamName: team.teamName,
-      vaultScore: team.vaultScore,
-      barsScore: team.barsScore,
-      beamScore: team.beamScore,
-      floorScore: team.floorScore,
-      meetID: team.meetID
+      name: meet.name
     };
     /*
-    Check if team exists
+    Check if meet exists
     */
     mysqlPool.query(
-      'INSERT INTO team SET ?',
-      teamValues,
+      'INSERT INTO meet SET ?',
+      meetValues,
       function (err, result) {
         if (err) {
           reject(err);
@@ -154,25 +142,24 @@ function insertNewTeam(team, mysqlPool) {
   });
 }
 
-
 /*
 |-----------------------------------------------
-| Edit Team
+| Edit meet
 |-----------------------------------------------
-| Edit/Update a team with /:teamID
+| Edit/Update a meet with /:meetID
 |
 */
 
-router.put('/:teamID', function (req, res, next) {
+router.put('/:meetID', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  const teamID = parseInt(req.params.teamID);
-  if (validation.validateAgainstSchema(req.body, teamSchema)) {
-    replaceTeamByID(teamID, req.body, mysqlPool)
+  const meetID = parseInt(req.params.meetID);
+  if (validation.validateAgainstSchema(req.body, meetSchema)) {
+    replaceMeetByID(meetID, req.body, mysqlPool)
       .then((updateSuccessful) => {
         if (updateSuccessful) {
           res.status(200).json({
             links: {
-              team: `/team/${teamID}`
+              meet: `/meet/${meetID}`
             }
           });
         } else {
@@ -182,20 +169,20 @@ router.put('/:teamID', function (req, res, next) {
       .catch((err) => {
         console.log(err);
         res.status(500).json({
-          error: "Unable to update specified team.  Please try again later."
+          error: "Unable to update specified meet.  Please try again later."
         });
       });
   } else {
     res.status(400).json({
-      error: "Request body is not a valid team object"
+      error: "Request body is not a valid meet object"
     });
   }
 });
 
-function replaceTeamByID(teamID, team, mysqlPool) {
+function replaceMeetByID(meetID, meet, mysqlPool) {
   return new Promise((resolve, reject) => {
-    team = validation.extractValidFields(team, teamSchema);
-    mysqlPool.query('UPDATE team SET ? WHERE id = ?', [ team, teamID ], function (err, result) {
+    meet = validation.extractValidFields(meet, meetSchema);
+    mysqlPool.query('UPDATE meet SET ? WHERE id = ?', [ meet, meetID ], function (err, result) {
       if (err) {
         reject(err);
       } else {
@@ -207,16 +194,16 @@ function replaceTeamByID(teamID, team, mysqlPool) {
 
 /*
 |-----------------------------------------------
-| Delete team by ID
+| Delete player by ID
 |-----------------------------------------------
-| Deletes team with /:teamID
+| Deletes player with /:meetID
 |
 */
 
-router.delete('/:teamID', function (req, res, next) {
+router.delete('/:meetID', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
-  const teamID = parseInt(req.params.teamID);
-  deleteTeamByID(teamID, mysqlPool)
+  const meetID = parseInt(req.params.meetID);
+  deleteMeetByID(meetID, mysqlPool)
     .then((deleteSuccessful) => {
       if (deleteSuccessful) {
         res.status(204).end();
@@ -226,14 +213,14 @@ router.delete('/:teamID', function (req, res, next) {
     })
     .catch((err) => {
       res.status(500).json({
-        error: "Unable to delete team.  Please try again later."
+        error: "Unable to delete meet.  Please try again later."
       });
     });
 });
 
-function deleteTeamByID(teamID, mysqlPool) {
+function deleteMeetByID(meetID, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('DELETE FROM team WHERE id = ?', [ teamID ], function (err, result) {
+    mysqlPool.query('DELETE FROM meet WHERE id = ?', [ meetID ], function (err, result) {
       if (err) {
         reject(err);
       } else {
