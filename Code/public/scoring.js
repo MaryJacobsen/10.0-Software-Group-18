@@ -1,7 +1,9 @@
 var players = [];
 var playerIndex = 0;
+var judges = [];
 var teamName;
 var eventName;
+var url;
 
 function chooseEvent() {
   var elem = $(this);
@@ -12,8 +14,21 @@ function chooseEvent() {
 
 $("#event-select").one("change", chooseEvent);
 
+function getJudgeData() {
+  $.getJSON(url + '/judge/meet/' + )
+}
+
+function chooseJudge() {
+  var elem = $(this);
+  judgeName = elem.val();
+  $("#judge-select-text").text("Pick which judge is scoring " + eventName);
+  $("#judge-select-box").removeClass("hidden");
+}
+
+$("#judge-select").one("change", chooseJudge);
+
 function getTeamData() {
-  var url = window.location.origin;
+  url = window.location.origin;
   $.getJSON(url + "/team/teams", (data) => {
     var teams = [];
     console.log(data)

@@ -16,6 +16,7 @@
   </head>
 
   <body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
     <header>
       <h1 class="site-title"><a href="#">Scoring Software</a><span class="site-brand">10.0</span></h1>
@@ -25,17 +26,11 @@
           <li class="navitem navlink dropdown">
             <button class="dropbtn">Meet</button>
             <div class="dropdown-content">
-              <a href="#">Create Meet</a>
+              <a href="createMeet.html">Create Meet</a>
             </div>
           </li>
-          <li class="navitem navlink dropdown">
-            <button class="dropbtn">Lineup</button>
-            <div class="dropdown-content">
-              <a href="vaultLineup.html">Vault Lineup</a>
-              <a href="#">Bars Lineup</a>
-              <a href="#">Beam Lineup</a>
-              <a href="#">Floor Lineup</a>
-            </div>
+          <li class="navitem navlink">
+            <a href="./lineup.html">Lineup</a>
           </li>
           <li class="navitem navlink dropdown">
             <button class="dropbtn">Print</button>
@@ -44,44 +39,24 @@
               <a href="#">Print Judge Scoresheets</a>
             </div>
           </li>
-          <li class="navitem navlink dropdown">
-            <button class="dropbtn">Score</button>
-            <div class="dropdown-content">
-              <a href="vaultScoring.html">Score Vault</a>
-              <a href="#">Score Bars</a>
-              <a href="#">Score Beam</a>
-              <a href="#">Score Floor</a>
-            </div>
+          <li class="navitem navlink">
+            <a href="./scoring.html">Score</a>
           </li>
         </ul>
       </nav>
     </header>
 
     <main class="form-container">
-      <div class="form-box" id="number-of-teams-form">
-        <div class="form-box-header">
-          <h3 class="form-text">Number of Teams</h3>
-          <button type="button" class="form-hide-button" id="number-of-teams-button" value = "opened">hide</button>
-        </div>
-
-        <div class="form-box-content" id="number-of-teams-content">
-          <label for="num-teams">Number of Teams:</label>
-          <input type="text" id="num-teams" name="number-of-teams" placeholder="Insert Number of Teams">
-          <input type="submit" name="number-teams-accept" value="Accept">
+        <div class="form-box" id="num-team-box">
+          <h3 class="form-text" id="num-team-text">Number of Teams:</h3>
+          <input type="text" id="num-teams" placeholder="Insert Number of Teams">
+          <input type="submit" id="number-teams-accept" value="Accept">
         </div>
       </div>
 
-      <div class="form-box" id="name-of-teams">
-        <div class="form-box-header">
-          <h3 class="form-text">Name of teams</h3>
-          <button type="button" class="form-hide-button" id="name-team-button" value="close">open</button>
-        </div>
-
-        <div class="form-box-content hidden">
-          <label for="name-of-teams"> First team name:</label>
-          <input type="text" id="team-name" name="name-of-team" placeholder="Insert First Team Name">
-          <input type="submit" name="team-names" value="Accept">
-        </div>
+      <div class="form-box hidden" id="team-names-box">
+        <h3 class="form-text" id="name-of-team-text">Team Names</h3>
+        <input type="submit" id="name-accept" value="Accept">
       </div>
     </main>
 
