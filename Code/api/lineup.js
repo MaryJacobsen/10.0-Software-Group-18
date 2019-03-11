@@ -207,30 +207,24 @@ function insertNewLineup(lineup, mysqlPool) {
 router.put('/:lineupID', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const lineupID = parseInt(req.params.lineupID);
-  if (validation.validateAgainstSchema(req.body, lineupSchema)) {
-    replaceLineupByID(lineupID, req.body, mysqlPool)
-      .then((updateSuccessful) => {
-        if (updateSuccessful) {
-          res.status(200).json({
-            links: {
-              lineup: `/lineup/${lineupID}`
-            }
-          });
-        } else {
-          next();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          error: "Unable to update specified lineup.  Please try again later."
+  replaceLineupByID(lineupID, req.body, mysqlPool)
+    .then((updateSuccessful) => {
+      if (updateSuccessful) {
+        res.status(200).json({
+          links: {
+            lineup: `/lineup/${lineupID}`
+          }
         });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to update specified lineup.  Please try again later."
       });
-  } else {
-    res.status(400).json({
-      error: "Request body is not a valid lineup object"
     });
-  }
 });
 
 function replaceLineupByID(lineupID, lineup, mysqlPool) {

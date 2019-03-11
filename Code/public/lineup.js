@@ -4,6 +4,7 @@ var teams = [];
 var players = [];
 var meetID = Cookies.get('CookieMeetID');
 var teamID;
+var lineup;
 
 function getTeamData() {
   var url = window.location.origin;
@@ -11,7 +12,7 @@ function getTeamData() {
     var options = [];
     console.log(data)
     $.each(data, (key, val) => {
-      options.push("<option value='" + val.teamName + ">" + val.teamName + "</option>");
+      options.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
       var teamObj = {
         teamID: val.id,
         teamName: val.teamName
@@ -30,16 +31,28 @@ function chooseEvent() {
   eventName = elem.val();
   $("#team-select-text").text("Pick team to select " + eventName + " lineup");
   $("#team-select-box").removeClass("hidden");
-  checkIfLineupExists();
 }
 
 $("#event-select").one("change", chooseEvent);
+
+function checkIfLineupExists() {
+  var url = window.location.origin;
+  $.getJSON(url + "/lineup/" + meetID + "/" + teamID + "/" + eventName, (data) => {
+    if (data != undefined) {
+      lineup = [];
+      $.each(data, (key, val) => {
+        lineup.push(val.id);
+      });
+    }
+  });
+}
 
 function getPlayers() {
   var url = window.location.origin;
   teamName = $(this).val();
   for (var i = 0; i < teams.length; i++) {
     if (teams[i].teamName == teamName){
+      console.log("teams[i].teamName: " + teams[i].teamName);
       teamID = teams[i].teamID;
       break;
     }
@@ -58,6 +71,7 @@ function getPlayers() {
 
     $("[id='player-picker']").append(options.join(""));
   });
+  var exists = checkIfLineupExists();
 
   $("#player-card-text").text("Edit " + teamName + " lineup:")
   $("#player-card-box").removeClass("hidden");
@@ -77,46 +91,33 @@ function setPlayer() {
 
 $("[id='player-picker']").change(setPlayer);
 
-function checkIfLineupExists() {
-  var url = window.location.origin;
-  var lineup = [];
-  $.getJSON(url + "/lineup/" + meetID + "/" + teamID + "/" + eventName, (data, res) => {
-    if (res == "404")
-      return [];
-    else {
-      $.each(data, (data) => {
-        lineup.push(data);
-      });
-    }
-  });
-}
-
 function sendLineup() {
   var playerNames = $(".player-name");
   console.log(players);
   var data;
   var url = window.location.origin;
-  var lineup = checkIfLineupExists();
-  if (lineup == []) {
+  console.log("lineup: ", lineup);
+  if (lineup == undefined) {
     for (var i = 0; i < playerNames.length; i++) {
       var playerID;
-      for (var i = 0; i < players.length; i++) {
-        if ($(playerNames).text() == players[i].name) {
-          playerID = players[i].id;
+      for (var j = 0; j < players.length; j++) {
+        if ($(playerNames[i]).text() == players[j].name) {
+          playerID = players[j].playerID;
           break;
         }
       }
 
       data = {
         playerID: playerID,
-        order: i,
         teamID: teamID,
+        order: i,
         event: eventName,
         meetID: meetID
       }
+      console.log(data);
 
       $.ajax({
-        url: url + "/lineup/" + meetID + '/' + teamID + '/' + eventName,
+        url: url + "/lineup/",
         method: "post",
         data: data,
         success: () => {
@@ -125,11 +126,12 @@ function sendLineup() {
       });
     }
   } else {
+    console.log("playerNames.length: " + playerNames.length);
     for (var i = 0; i < playerNames.length; i++) {
       var playerID;
-      for (var i = 0; i < players.length; i++) {
-        if ($(playerNames).text() == players[i].name) {
-          playerID = players[i].id;
+      for (var j = 0; j < players.length; j++) {
+        if ($(playerNames[i]).text() == players[j].name) {
+          playerID = players[j].playerID;
           break;
         }
       }
@@ -138,16 +140,22 @@ function sendLineup() {
         playerID: playerID,
       }
 
+      console.log(lineup[i]);
+
       $.ajax({
-        url: url + "/lineup/" + lineup[i].id,
+        url: url + "/lineup/" + lineup[i],
         method: "put",
         data: data,
         success: () => {
           console.log("Sent object: " + data);
+        },
+        error: (err) => {
+          console.log(err.responseJSON);
         }
       });
+    }
   }
-  $("#lineup-complete-text").text(eventName + " lineup for " + teamName + " has been made.");
+  $("#lineup-complete-text").text(eventName.charAt(0).toUpperCase() + eventName.substr(1) + " lineup for " + teamName + " has been made.");
   $(".form-box").toggleClass("hidden");
 }
 
