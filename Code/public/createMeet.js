@@ -168,6 +168,7 @@ function postJudge(name, meet) {
   });
 }
 
+
 function submissionAccept() {
   var url = window.location.origin;
   var date = new Date();
@@ -183,6 +184,11 @@ function submissionAccept() {
     success: (data, res) => {
       console.log("postMeet-Succeeded in creating meet");
       console.log("postMeet-Data: " + data);
+      var inHalfAday = 0.5;
+      Cookies.set('CookieMeetID', data.id, {
+        expires: inHalfAday
+      });
+      console.log("Cookies.get('CookieMeetID'): " + Cookies.get('CookieMeetID'));
       for (var i = 0; i < teams.length; i++) {
         postTeam(teams[i], data.id);
       }
