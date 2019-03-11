@@ -4,7 +4,7 @@ const validation = require('../lib/validation');
 //schema for required and optional fields for a lineup object
 
 const lineupSchema = {
-  id: {required: true }, //medium int
+  id: {required: false }, //medium int
   playerID: { required: true }, //medium int
   teamID: { required: true }, //medium int
   order: { required: true }, //medium int
@@ -22,11 +22,11 @@ router.get('/:meetID/:teamID/:event/', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meet = req.params.meetID;
     const team = req.params.teamID;
-    const gymEvent = req.params.gymEvent;
+    const gymEvent = req.params.event;
     getLineupByEvent(meet, team, gymEvent, mysqlPool)
-    .then((gymEvent) => {
-      if (gymEvent) {
-        res.status(200).json(gymEvent);
+    .then((results) => {
+      if (results) {
+        res.status(200).json(results);
       } else {
           next();
       }

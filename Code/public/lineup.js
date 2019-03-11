@@ -1,16 +1,25 @@
 var eventName;
 var teamName;
+var teams = [];
+var players = [];
+var meetID = Cookies.get('CookieMeetID');
+var teamID;
 
 function getTeamData() {
   var url = window.location.origin;
-  $.getJSON(url + "/team/teams", (data) => {
-    var teams = [];
+  $.getJSON(url + "/team/" + meetID + '/meet', (data) => {
+    var options = [];
     console.log(data)
     $.each(data, (key, val) => {
-      teams.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
+      options.push("<option value='" + val.teamName + ">" + val.teamName + "</option>");
+      var teamObj = {
+        teamID: val.id,
+        teamName: val.teamName
+      }
+      teams.push(teamObj);
     });
 
-    $("#team-select").append(teams.join(""));
+    $("#team-select").append(options.join(""));
   });
 }
 
@@ -21,21 +30,33 @@ function chooseEvent() {
   eventName = elem.val();
   $("#team-select-text").text("Pick team to select " + eventName + " lineup");
   $("#team-select-box").removeClass("hidden");
+  checkIfLineupExists();
 }
 
 $("#event-select").one("change", chooseEvent);
 
 function getPlayers() {
   var url = window.location.origin;
-  teamName = this.value;
-  $.getJSON(url + "/player/" + this.value, (data) => {
-    var players = [];
+  teamName = $(this).val();
+  for (var i = 0; i < teams.length; i++) {
+    if (teams[i].teamName == teamName){
+      teamID = teams[i].teamID;
+      break;
+    }
+  }
+  $.getJSON(url + "/player/" + meetID + "/" + teamID, (data) => {
+    var options = [];
     console.log(data)
     $.each(data, (key, val) => {
-      players.push("<option value='" + val.name + "'>" + val.name + "</option>");
+      options.push("<option value='" + val.name + "'>" + val.name + "</option>");
+      var playerObj = {
+        playerID: val.id,
+        name: val.name
+      }
+      players.push(playerObj);
     });
 
-    $("[id='player-picker']").append(players.join(""));
+    $("[id='player-picker']").append(options.join(""));
   });
 
   $("#player-card-text").text("Edit " + teamName + " lineup:")
@@ -56,31 +77,78 @@ function setPlayer() {
 
 $("[id='player-picker']").change(setPlayer);
 
+function checkIfLineupExists() {
+  var url = window.location.origin;
+  var lineup = [];
+  $.getJSON(url + "/lineup/" + meetID + "/" + teamID + "/" + eventName, (data, res) => {
+    if (res == "404")
+      return [];
+    else {
+      $.each(data, (data) => {
+        lineup.push(data);
+      });
+    }
+  });
+}
+
 function sendLineup() {
-  var players = $(".player-name");
+  var playerNames = $(".player-name");
   console.log(players);
   var data;
   var url = window.location.origin;
-  for (var i = 0; i < players.length; i++) {
-    data = {
-      player: $(players[i]).text(),
-      order: i,
-      team: teamName,
-      event: eventName
-    }
-
-    $.ajax({
-      url: url + "/lineup",
-      method: "post",
-      data: data,
-      success: () => {
-        console.log("Sent object: " + data);
+  var lineup = checkIfLineupExists();
+  if (lineup == []) {
+    for (var i = 0; i < playerNames.length; i++) {
+      var playerID;
+      for (var i = 0; i < players.length; i++) {
+        if ($(playerNames).text() == players[i].name) {
+          playerID = players[i].id;
+          break;
+        }
       }
-    });
 
-    $("#lineup-complete-text").text(eventName + " lineup for " + teamName + " has been made.");
-    $(".form-box").toggleClass("hidden");
+      data = {
+        playerID: playerID,
+        order: i,
+        teamID: teamID,
+        event: eventName,
+        meetID: meetID
+      }
+
+      $.ajax({
+        url: url + "/lineup/" + meetID + '/' + teamID + '/' + eventName,
+        method: "post",
+        data: data,
+        success: () => {
+          console.log("Sent object: " + data);
+        }
+      });
+    }
+  } else {
+    for (var i = 0; i < playerNames.length; i++) {
+      var playerID;
+      for (var i = 0; i < players.length; i++) {
+        if ($(playerNames).text() == players[i].name) {
+          playerID = players[i].id;
+          break;
+        }
+      }
+
+      data = {
+        playerID: playerID,
+      }
+
+      $.ajax({
+        url: url + "/lineup/" + lineup[i].id,
+        method: "put",
+        data: data,
+        success: () => {
+          console.log("Sent object: " + data);
+        }
+      });
   }
+  $("#lineup-complete-text").text(eventName + " lineup for " + teamName + " has been made.");
+  $(".form-box").toggleClass("hidden");
 }
 
 $("#lineup-accept").click(sendLineup);
