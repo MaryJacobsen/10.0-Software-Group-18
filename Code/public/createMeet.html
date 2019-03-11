@@ -47,19 +47,33 @@
     </header>
 
     <main class="form-container">
-        <div class="form-box" id="num-team-box">
-          <h3 class="form-text" id="num-team-text">Number of Teams:</h3>
-          <input type="text" id="num-teams" placeholder="Insert Number of Teams">
-          <input type="submit" id="number-teams-accept" value="Accept">
-        </div>
+      <div class="form-box" id="num-team-box">
+        <h3 class="form-text" id="num-team-text">Number of Teams:</h3>
+        <input type="text" id="num-teams" placeholder="Insert Number of Teams">
+        <input type="submit" id="number-teams-accept" value="Accept">
       </div>
 
       <div class="form-box hidden" id="team-names-box">
         <h3 class="form-text" id="name-of-team-text">Team Names</h3>
         <input type="submit" id="name-accept" value="Accept">
       </div>
-    </main>
 
+      <div class="hidden" id="end"></div>
+
+      <div class="form-box hidden" id="judge-box">
+        <h3 class="form-text" id="num-judge-text">Number of Judges:</h3>
+        <input type="text" id="num-judges" placeholder="Insert Number of Judges">
+        <input type="submit" id="number-judges-accept" value="Accept">
+
+        <h3 class="form-text hidden" id="name-of-judges-text">Judge Names</h3>
+        <input class="hidden" type="submit" id="judge-accept" value="Accept">
+      </div>
+
+      <div class="form-box hidden" id="review-box">
+        <h3 class="form-text">Please double check all the information is correct before submitting.</h3>
+        <input type="submit" id="submission-accept" value="Submit Data">
+      </div>
+    </main>
   </body>
 
   <script src="createMeet.js" charset="utf-8"></script>

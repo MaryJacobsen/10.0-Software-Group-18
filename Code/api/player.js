@@ -2,7 +2,7 @@ const router = require('express').Router();
 const validation = require('../lib/validation');
 
 const playerSchema = {
-  id: { required: true }, //mediumint
+  id: { required: false }, //mediumint
   playerNum: { required: false }, //int
   name: { required: true }, //vrachar
   teamID: { required: true }, //mediumint

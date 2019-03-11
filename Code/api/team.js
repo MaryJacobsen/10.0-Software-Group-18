@@ -4,8 +4,8 @@ const validation = require('../lib/validation');
 //schema for required and optional fields for a team object
 
 const teamSchema = {
-  id: { required: true }, //mediumint
-  teamScore: { required: true }, //decimal
+  id: { required: false }, //mediumint
+  teamScore: { required: false }, //decimal
   teamName: { required: true }, //varchar
   vaultScore: { required: false }, //decimal
   barsScore: { required: false }, //decimal

@@ -278,18 +278,3 @@ select {
 .team-picker:hover {
   outline: none;
 }
-
-.add-button {
-  margin-left: auto;
-  font-size: 20px;
-  border: none;
-  background: none;
-  padding: 10px 0px;
-  cursor: pointer;
-}
-
-.add-button:hover,
-.add-button:focus {
-  outline: none;
-  color: #EE801E;
-}

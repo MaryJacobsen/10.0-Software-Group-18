@@ -4,7 +4,7 @@ const validation = require('../lib/validation');
 //schema for required and optional fields for a meet object
 
 const meetSchema = {
-  id: {required: true }, //medium int
+  id: {required: false }, //medium int
   name: { required: true } //var char
 };
 
