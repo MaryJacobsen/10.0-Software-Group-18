@@ -92,6 +92,58 @@ function getTeamByID(id, mysqlPool) {
 
 /*
 |-----------------------------------------------
+| Get total team score so far by ID
+|-----------------------------------------------
+| Gets team score by /:id
+*/
+/*
+router.get('/:id', function (req, res, next) {
+    console.log(" -- req.params:", req.params.id);
+    const mysqlPool = req.app.locals.mysqlPool;
+    const id = req.params.id;
+    getTeamByID(id, mysqlPool)
+    .then((results) => {
+      if(results[0] != null) {
+        totalScore = totalScore + results[0];
+      }
+      if(results[1] != null) {
+        totalScore = totalScore + results[1];
+      }
+      if(results[2] != null) {
+        totalScore = totalScore + results[2];
+      }
+      if(results[3] != null) {
+        totalScore = totalScore + results[3];
+      }
+      if (results) {
+        res.status(200).json(id);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to fetch team score.  Please try again later."
+      });
+    });
+});
+
+function getTeamByID(id, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT vaultScore barsScore beamScore floorScore FROM team WHERE id = ?', [ id ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+*/
+
+/*
+|-----------------------------------------------
 | Insert team
 |-----------------------------------------------
 | app.post('./team/ inserts a team

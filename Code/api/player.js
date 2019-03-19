@@ -53,6 +53,42 @@ function getPlayersByTeam(teamID, meetID, mysqlPool) {
 
 /*
 |-----------------------------------------------
+| Get player by id
+|-----------------------------------------------
+| router.get('/:playerID')
+*/
+router.get('/:playerID', function (req, res, next) {
+    const mysqlPool = req.app.locals.mysqlPool;
+    const playerID = req.params.playerID;
+    getPlayerByID(playerID, mysqlPool)
+    .then((player) => {
+      if (player) {
+        res.status(200).json(player);
+      } else {
+          next();
+      }
+    })
+    .catch((err) => {
+      res.status(500).json({
+        error: "Unable to fetch player with ID: " + playerID + ". Please try again later."
+      });
+    });
+});
+
+function getPlayerByID(playerID, mysqlPool) {
+  return new Promise((resolve, reject) => {
+    mysqlPool.query('SELECT * FROM player WHERE id = ?', [ playerID ], function (err, results) {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+
+/*
+|-----------------------------------------------
 | Get vault score by playerID, event, and meetID
 |-----------------------------------------------
 | router.get('/:meet/:name/vault')
