@@ -96,27 +96,29 @@ function getTeamByID(id, mysqlPool) {
 |-----------------------------------------------
 | Gets team score by /:id
 */
-/*
-router.get('/:id', function (req, res, next) {
+
+router.get('/score/:id', function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;
+
     getTeamByID(id, mysqlPool)
-    .then((results) => {
-      if(results[0] != null) {
-        totalScore = totalScore + results[0];
+    .then((scores) => {
+      let total = 0;
+      if(scores.vaultScore != null) {
+        total += scores.vaultScore;
       }
-      if(results[1] != null) {
-        totalScore = totalScore + results[1];
+      if(scores.barsScore != null) {
+        total += scores.barsScore;
       }
-      if(results[2] != null) {
-        totalScore = totalScore + results[2];
+      if(scores.beamScore != null) {
+        total += scores.beamScore;
       }
-      if(results[3] != null) {
-        totalScore = totalScore + results[3];
+      if(scores.floorScore != null) {
+        total += scores.floorScore;
       }
-      if (results) {
-        res.status(200).json(id);
+      if (total) {
+        res.status(200).json(total);
       } else {
           next();
       }
@@ -131,16 +133,16 @@ router.get('/:id', function (req, res, next) {
 
 function getTeamByID(id, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT vaultScore barsScore beamScore floorScore FROM team WHERE id = ?', [ id ], function (err, results) {
+    mysqlPool.query('SELECT * FROM team WHERE id = ?', [ id ], function (err, results) {
       if (err) {
         reject(err);
       } else {
-        resolve(results);
+        resolve(results[0]);
       }
     });
   });
 };
-*/
+
 
 /*
 |-----------------------------------------------
@@ -218,30 +220,24 @@ function insertNewTeam(team, mysqlPool) {
 router.put('/:teamID', function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const teamID = parseInt(req.params.teamID);
-  if (validation.validateAgainstSchema(req.body, teamSchema)) {
-    replaceTeamByID(teamID, req.body, mysqlPool)
-      .then((updateSuccessful) => {
-        if (updateSuccessful) {
-          res.status(200).json({
-            links: {
-              team: `/team/${teamID}`
-            }
-          });
-        } else {
-          next();
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        res.status(500).json({
-          error: "Unable to update specified team.  Please try again later."
+  replaceTeamByID(teamID, req.body, mysqlPool)
+    .then((updateSuccessful) => {
+      if (updateSuccessful) {
+        res.status(200).json({
+          links: {
+            team: `/team/${teamID}`
+          }
         });
+      } else {
+        next();
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({
+        error: "Unable to update specified team.  Please try again later."
       });
-  } else {
-    res.status(400).json({
-      error: "Request body is not a valid team object"
     });
-  }
 });
 
 function replaceTeamByID(teamID, team, mysqlPool) {
