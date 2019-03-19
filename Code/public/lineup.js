@@ -38,7 +38,7 @@ $("#event-select").one("change", chooseEvent);
 function checkIfLineupExists() {
   var url = window.location.origin;
   $.getJSON(url + "/lineup/" + meetID + "/" + teamID + "/" + eventName, (data) => {
-    if (data != undefined) {
+    if (data.length != 0) {
       lineup = [];
       $.each(data, (key, val) => {
         lineup.push(val.id);

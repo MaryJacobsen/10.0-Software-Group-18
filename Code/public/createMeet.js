@@ -197,6 +197,7 @@ function submissionAccept() {
       }
     }
   });
+  $('.form-box').toggleClass('hidden');
 }
 
 $('#submission-accept').one('click', submissionAccept);

@@ -77,7 +77,7 @@ router.get('/:playerID', function (req, res, next) {
 
 function getPlayerByID(playerID, mysqlPool) {
   return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM player WHERE id = ?', [ playerID ], function (err, results) {
+    mysqlPool.query('SELECT * FROM player WHERE id = ? LIMIT 1', [ playerID ], function (err, results) {
       if (err) {
         reject(err);
       } else {

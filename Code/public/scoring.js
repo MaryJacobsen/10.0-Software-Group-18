@@ -1,8 +1,12 @@
 var players = [];
-var playerIndex = 0;
+var teams = [];
 var judges = [];
-var teamName;
+var playerIndex = 0;
+var meetID = Cookies.get("CookieMeetID");
+var teamID;
+var judgeID;
 var eventName;
+var teamName;
 var url;
 
 function chooseEvent() {
@@ -10,53 +14,91 @@ function chooseEvent() {
   eventName = elem.val();
   $("#team-select-text").text("Pick team to score for " + eventName);
   $("#team-select-box").removeClass("hidden");
+  getJudgeData();
 }
 
 $("#event-select").one("change", chooseEvent);
 
 function getJudgeData() {
-  $.getJSON(url + '/judge/meet/' + )
+  $.getJSON(url + '/judge/meet/' + meetID, (data) => {
+    var options = [];
+    console.log(data);
+    $.each(data, (key, val) => {
+      options.push("<option value'" + val.name + "'>" + val.name + "</option>");
+      var judgeObj = {
+        name: val.name,
+        id: val.id
+      }
+      judges.push(judgeObj);
+    });
+    $('#judge-select').append(options.join(""));
+  });
 }
 
-function chooseJudge() {
-  var elem = $(this);
-  judgeName = elem.val();
+function getLineup() {
+  for (var i = 0; i < teams.length; i++) {
+    if (teams[i].teamName == $(this).val()) {
+      teamID = teams[i].teamID;
+      teamName = teams[i].teamName;
+      break;
+    }
+  }
+  //Get the lineup that is currently set.
+  $.getJSON(url + "/lineup/" + meetID + "/" + teamID + "/" + eventName, (data) => {
+    console.log(data);
+    //for each lineup object
+    $.each(data, (key, val) => {
+      //Get player based off playerID in order to get the gymnasts name
+      $.getJSON(url + "/player/" + val.playerID, (gymnast) => {
+        //push the playerName, playerID, and id into an array of players for storage
+        players.push({
+          name: gymnast[0].name,
+          playerID: val.playerID,
+          id: val.id
+        });
+      });
+    });
+  });
+  //Allow for judge scoring box to be seen
   $("#judge-select-text").text("Pick which judge is scoring " + eventName);
   $("#judge-select-box").removeClass("hidden");
 }
 
-$("#judge-select").one("change", chooseJudge);
+$("#team-select").one("change", getLineup);
 
 function getTeamData() {
   url = window.location.origin;
-  $.getJSON(url + "/team/teams", (data) => {
-    var teams = [];
+  $.getJSON(url + "/team/" + meetID + "/meet", (data) => {
+    var options = [];
     console.log(data)
     $.each(data, (key, val) => {
-      teams.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
+      options.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
+      var teamObj = {
+        teamID: val.id,
+        teamName: val.teamName
+      }
+      teams.push(teamObj);
     });
-
-    $("#team-select").append(teams.join(""));
+    $("#team-select").append(options.join(""));
   });
 }
 
 window.onload = getTeamData();
 
-function getLineup() {
-  var url = window.location.origin;
-  teamName = this.value;
-  $.getJSON(url + "/lineup/" + this.value + "/" + eventName, (data) => {
-    $.each(data, (key, val) => {
-      players.push(val.player);
-    });
-
-    $("#player-score-name").text(players[0]);
-  });
-
+function chooseJudge() {
+  var elem = $(this);
+  var judgeName = elem.val();
+  for (var i = 0; i < judges.length; i++) {
+    if (judges[i].name == $(this).val()) {
+      judgeID = judges[i].id;
+      break;
+    }
+  }
+  $("#player-score-name").text(players[0].name);
   $("#scoring-box").removeClass("hidden");
 }
 
-$("#team-select").one("change", getLineup);
+$("#judge-select").one("change", chooseJudge);
 
 function makeActive(event) {
   $(".active").removeClass("active");
@@ -66,26 +108,6 @@ function makeActive(event) {
 
 $(".score-button").click(makeActive);
 
-function getScoreObject() {
-  if (eventName == "vault") {
-    return scoreObject = {
-      vaultScore: parseFloat($(".active").text())
-    }
-  } else if (eventName == "bars") {
-    return scoreObject = {
-      barsScore: parseFloat($(".active").text())
-    }
-  } else if (eventName == "beam") {
-    return scoreObject = {
-      beamScore: parseFloat($(".active").text())
-    }
-  } else {
-    return scoreObject = {
-      floorScore: parseFloat($(".active").text())
-    }
-  }
-}
-
 function advancePlayers() {
   console.log("Advance");
   if (!$(".score-button").hasClass("active")) {
@@ -93,23 +115,31 @@ function advancePlayers() {
     return;
   }
 
-  scoreObject = getScoreObject();
+  scoreObject = {
+    playerID: players[playerIndex].playerID,
+    judgeID: judgeID,
+    score: parseFloat($('.active').text()),
+    event: eventName,
+    exhibition: 0,
+    meetID: meetID
+  }
 
   var url = window.location.origin;
   $.ajax({
-    url: url + "/player/" + $("#player-score-name").text(),
-    method: "PUT",
+    url: url + "/score/",
+    method: "post",
     // dataType: "json",
     data: scoreObject,
     success: () => {
       console.log("In success");
       playerIndex++;
-      $("#player-score-name").text(players[playerIndex]);
+      if (players[playerIndex] != undefined) {
+        $("#player-score-name").text(players[playerIndex].name);
 
-      $(".active").removeClass("active");
-
-      if (players[playerIndex] == undefined) {
-        $("#scoring-complete-text").text(eventName + " scoring for " + teamName + " has been completed");
+        $(".active").removeClass("active");
+      }
+      else {
+        $("#scoring-complete-text").text(eventName.charAt(0).toUpperCase() + eventName.substr(1) + " scoring for " + teamName + " has been completed");
         $(".form-box").toggleClass("hidden");
       }
     }
