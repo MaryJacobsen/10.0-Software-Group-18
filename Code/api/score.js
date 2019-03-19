@@ -106,7 +106,7 @@ router.get('/average/:meetID/:playerID/:event/', function (req, res, next) {
     const meetID = req.params.meetID;
     const playerID = req.params.playerID;
     const gymEvent = req.params.event;
-    getScoresByMeetID(playerID, gymEvent, meetID, mysqlPool)
+    getAverage(playerID, gymEvent, meetID, mysqlPool)
     .then((scores) => {
       //Average scores
       let avg = 0;
@@ -129,7 +129,7 @@ router.get('/average/:meetID/:playerID/:event/', function (req, res, next) {
     });
 });
 
-function getScoresByMeetID(playerID, gymEvent, meetID, mysqlPool) {
+function getAverage(playerID, gymEvent, meetID, mysqlPool) {
   return new Promise((resolve, reject) => {
     mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND playerID = ? AND event = ?', [ meetID, playerID, gymEvent ], function (err, results) {
       if (err) {
