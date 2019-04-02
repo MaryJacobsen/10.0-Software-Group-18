@@ -108,6 +108,34 @@ router.get('/average/:meetID/:playerID/:event/', function (req, res, next) {
     const gymEvent = req.params.event;
     getAverage(playerID, gymEvent, meetID, mysqlPool)
     .then((scores) => {
+      //if 4 or more scores, drop high and low
+      if(scores.length > 3){
+        var high = 0;
+        var low = 10.0;
+        for(var i = 0; i < scores.length; i++) {
+          if(scores[i].score > high) {
+            high = scores[i].score;
+          }
+          if(scores[i].score < low) {
+            low = scores[i].score;
+          }
+        }
+
+        for(var i = 0; i < scores.length; i++) {
+          if(scores[i].score == high) {
+            scores.splice(i, 1);
+            break;
+          }
+        }
+
+        for(var i = 0; i < scores.length; i++) {
+          if(scores[i].score == low) {
+            scores.splice(i, 1);
+            break;
+          }
+        }
+
+      }
       //Average scores
       let avg = 0;
       for (var i = 0; i < scores.length; i++) {
