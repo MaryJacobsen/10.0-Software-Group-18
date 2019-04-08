@@ -16,12 +16,12 @@ router.get('/createmeet', function(req, res, next) {
 });
 
 //Will serve Lineup page
-router.get('/lineup', function(req, res, next) {
+router.get('/setlineup', function(req, res, next) {
   res.render('lineupPage');
 });
 
 //Will serve scoring page
-router.get('/score', function(req, res, next) {
+router.get('/scoring', function(req, res, next) {
   res.render('scoringPage');
 });
 
