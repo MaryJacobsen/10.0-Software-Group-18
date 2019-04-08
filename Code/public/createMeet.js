@@ -62,7 +62,7 @@ function addPlayerBoxes(name) {
 
 function createPlayersBox(name) {
   var htmlStr = "<div class=\"form-box\" id=\"name-players\"><h3 class=\"form-text\">Number of Gymnasts for " + name + "</h3><input type=\"text\" id=\"" + name + "-num-players\" placeholder=\"Enter number of gymnasts for " + name + "\"><input type=\"submit\" id=\"" + name + "-num-accept\" value=\"Accept\"></div>";
-  $('#end').before(htmlStr);
+  $('#judge-box').before(htmlStr);
   $('#' + name + '-num-accept').one('click', () => {
     addPlayerBoxes(name)
   });
