@@ -6,4 +6,4 @@ router.use('/player', require('./player').router);
 router.use('/judge', require('./judge').router);
 router.use('/lineup', require('./lineup').router);
 router.use('/score', require('./score').router);
-router.use('/pages', require('./pages').router);
+router.use('/', require('./pages').router);
