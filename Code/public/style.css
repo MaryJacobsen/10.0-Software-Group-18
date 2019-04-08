@@ -278,3 +278,10 @@ select {
 .team-picker:hover {
   outline: none;
 }
+
+.error-text {
+  margin: 0;
+  padding: 10px 0px;
+  font-size: 25px;
+  font-weight: 50;
+}

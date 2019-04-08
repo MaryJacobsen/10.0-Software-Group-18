@@ -1,0 +1,70 @@
+<body>
+  {{> header}}
+
+  <main class="form-container">
+    {{> vbbfSelectBox}}
+    {{> selectBox}}
+    <div class="form-box hidden" id="player-card-box">
+      <h3 class="form-text" id="player-card-text"></h3>
+
+      <div class="player-card first">
+        <h3 class="lineup-number">1:</h3>
+        <h3 class="player-name hidden"></h3>
+        <select id="player-picker">
+          <option value="" selected disabled hidden>Choose gymnast</option>
+        </select>
+      </div>
+
+      <div class="player-card">
+        <h3 class="lineup-number">2:</h3>
+        <h3 class="player-name hidden"></h3>
+        <select id="player-picker">
+          <option value="" selected disabled hidden>Choose gymnast</option>
+        </select>
+      </div>
+
+      <div class="player-card">
+        <h3 class="lineup-number">3:</h3>
+        <h3 class="player-name hidden"></h3>
+        <select id="player-picker">
+          <option value="" selected disabled hidden>Choose gymnast</option>
+        </select>
+      </div>
+
+      <div class="player-card">
+        <h3 class="lineup-number">4:</h3>
+        <h3 class="player-name hidden"></h3>
+        <select id="player-picker">
+          <option value="" selected disabled hidden>Choose gymnast</option>
+        </select>
+      </div>
+
+      <div class="player-card">
+        <h3 class="lineup-number">5:</h3>
+        <h3 class="player-name hidden"></h3>
+        <select id="player-picker">
+          <option value="" selected disabled hidden>Choose gymnast</option>
+        </select>
+      </div>
+
+      <div class="player-card">
+        <h3 class="lineup-number">6:</h3>
+        <h3 class="player-name hidden"></h3>
+        <select id="player-picker">
+          <option value="" selected disabled hidden>Choose gymnast</option>
+        </select>
+      </div>
+
+      <input type="submit" id="lineup-accept" value="Accept">
+    </div>
+
+    <div class="form-box hidden" id="lineup-complete">
+      <h3 class="form-text" id="lineup-complete-text"></h3>
+    </div>
+  </main>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.10/handlebars.runtime.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="/lineup.js"></script>
