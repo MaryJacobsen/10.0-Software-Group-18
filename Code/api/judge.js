@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
-const { requireAuthentication } = require('../lib/auth');
+const { requireAuthentication, requireAdmin } = require('../lib/auth');
 
 //schema for required and optional fields for a judge object
 
@@ -17,7 +17,7 @@ const judgeSchema = {
 | gets all judges
 |
 */
-router.get('/', function (req, res, next) {
+router.get('/', requireAdmin, function (req, res, next) {
     // console.log("/team/teams");
     const mysqlPool = req.app.locals.mysqlPool;
     getJudges(mysqlPool)
@@ -96,7 +96,7 @@ function getJudgesByMeetID(id, mysqlPool) {
 |
 */
 
-router.post('/', function (req, res, next) {
+router.post('/', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   console.log("request: " + req.body.name + req.body.meetID)
   if (req.body && req.body.name && req.body.meetID) {
@@ -155,7 +155,7 @@ function insertNewJudge(judge, mysqlPool) {
 |
 */
 
-router.put('/:judgeID', function (req, res, next) {
+router.put('/:judgeID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const id = parseInt(req.params.judgeID);
   if (validation.validateAgainstSchema(req.body, judgeSchema)) {
@@ -205,7 +205,7 @@ function replaceJudgeByID(id, judge, mysqlPool) {
 |
 */
 
-router.delete('/:judgeID', function (req, res, next) {
+router.delete('/:judgeID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const judgeID = parseInt(req.params.judgeID);
   deleteTeamByID(judgeID, mysqlPool)

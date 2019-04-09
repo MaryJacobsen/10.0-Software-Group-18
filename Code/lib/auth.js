@@ -34,10 +34,6 @@ function requireAuthentication(req, res, next) {
   });
 }
 
-<<<<<<< HEAD
-exports.generateAuthToken = generateAuthToken;
-exports.requireAuthentication = requireAuthentication;
-=======
 function requireAdmin(req, res, next) {
   const authHeader = req.get('Authorization') || '';
   const authHeaderParts = authHeader.split(' ');
@@ -48,9 +44,12 @@ function requireAdmin(req, res, next) {
       next();
     } else {
       res.status(401).json({
-        error: "Invalid authentication token"
+        error: "Unauthorized authentication token"
       });
     }
   });
 }
->>>>>>> b4c22e84f62f1855a73433f29112afc7c53acff8
+
+exports.generateAuthToken = generateAuthToken;
+exports.requireAuthentication = requireAuthentication;
+exports.requireAdmin = requireAdmin;

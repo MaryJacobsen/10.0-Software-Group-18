@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
+const { requireAuthentication, requireAdmin } = require('../lib/auth');
 
 //schema for required and optional fields for a meet object
 
@@ -16,7 +17,7 @@ const meetSchema = {
 |
 */
 
-router.get('/', function (req, res, next) {
+router.get('/', requireAdmin, function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     getMeets(mysqlPool)
     .then((meets) => {
@@ -54,7 +55,7 @@ function getMeets(mysqlPool) {
 | Gets meet by /:id
 */
 
-router.get('/:id', function (req, res, next) {
+router.get('/:id', requireAdmin, function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;
     getMeetByID(id, mysqlPool)
@@ -93,7 +94,7 @@ function getMeetByID(id, mysqlPool) {
 |
 */
 
-router.post('/', function (req, res, next) {
+router.post('/', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   if (req.body && req.body.name) {
     insertNewMeet(req.body, mysqlPool)
@@ -150,7 +151,7 @@ function insertNewMeet(meet, mysqlPool) {
 |
 */
 
-router.put('/:meetID', function (req, res, next) {
+router.put('/:meetID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const meetID = parseInt(req.params.meetID);
   if (validation.validateAgainstSchema(req.body, meetSchema)) {
@@ -200,7 +201,7 @@ function replaceMeetByID(meetID, meet, mysqlPool) {
 |
 */
 
-router.delete('/:meetID', function (req, res, next) {
+router.delete('/:meetID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const meetID = parseInt(req.params.meetID);
   deleteMeetByID(meetID, mysqlPool)

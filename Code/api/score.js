@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
-const { requireAuthentication } = require('../lib/auth');
+const { requireAuthentication, requireAdmin } = require('../lib/auth');
 
 //schema for required and optional fields for a score object
 
@@ -21,7 +21,7 @@ const scoreSchema = {
 | gets all scores
 |
 */
-router.get('/', function (req, res, next) {
+router.get('/', requireAdmin, function (req, res, next) {
     // console.log("/team/teams");
     const mysqlPool = req.app.locals.mysqlPool;
     getScores(mysqlPool)
@@ -60,7 +60,7 @@ function getScores(mysqlPool) {
 | Gets all scores in :meetID
 */
 
-router.get('/meet/:meetID', function (req, res, next) {
+router.get('/meet/:meetID', requireAdmin, function (req, res, next) {
     console.log(" -- req.params:", req.params.meetID);
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
@@ -101,7 +101,7 @@ function getScoresByMeetID(id, mysqlPool) {
 | Returns: averageScore
 */
 
-router.get('/average/:meetID/:playerID/:event/', function (req, res, next) {
+router.get('/average/:meetID/:playerID/:event/', requireAdmin, function (req, res, next) {
     console.log(" -- req.params:", req.params.playerID, req.params.event);
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
@@ -242,7 +242,7 @@ function insertNewScore(score, mysqlPool) {
 |
 */
 
-router.put('/:scoreID', function (req, res, next) {
+router.put('/:scoreID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const id = parseInt(req.params.scoreID);
   if (validation.validateAgainstSchema(req.body, scoreSchema)) {
@@ -293,7 +293,7 @@ function replaceScoreByID(id, score, mysqlPool) {
 |
 */
 
-router.delete('/:scoreID', function (req, res, next) {
+router.delete('/:scoreID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const scoreID = parseInt(req.params.scoreID);
   deleteTeamByID(scoreID, mysqlPool)

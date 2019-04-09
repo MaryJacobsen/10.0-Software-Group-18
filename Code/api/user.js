@@ -2,7 +2,7 @@ const router = require('express').Router();
 const validation = require('../lib/validation');
 const bcrypt = require('bcryptjs');
 
-const { generateAuthToken, requireAuthentication } = require('../lib/auth');
+const { generateAuthToken, requireAuthentication, requireAdmin } = require('../lib/auth');
 
 //schema for required and optional fields for a meet object
 
@@ -22,20 +22,16 @@ router.post('/login', function(req, res){
     getUserByUsername(req.body.username, mysqlPool)
     .then((user) => {
       if(user){
-<<<<<<< HEAD
-        console.log(user);
-        return bcrypt.compare(req.body.password, user.hash);
-=======
         // return bcrypt.compare(req.body.password, user.hash);
         if (bcrypt.compare(req.body.password, user.hash)) {
           return user;
         }
->>>>>>> b4c22e84f62f1855a73433f29112afc7c53acff8
       }else{
         return Promise.reject(401);
       }
     })
     .then((loginSuccessful) => {
+        console.log(loginSuccessful);
         if (loginSuccessful) {
           return generateAuthToken(loginSuccessful.username, loginSuccessful.auth);
         } else {
