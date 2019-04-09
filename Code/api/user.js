@@ -19,9 +19,10 @@ const userSchema = {
 router.post('/login', function(req, res){
   const mysqlPool = req.app.locals.mysqlPool;
   if (req.body && req.body.username && req.body.password) {
-    getUserByUsername(req.body.usernames, mysqlPool)
+    getUserByUsername(req.body.username, mysqlPool)
     .then((user) => {
       if(user){
+        console.log(user);
         return bcrypt.compare(req.body.password, user.hash);
       }else{
         return Promise.reject(401);
@@ -64,10 +65,11 @@ function getUserByUsername(username, mysqlPool){
       'SELECT * FROM user WHERE username = ?',
       [ username ],
       function (err, results) {
+        console.log(results);
         if (err) {
           reject(err);
         } else {
-          resolve(results);
+          resolve(results[0]);
         }
       }
     );

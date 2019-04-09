@@ -30,3 +30,6 @@ function requireAuthentication(req, res, next) {
     }
   });
 }
+
+exports.generateAuthToken = generateAuthToken;
+exports.requireAuthentication = requireAuthentication;

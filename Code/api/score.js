@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
+const { requireAuthentication } = require('../lib/auth');
 
 //schema for required and optional fields for a score object
 
@@ -177,7 +178,7 @@ function getAverage(playerID, gymEvent, meetID, mysqlPool) {
 |
 */
 
-router.post('/', function (req, res, next) {
+router.post('/', requireAuthentication, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   console.log("request: \nplayerID:" + req.body.playerID + "\nscore:" + req.body.score + "\njudgeID:" + req.body.judgeID + "\nevent:" + req.body.event + "\nmeetID:" + req.body.meetID);
   if (req.body && req.body.playerID && req.body.judgeID && req.body.score && req.body.event && req.body.exhibition && req.body.meetID) {

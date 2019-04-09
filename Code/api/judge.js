@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
+const { requireAuthentication } = require('../lib/auth');
 
 //schema for required and optional fields for a judge object
 
@@ -55,7 +56,7 @@ function getJudges(mysqlPool) {
 | Gets all judges in :meetID
 */
 
-router.get('/meet/:meetID', function (req, res, next) {
+router.get('/meet/:meetID', requireAuthentication, function (req, res, next) {
     console.log(" -- req.params:", req.params.meetID);
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
