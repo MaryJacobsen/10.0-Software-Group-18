@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded( {extended: true }));
 app.use(express.static('public'));
 app.use(sessions({
   cookieName: 'meetSession', //key name added to request onject
-  secret: process.env.SESSIONS,
+  secret: "process.env.SESSIONS",
   duration: 12 * 60 * 60 * 1000,
   activeDuration: 1000 * 60 * 60
 }));
