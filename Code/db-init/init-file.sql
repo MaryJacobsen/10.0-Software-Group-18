@@ -171,3 +171,11 @@ VALUES ((SELECT `id` FROM `player` LIMIT 1),
   0,
   (SELECT `id` FROM `meet` LIMIT 1));
 UNLOCK TABLES;
+
+CREATE TABLE `user` (
+  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `auth` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
