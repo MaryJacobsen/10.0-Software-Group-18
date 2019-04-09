@@ -22,15 +22,22 @@ router.post('/login', function(req, res){
     getUserByUsername(req.body.username, mysqlPool)
     .then((user) => {
       if(user){
+<<<<<<< HEAD
         console.log(user);
         return bcrypt.compare(req.body.password, user.hash);
+=======
+        // return bcrypt.compare(req.body.password, user.hash);
+        if (bcrypt.compare(req.body.password, user.hash)) {
+          return user;
+        }
+>>>>>>> b4c22e84f62f1855a73433f29112afc7c53acff8
       }else{
         return Promise.reject(401);
       }
     })
     .then((loginSuccessful) => {
         if (loginSuccessful) {
-          return generateAuthToken(req.body.username);
+          return generateAuthToken(loginSuccessful.username, loginSuccessful.auth);
         } else {
           return Promise.reject(401);
         }

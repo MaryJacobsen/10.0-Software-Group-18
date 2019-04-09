@@ -2,9 +2,12 @@ const jwt = require('jsonwebtoken');
 
 const secretKey = 'hunter2';
 
-function generateAuthToken(userID) {
+function generateAuthToken(userID, auth) {
   return new Promise((resolve, reject) => {
-    const payload = { sub: userID };
+    const payload = {
+      sub: userID,
+      auth: auth
+    };
     jwt.sign(payload, secretKey, {expiresIn: '12h'}, (err, token) => {
       if(err) {
         reject(err);
@@ -31,5 +34,23 @@ function requireAuthentication(req, res, next) {
   });
 }
 
+<<<<<<< HEAD
 exports.generateAuthToken = generateAuthToken;
 exports.requireAuthentication = requireAuthentication;
+=======
+function requireAdmin(req, res, next) {
+  const authHeader = req.get('Authorization') || '';
+  const authHeaderParts = authHeader.split(' ');
+  const token = authHeaderParts[0] === 'Bearer' ? authHeaderParts[1] : null;
+  jwt.verify(token, secretKey, (err, payload) => {
+    if (!err && payload.auth == 1) {
+      req.user = payload.sub;
+      next();
+    } else {
+      res.status(401).json({
+        error: "Invalid authentication token"
+      });
+    }
+  });
+}
+>>>>>>> b4c22e84f62f1855a73433f29112afc7c53acff8
