@@ -99,6 +99,7 @@ router.post('/', requireAdmin, function (req, res, next) {
   if (req.body && req.body.name) {
     insertNewMeet(req.body, mysqlPool)
       .then((id) => {
+        req.meetSession.currentMeet = id;
         res.status(201).json({
           id: id,
           links: {

@@ -27,7 +27,7 @@ router.get('/:meetID/meet', requireAdmin, function (req, res, next) {
     getTeamByMeetID(meetID, mysqlPool)
     .then((meetID) => {
       if (meetID) {
-        res.status(200).json(meetID);
+        res.status(200).json(meetID + req.meetSession.currentMeet);
       } else {
           next();
       }

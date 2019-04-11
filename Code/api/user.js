@@ -13,7 +13,16 @@ const userSchema = {
   hash: { required: true }  // var char
 };
 
+router.get('/endSession', function(req, res) {
+  req.meetSession.reset();
+  res.redirect('/');
+});
 
+router.get('/getSession', function(req, res){
+  res.status(200).json({
+    meetSession: req.meetSession.currentMeet
+  });
+});
 
 /* POST login auth*/
 router.post('/login', function(req, res){
@@ -39,9 +48,18 @@ router.post('/login', function(req, res){
         }
     })
     .then((token) => {
-      res.status(200).json({
-        token: token
-      });
+      if(req.meetSession.currentMeet != null)
+      {
+        res.status(200).json({
+          token: token,
+          meetSession: req.meetSession.currentMeet
+        });
+      }
+      else {
+        res.status(200).json({
+          token: token
+        });
+      }
     })
     .catch((err) => {
         console.log(err);
