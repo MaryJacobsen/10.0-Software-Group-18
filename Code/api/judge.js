@@ -236,3 +236,4 @@ function deleteTeamByID(judgeID, mysqlPool) {
 }
 
 exports.router = router;
+exports.getJudgesByMeetID = getJudgesByMeetID;
