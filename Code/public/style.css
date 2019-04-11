@@ -205,6 +205,14 @@ input[type=submit]:hover {
   font-weight: 100;
 }
 
+.login-error-text {
+  margin: 0;
+  padding: 10px 0px;
+  font-size: 25px;
+  font-weight: 50;
+  color: #E75B10;
+}
+
 .form-hide-button {
   margin-left: auto;
   font-size: 30px;

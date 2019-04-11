@@ -32,7 +32,7 @@ router.post('/login', function(req, res){
     .then((user) => {
       if(user){
         // return bcrypt.compare(req.body.password, user.hash);
-        if (bcrypt.compare(req.body.password, user.hash)) {
+        if (bcrypt.compareSync(req.body.password, user.hash)) {
           return user;
         }
       }else{
@@ -40,7 +40,6 @@ router.post('/login', function(req, res){
       }
     })
     .then((loginSuccessful) => {
-        console.log(loginSuccessful);
         if (loginSuccessful) {
           return generateAuthToken(loginSuccessful.username, loginSuccessful.auth);
         } else {
@@ -50,14 +49,23 @@ router.post('/login', function(req, res){
     .then((token) => {
       if(req.meetSession.currentMeet != null)
       {
-        res.status(200).json({
+        let json = JSON.stringify({
           token: token,
           meetSession: req.meetSession.currentMeet
         });
+        res.cookie('cookieName', json, { maxAge: 900000, httpOnly: false });
+        res.status(200).json({
+          success: "Login Successful."
+        });
       }
       else {
+        let json = JSON.stringify({
+          token: token,
+          meetSession: null
+        });
+        res.cookie('cookieName', json, { maxAge: 900000, httpOnly: false });
         res.status(200).json({
-          token: token
+          success: "Login Successful."
         });
       }
     })
@@ -86,7 +94,6 @@ function getUserByUsername(username, mysqlPool){
       'SELECT * FROM user WHERE username = ?',
       [ username ],
       function (err, results) {
-        console.log(results);
         if (err) {
           reject(err);
         } else {

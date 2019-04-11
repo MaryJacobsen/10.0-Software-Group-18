@@ -100,6 +100,11 @@ router.post('/', requireAdmin, function (req, res, next) {
     insertNewMeet(req.body, mysqlPool)
       .then((id) => {
         req.meetSession.currentMeet = id;
+        let json = JSON.stringify({
+          token: token,
+          meetSession: id
+        });
+        res.cookie('cookieName', json, { maxAge: 900000, httpOnly: false });
         res.status(201).json({
           id: id,
           links: {
