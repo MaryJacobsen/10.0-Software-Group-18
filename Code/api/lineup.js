@@ -19,7 +19,7 @@ const lineupSchema = {
 |-----------------------------------------------
 | Gets teams by /:meetID/:teamID/:event
 */
-router.get('/:meetID/:teamID/:event/', requireAuthentication, function (req, res, next) {
+router.get('/:meetID/:teamID/:event/', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meet = req.params.meetID;
     const team = req.params.teamID;
@@ -60,7 +60,7 @@ function getLineupByEvent(meet, team, gymEvent, mysqlPool) {
 | Returns: total score of top 5
 */
 
-router.get('/score/:meetID/:teamID/:event', requireAdmin, function (req, res, next) {
+router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
     console.log(" -- req.params:", req.params.teamID, req.params.event);
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;

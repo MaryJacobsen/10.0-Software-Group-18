@@ -21,7 +21,7 @@ const playerSchema = {
 |-----------------------------------------------
 | router.get('/:meetID/:teamID')
 */
-router.get('/:meetID/:teamID', requireAuthentication, function (req, res, next) {
+router.get('/:meetID/:teamID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const teamID = req.params.teamID;
     const meetID = req.params.meetID;
@@ -58,7 +58,7 @@ function getPlayersByTeam(teamID, meetID, mysqlPool) {
 |-----------------------------------------------
 | router.get('/:playerID')
 */
-router.get('/:playerID', requireAuthentication, function (req, res, next) {
+router.get('/:playerID', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const playerID = req.params.playerID;
     getPlayerByID(playerID, mysqlPool)
@@ -94,7 +94,7 @@ function getPlayerByID(playerID, mysqlPool) {
 |-----------------------------------------------
 | router.get('/:meet/:name/vault')
 */
-router.get('/:playerID/vault', requireAdmin, function (req, res, next) {
+router.get('/:playerID/vault', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const player = req.params.playerID;
     getVaultScoreByID(player, mysqlPool)
@@ -131,7 +131,7 @@ function getVaultScoreByID(player, mysqlPool) {
 |-----------------------------------------------
 | router.get('/:playerID/bars'
 */
-router.get('/:playerID/bars', requireAdmin, function (req, res, next) {
+router.get('/:playerID/bars', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const player = req.params.playerID;
     getBarsScoreByID(player, mysqlPool)
@@ -167,7 +167,7 @@ function getBarsScoreByID(player, mysqlPool) {
 |-----------------------------------------------
 | router.get('/:playerID/beam'
 */
-router.get('/:playerID/beam', requireAdmin, function (req, res, next) {
+router.get('/:playerID/beam', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const player = req.params.playerID;
     getBeamScoreByID(player, mysqlPool)
@@ -203,7 +203,7 @@ function getBeamScoreByID(player, mysqlPool) {
 |-----------------------------------------------
 | router.get('/:playerID/floor'
 */
-router.get('/:playerID/floor', requireAdmin, function (req, res, next) {
+router.get('/:playerID/floor', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const player = req.params.playerID;
     getFloorScoreByID(player, mysqlPool)
@@ -240,7 +240,7 @@ function getFloorScoreByID(player, mysqlPool) {
 |-----------------------------------------------
 | router.get('/:playerID/AA'
 */
-router.get('/:playerID/AA', requireAdmin, function (req, res, next) {
+router.get('/:playerID/AA', function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const player = req.params.playerID;
     getAAScoreByID(player, mysqlPool)

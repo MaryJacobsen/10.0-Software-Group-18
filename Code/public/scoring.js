@@ -1,6 +1,6 @@
 var players = [];
 var playerIndex = 0;
-var meetID = 24;
+var meetID = Cookies.getJSON('credentials').meetSession;
 var teamID;
 var eventName;
 var teamName;
@@ -154,6 +154,9 @@ function advancePlayers() {
     $.ajax({
       url: url + "/score/",
       method: "post",
+      headers: {
+        "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+      },
       // dataType: "json",
       data: scoreObject,
       success: () => {console.log("Post succeeded");}

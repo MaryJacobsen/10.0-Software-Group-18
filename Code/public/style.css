@@ -73,6 +73,9 @@ a:focus {
   color: #000000;
 }
 
+.right {
+  float: right;
+}
 
 /* Dropdown Button */
 .dropbtn {

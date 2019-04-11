@@ -2,6 +2,18 @@ const jwt = require('jsonwebtoken');
 
 const secretKey = 'hunter2';
 
+function checkAuthToken(token, authLevel) {
+  return new Promise((resolve, reject) => {
+    jwt.verify(token, secretKey, (err, payload) => {
+      if (!err && payload.auth >= authLevel) {
+        resolve();
+      } else {
+        reject(403);
+      }
+    });
+  })
+}
+
 function generateAuthToken(userID, auth) {
   return new Promise((resolve, reject) => {
     const payload = {
@@ -53,3 +65,4 @@ function requireAdmin(req, res, next) {
 exports.generateAuthToken = generateAuthToken;
 exports.requireAuthentication = requireAuthentication;
 exports.requireAdmin = requireAdmin;
+exports.checkAuthToken = checkAuthToken;

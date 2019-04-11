@@ -118,6 +118,9 @@ function postPlayer(name, meet, team) {
   $.ajax({
     url: url + '/player/',
     method: 'POST',
+    headers: {
+      "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+    },
     data: playerObj,
     dataType: 'JSON',
     success: (data, res) => {
@@ -137,6 +140,9 @@ function postTeam(name, meet) {
     url: url + '/team',
     method: 'POST',
     data: teamObj,
+    headers: {
+      "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+    },
     dataType: 'JSON',
     success: (data, res) => {
       console.log("postTeam-Succeeded in creating team: " + name);
@@ -159,6 +165,9 @@ function postJudge(name, meet) {
   $.ajax({
     url: url + '/judge',
     method: 'POST',
+    headers: {
+      "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+    },
     data: judgeObj,
     dataType: 'JSON',
     success: (data, res) => {
@@ -176,11 +185,15 @@ function submissionAccept() {
   var meetObj = {
     name: nameStr
   }
+  console.log(Cookies.getJSON('credentials').token);
   $.ajax({
     url: url + '/meet/',
     method: 'POST',
     data: meetObj,
     dataType: 'JSON',
+    headers: {
+      "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+    },
     success: (data, res) => {
       console.log("postMeet-Succeeded in creating meet");
       console.log("postMeet-Data: " + data);

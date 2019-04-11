@@ -1,6 +1,6 @@
 var eventName;
 var teamName;
-var meetID = 24;
+var meetID = Cookies.getJSON('credentials').meetSession;
 var teamID;
 var lineup;
 
@@ -83,6 +83,9 @@ function sendLineup() {
       $.ajax({
         url: url + "/lineup/",
         method: "post",
+        headers: {
+          "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+        },
         data: data,
         success: () => {
           console.log("Sent object: " + data);
@@ -102,6 +105,9 @@ function sendLineup() {
       $.ajax({
         url: url + "/lineup/" + lineup[i],
         method: "put",
+        headers: {
+          "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+        },
         data: data,
         success: () => {
           console.log("Sent object: " + data);

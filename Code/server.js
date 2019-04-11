@@ -24,25 +24,6 @@ app.use(sessions({
   activeDuration: 1000 * 60 * 60
 }));
 
-// // set a cookie
-// app.use(function (req, res, next) {
-//   // check if client sent cookie
-//   var cookie = req.cookies.cookieName;
-//   if (cookie === undefined)
-//   {
-//     // no: set a new cookie
-//     let meetID = req.meetSession.currentMeet;
-//     res.cookie('cookieName', meetID, { maxAge: 900000, httpOnly: true });
-//     console.log('cookie created successfully');
-//   }
-//   else
-//   {
-//     // yes, cookie was already present
-//     console.log('cookie exists', cookie);
-//   }
-//   next(); // <-- important!
-// });
-
 app.listen(port, () => {
       console.log("== Server is running on port", port);
 });

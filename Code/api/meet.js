@@ -101,7 +101,7 @@ router.post('/', requireAdmin, function (req, res, next) {
       .then((id) => {
         req.meetSession.currentMeet = id;
         let json = JSON.stringify({
-          token: token,
+          token: JSON.parse(req.cookies.credentials).token,
           meetSession: id
         });
         res.cookie('credentials', json, { maxAge: 900000, httpOnly: false });
