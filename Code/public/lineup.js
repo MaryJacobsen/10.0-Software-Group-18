@@ -1,30 +1,8 @@
 var eventName;
 var teamName;
-var teams = [];
-var players = [];
-var meetID = Cookies.get('CookieMeetID');
+var meetID = 24;
 var teamID;
 var lineup;
-
-function getTeamData() {
-  var url = window.location.origin;
-  $.getJSON(url + "/team/" + meetID + '/meet', (data) => {
-    var options = [];
-    console.log(data)
-    $.each(data, (key, val) => {
-      options.push("<option value='" + val.teamName + "'>" + val.teamName + "</option>");
-      var teamObj = {
-        teamID: val.id,
-        teamName: val.teamName
-      }
-      teams.push(teamObj);
-    });
-
-    $("#team-select").append(options.join(""));
-  });
-}
-
-window.onload = getTeamData();
 
 function chooseEvent() {
   var elem = $(this);
@@ -49,29 +27,18 @@ function checkIfLineupExists() {
 
 function getPlayers() {
   var url = window.location.origin;
-  teamName = $(this).val();
-  for (var i = 0; i < teams.length; i++) {
-    if (teams[i].teamName == teamName){
-      console.log("teams[i].teamName: " + teams[i].teamName);
-      teamID = teams[i].teamID;
-      break;
-    }
-  }
+  teamID = $(this).val();
+  teamName = $('#team-select option:selected').text();
+  console.log("teamID: " + teamID + "\nteamName: " + teamName);
   $.getJSON(url + "/player/" + meetID + "/" + teamID, (data) => {
     var options = [];
-    console.log(data)
     $.each(data, (key, val) => {
-      options.push("<option value='" + val.name + "'>" + val.name + "</option>");
-      var playerObj = {
-        playerID: val.id,
-        name: val.name
-      }
-      players.push(playerObj);
+      options.push("<option value='" + val.id + "'>" + val.name + "</option>");
     });
 
-    $("[id='player-picker']").append(options.join(""));
+    $(".player-picker").append(options.join(""));
   });
-  var exists = checkIfLineupExists();
+  checkIfLineupExists();
 
   $("#player-card-text").text("Edit " + teamName + " lineup:")
   $("#player-card-box").removeClass("hidden");
@@ -80,32 +47,29 @@ function getPlayers() {
 $("#team-select").one("change", getPlayers);
 
 function setPlayer() {
-  var elem = $(this);
-  playerText = elem.parent().children(".player-name");
-  playerName = elem.val();
+  //Super stupid way to get the last part of the id which is the unique number for it.
+  var id = $(this).attr('id');
+  var itr = id.split("-");
+  itr = parseInt(itr[2], 10);
 
-  $(this).addClass("player-select");
-  playerText.text(playerName);
-  playerText.removeClass("hidden");
+  var playerName = $('#player-picker-' + itr + ' option:selected').text();
+  console.log("Player name: " + playerName);
+  $('#player-name-' + itr).text(playerName);
+
+  $(this).addClass("player-selected");
+  $('#player-name-' + itr).removeClass("hidden");
 }
 
-$("[id='player-picker']").change(setPlayer);
+$(".player-picker").change(setPlayer);
 
 function sendLineup() {
   var playerNames = $(".player-name");
-  console.log(players);
   var data;
   var url = window.location.origin;
   console.log("lineup: ", lineup);
   if (lineup == undefined) {
-    for (var i = 0; i < playerNames.length; i++) {
-      var playerID;
-      for (var j = 0; j < players.length; j++) {
-        if ($(playerNames[i]).text() == players[j].name) {
-          playerID = players[j].playerID;
-          break;
-        }
-      }
+    for (var i = 0; i < 6; i++) {
+      var playerID = $('#player-picker-' + i + " option:selected").val();
 
       data = {
         playerID: playerID,
@@ -113,7 +77,7 @@ function sendLineup() {
         order: i,
         event: eventName,
         meetID: meetID
-      }
+      };
       console.log(data);
 
       $.ajax({
@@ -127,20 +91,13 @@ function sendLineup() {
     }
   } else {
     console.log("playerNames.length: " + playerNames.length);
-    for (var i = 0; i < playerNames.length; i++) {
-      var playerID;
-      for (var j = 0; j < players.length; j++) {
-        if ($(playerNames[i]).text() == players[j].name) {
-          playerID = players[j].playerID;
-          break;
-        }
-      }
+    for (var i = 0; i < 6; i++) {
+      var playerID = $('#player-picker-' + i + ' option:selected').val();
 
       data = {
-        playerID: playerID,
-      }
-
-      console.log(lineup[i]);
+        playerID: playerID
+      };
+      console.log(playerID);
 
       $.ajax({
         url: url + "/lineup/" + lineup[i],

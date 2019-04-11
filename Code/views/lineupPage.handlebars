@@ -3,54 +3,64 @@
 
   <main class="form-container">
     {{> vbbfSelectBox}}
-    {{> selectBox}}
+
+    <div class="form-box hidden" id="team-select-box">
+      <h3 class="form-text" id="team-select-text"></h3>
+      <select class="team-picker" id="team-select">
+        <option value="" selected disabled hidden>Choose here</option>
+        {{#each teams}}
+          <option value="{{id}}">{{teamName}}</option>
+        {{/each}}
+      </select>
+    </div>
+
     <div class="form-box hidden" id="player-card-box">
       <h3 class="form-text" id="player-card-text"></h3>
 
       <div class="player-card first">
         <h3 class="lineup-number">1:</h3>
-        <h3 class="player-name hidden"></h3>
-        <select id="player-picker">
+        <h3 class="player-name hidden" id="player-name-0"></h3>
+        <select class="player-picker" id="player-picker-0">
           <option value="" selected disabled hidden>Choose gymnast</option>
         </select>
       </div>
 
       <div class="player-card">
         <h3 class="lineup-number">2:</h3>
-        <h3 class="player-name hidden"></h3>
-        <select id="player-picker">
+        <h3 class="player-name hidden" id="player-name-1"></h3>
+        <select class="player-picker" id="player-picker-1">
           <option value="" selected disabled hidden>Choose gymnast</option>
         </select>
       </div>
 
       <div class="player-card">
         <h3 class="lineup-number">3:</h3>
-        <h3 class="player-name hidden"></h3>
-        <select id="player-picker">
+        <h3 class="player-name hidden" id="player-name-2"></h3>
+        <select class="player-picker" id="player-picker-2">
           <option value="" selected disabled hidden>Choose gymnast</option>
         </select>
       </div>
 
       <div class="player-card">
         <h3 class="lineup-number">4:</h3>
-        <h3 class="player-name hidden"></h3>
-        <select id="player-picker">
+        <h3 class="player-name hidden" id="player-name-3"></h3>
+        <select class="player-picker" id="player-picker-3">
           <option value="" selected disabled hidden>Choose gymnast</option>
         </select>
       </div>
 
       <div class="player-card">
         <h3 class="lineup-number">5:</h3>
-        <h3 class="player-name hidden"></h3>
-        <select id="player-picker">
+        <h3 class="player-name hidden" id="player-name-4"></h3>
+        <select class="player-picker" id="player-picker-4">
           <option value="" selected disabled hidden>Choose gymnast</option>
         </select>
       </div>
 
       <div class="player-card">
         <h3 class="lineup-number">6:</h3>
-        <h3 class="player-name hidden"></h3>
-        <select id="player-picker">
+        <h3 class="player-name hidden" id="player-name-5"></h3>
+        <select class="player-picker" id="player-picker-5">
           <option value="" selected disabled hidden>Choose gymnast</option>
         </select>
       </div>
