@@ -53,7 +53,7 @@ router.post('/login', function(req, res){
           token: token,
           meetSession: req.meetSession.currentMeet
         });
-        res.cookie('cookieName', json, { maxAge: 900000, httpOnly: false });
+        res.cookie('credentials', json, { maxAge: 900000, httpOnly: false });
         res.status(200).json({
           success: "Login Successful."
         });
@@ -63,7 +63,7 @@ router.post('/login', function(req, res){
           token: token,
           meetSession: null
         });
-        res.cookie('cookieName', json, { maxAge: 900000, httpOnly: false });
+        res.cookie('credentials', json, { maxAge: 900000, httpOnly: false });
         res.status(200).json({
           success: "Login Successful."
         });

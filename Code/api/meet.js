@@ -104,7 +104,7 @@ router.post('/', requireAdmin, function (req, res, next) {
           token: token,
           meetSession: id
         });
-        res.cookie('cookieName', json, { maxAge: 900000, httpOnly: false });
+        res.cookie('credentials', json, { maxAge: 900000, httpOnly: false });
         res.status(201).json({
           id: id,
           links: {
