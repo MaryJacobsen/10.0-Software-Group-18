@@ -171,3 +171,15 @@ VALUES ((SELECT `id` FROM `player` LIMIT 1),
   0,
   (SELECT `id` FROM `meet` LIMIT 1));
 UNLOCK TABLES;
+
+CREATE TABLE `user` (
+  `id` mediumint(9) NOT NULL AUTO_INCREMENT,
+  `username` varchar(255) NOT NULL,
+  `auth` mediumint(9) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=latin1;
+
+LOCK TABLES `user` WRITE;
+INSERT INTO `user` VALUES (null, 'admin', 1, "$2a$10$Qu40UMDdT70GDjVNGQc9aOcS/KujTJCx.5a0NizNb7QfsZ5EyEh2u");
+UNLOCK TABLES;

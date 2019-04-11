@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
+const { requireAuthentication, requireAdmin } = require('../lib/auth');
 
 //schema for required and optional fields for a lineup object
 
@@ -18,7 +19,7 @@ const lineupSchema = {
 |-----------------------------------------------
 | Gets teams by /:meetID/:teamID/:event
 */
-router.get('/:meetID/:teamID/:event/', function (req, res, next) {
+router.get('/:meetID/:teamID/:event/', requireAuthentication, function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meet = req.params.meetID;
     const team = req.params.teamID;
@@ -59,7 +60,7 @@ function getLineupByEvent(meet, team, gymEvent, mysqlPool) {
 | Returns: total score of top 5
 */
 
-router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
+router.get('/score/:meetID/:teamID/:event', requireAdmin, function (req, res, next) {
     console.log(" -- req.params:", req.params.teamID, req.params.event);
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
@@ -113,28 +114,6 @@ function getTop5(meetID, teamID, gymEvent, mysqlPool) {
   });
 };
 
-// function getScoresByPlayerID(meetID, playerID, gymEvent, mysqlPool) {
-//   return new Promise((resolve, reject) => {
-//     mysqlPool.query('SELECT * FROM score WHERE meetID = ? AND playerID = ? AND event = ?', [ meetID, playerID, gymEvent ], function (err, results) {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(results);
-//       }
-//     });
-//   });
-// };
-//
-// async function getScoresFromLineup(meetID, playerIDs, gymEvent, mysqlPool){
-//   let scores = [];
-//   for (var i = 0; i < playerIDs.length; i++) {
-//     tmp = await getScoresByPlayerID(meetID, playerIDs[i], gymEvent, mysqlPool);
-//     scores.push(tmp);
-//   }
-//   return scores;
-// }
-
-
 /*
 |-----------------------------------------------
 | Insert player into lineup
@@ -143,7 +122,7 @@ function getTop5(meetID, teamID, gymEvent, mysqlPool) {
 |
 */
 
-router.post('/', function (req, res, next) {
+router.post('/', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   if (req.body && req.body.playerID && req.body.teamID && req.body.order && req.body.event && req.body.meetID) {
     insertNewLineup(req.body, mysqlPool)
@@ -204,7 +183,7 @@ function insertNewLineup(lineup, mysqlPool) {
 |
 */
 
-router.put('/:lineupID', function (req, res, next) {
+router.put('/:lineupID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const lineupID = parseInt(req.params.lineupID);
   replaceLineupByID(lineupID, req.body, mysqlPool)
@@ -248,7 +227,7 @@ function replaceLineupByID(lineupID, lineup, mysqlPool) {
 |
 */
 
-router.delete('/:lineupID', function (req, res, next) {
+router.delete('/:lineupID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const lineupID = parseInt(req.params.lineupID);
   deleteLineupByID(lineupID, mysqlPool)

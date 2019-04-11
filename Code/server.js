@@ -5,6 +5,8 @@ const exphbs = require('express-handlebars');
 const mysql = require('mysql');
 const api = require('./api');
 const path = require('path')
+const sessions = require("client-sessions");
+const cookieParser = require('cookie-parser')
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -14,6 +16,32 @@ app.set('view engine', 'handlebars');
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded( {extended: true }));
 app.use(express.static('public'));
+app.use(cookieParser());
+app.use(sessions({
+  cookieName: 'meetSession', //key name added to request onject
+  secret: "process.env.SESSIONS",
+  duration: 12 * 60 * 60 * 1000,
+  activeDuration: 1000 * 60 * 60
+}));
+
+// // set a cookie
+// app.use(function (req, res, next) {
+//   // check if client sent cookie
+//   var cookie = req.cookies.cookieName;
+//   if (cookie === undefined)
+//   {
+//     // no: set a new cookie
+//     let meetID = req.meetSession.currentMeet;
+//     res.cookie('cookieName', meetID, { maxAge: 900000, httpOnly: true });
+//     console.log('cookie created successfully');
+//   }
+//   else
+//   {
+//     // yes, cookie was already present
+//     console.log('cookie exists', cookie);
+//   }
+//   next(); // <-- important!
+// });
 
 app.listen(port, () => {
       console.log("== Server is running on port", port);
@@ -35,7 +63,7 @@ app.locals.mysqlPool = mysql.createPool({
   password: mysqlPassword
 });
 
-app.use(express.static(path.join(__dirname, 'public')));
+// app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', api);
 

@@ -90,6 +90,11 @@ router.get('/scoring', function(req, res, next) {
   });
 });
 
+//Will serve dashboard
+router.get('/dashboard', function(req, res, next){
+  res.render('dashboard');
+});
+
 //Serves 404 page
 router.get('*', function(req, res) {
   res.status(404).render('404Page');

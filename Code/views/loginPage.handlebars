@@ -1,3 +1,4 @@
+
 <body>
   <header>
     <h1 class="site-title"><a href="#">Scoring Software</a><span class="site-brand">10.0</span></h1>
@@ -15,15 +16,13 @@
   <main class="login-container">
     <div class="login-box">
       <h3 class="login-text">Log in</h3>
-      <form action="login-page.js">
         <label for="uname">Username:</label>
         <input type="text" id="uname" name="username" placeholder="Username">
 
         <label for="pword">Password:</label>
         <input type="password" id="pword" name="password" placeholder="Password">
-
-        <input type="submit" value="Log in">
-      </form>
+        <center><h4 class="login-error-text hidden">Invalid Login Credentials</h4></center>
+        <input type="submit" id="login-button" svalue="Log in">
     </div>
   </main>
 </body>

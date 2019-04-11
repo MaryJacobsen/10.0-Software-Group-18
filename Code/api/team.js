@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const validation = require('../lib/validation');
+const { requireAuthentication, requireAdmin } = require('../lib/auth');
 
 //schema for required and optional fields for a team object
 
@@ -20,13 +21,13 @@ const teamSchema = {
 |-----------------------------------------------
 | Gets teams by /:meetID/meet
 */
-router.get('/:meetID/meet', function (req, res, next) {
+router.get('/:meetID/meet', requireAdmin, function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
     getTeamsByMeetID(meetID, mysqlPool)
     .then((meetID) => {
       if (meetID) {
-        res.status(200).json(meetID);
+        res.status(200).json(meetID + req.meetSession.currentMeet);
       } else {
           next();
       }
@@ -58,7 +59,7 @@ function getTeamsByMeetID(meetID, mysqlPool) {
 | Gets team name by /:id
 */
 
-router.get('/:id', function (req, res, next) {
+router.get('/:id', requireAdmin, function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;
@@ -97,7 +98,7 @@ function getTeamByID(id, mysqlPool) {
 | Gets team score by /:id
 */
 
-router.get('/score/:id', function (req, res, next) {
+router.get('/score/:id', requireAdmin, function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;
@@ -152,7 +153,7 @@ function getTeamByID(id, mysqlPool) {
 |
 */
 
-router.post('/', function (req, res, next) {
+router.post('/', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   console.log("request: " + req.body.teamName + req.body.meetID)
   if (req.body && req.body.teamName && req.body.meetID) {
@@ -217,7 +218,7 @@ function insertNewTeam(team, mysqlPool) {
 |
 */
 
-router.put('/:teamID', function (req, res, next) {
+router.put('/:teamID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const teamID = parseInt(req.params.teamID);
   replaceTeamByID(teamID, req.body, mysqlPool)
@@ -261,7 +262,7 @@ function replaceTeamByID(teamID, team, mysqlPool) {
 |
 */
 
-router.delete('/:teamID', function (req, res, next) {
+router.delete('/:teamID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const teamID = parseInt(req.params.teamID);
   deleteTeamByID(teamID, mysqlPool)
