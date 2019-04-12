@@ -55,7 +55,8 @@ router.post('/login', function(req, res){
         });
         res.cookie('credentials', json, { maxAge: 900000, httpOnly: false });
         res.status(200).json({
-          success: "Login Successful."
+          success: "Login Successful.",
+          token: token
         });
       }
       else {
@@ -65,7 +66,8 @@ router.post('/login', function(req, res){
         });
         res.cookie('credentials', json, { maxAge: 900000, httpOnly: false });
         res.status(200).json({
-          success: "Login Successful."
+          success: "Login Successful.",
+          token: token
         });
       }
     })
