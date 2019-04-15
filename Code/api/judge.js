@@ -158,7 +158,7 @@ function insertNewJudge(judge, mysqlPool) {
 router.put('/:judgeID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const id = parseInt(req.params.judgeID);
-  if (validation.validateAgainstSchema(req.body, judgeSchema)) {
+  if (id) {
     replaceJudgeByID(id, req.body, mysqlPool)
       .then((updateSuccessful) => {
         if (updateSuccessful) {

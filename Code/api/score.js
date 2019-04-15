@@ -97,7 +97,8 @@ function getScoresByMeetID(id, mysqlPool) {
 |-----------------------------------------------
 | Get Average Score
 |-----------------------------------------------
-| Gets the average score of
+| Gets the average score of judges scores for that player on that event
+| drops high and low if greater than three scores
 | Returns: averageScore
 */
 
@@ -245,7 +246,7 @@ function insertNewScore(score, mysqlPool) {
 router.put('/:scoreID', requireAdmin, function (req, res, next) {
   const mysqlPool = req.app.locals.mysqlPool;
   const id = parseInt(req.params.scoreID);
-  if (validation.validateAgainstSchema(req.body, scoreSchema)) {
+  if (id) {
     replaceScoreByID(id, req.body, mysqlPool)
       .then((updateSuccessful) => {
         if (updateSuccessful) {

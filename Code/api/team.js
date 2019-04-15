@@ -21,13 +21,13 @@ const teamSchema = {
 |-----------------------------------------------
 | Gets teams by /:meetID/meet
 */
-router.get('/:meetID/meet', function (req, res, next) {
+router.get('/:meetID/meet', requireAuthentication, function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
     getTeamsByMeetID(meetID, mysqlPool)
     .then((meetID) => {
       if (meetID) {
-        res.status(200).json(meetID + req.meetSession.currentMeet);
+        res.status(200).json(meetID);
       } else {
           next();
       }
@@ -59,7 +59,7 @@ function getTeamsByMeetID(meetID, mysqlPool) {
 | Gets team name by /:id
 */
 
-router.get('/:id', function (req, res, next) {
+router.get('/:id', requireAuthentication, function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;
@@ -98,7 +98,7 @@ function getTeamByID(id, mysqlPool) {
 | Gets team score by /:id
 */
 
-router.get('/score/:id', function (req, res, next) {
+router.get('/score/:id', requireAdmin, function (req, res, next) {
     console.log(" -- req.params:", req.params.id);
     const mysqlPool = req.app.locals.mysqlPool;
     const id = req.params.id;

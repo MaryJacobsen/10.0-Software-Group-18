@@ -88,6 +88,7 @@ router.get('/score/:meetID/:teamID/:event', function (req, res, next) {
 
 function getTop5(meetID, teamID, gymEvent, mysqlPool) {
   let playerScore = [];
+  let exb = 7;
   return new Promise((resolve, reject) => {
     mysqlPool.query('SELECT * FROM lineup WHERE meetID = ? AND event = ? AND teamID = ?', [ meetID, gymEvent, teamID ], function (err, result) {
       if (err) {
