@@ -11,6 +11,16 @@ To test endpoints with Postman you must enter the endpoint and the HTTP method a
 > Ex. `GET http://localhost:8000/player/Oregon State University` will return a list of all players that are part of
 > the OSU gymnastics team.
 
+We have made testing collections using postman that can be used to put information into the database and to test each endpoint. The endpoint collections work in the following order:
+
+[user](https://www.getpostman.com/collections/907ee91d4b8a480cd003)
+[meet](https://www.getpostman.com/collections/e05bb701069ae02f29bd)
+[team](https://www.getpostman.com/collections/c94987c1e28eb1be8e7c)
+[player](https://www.getpostman.com/collections/e41b099f59f0e34a952a)
+[lineup](https://www.getpostman.com/collections/0f108af1690f5aed8075)
+[judge](https://www.getpostman.com/collections/14cd4b6e1a5d9ce5af1c)
+[score](https://www.getpostman.com/collections/ec25c002dad37ff19870)
+
 ## Endpoints
 ### GET
 #### Team
