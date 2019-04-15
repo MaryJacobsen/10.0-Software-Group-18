@@ -1,11 +1,3 @@
-<!doctype html>  
-<html>  
-<head></head>  
-<body>
-
-<a href='#' onclick='downloadCSV({ filename: "stock-data.csv" });'>Download CSV</a>
-
-<script type="text/javascript">  
     var stockData = [
         {
             Symbol: "AAPL",
@@ -75,6 +67,3 @@
         link.setAttribute('download', filename);
         link.click();
     }
-</script>  
-</body>  
-</html>  

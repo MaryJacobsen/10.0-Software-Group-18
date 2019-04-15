@@ -168,6 +168,10 @@ router.get('/dashboard', function(req, res, next){
   }
 });
 
+router.get('/export', function(req, res, next) {
+  res.render('export');
+});
+
 //Serves 404 page
 router.get('*', function(req, res) {
   res.status(404).render('404Page');
