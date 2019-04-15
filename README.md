@@ -11,7 +11,7 @@ To test endpoints with Postman you must enter the endpoint and the HTTP method a
 > Ex. `GET http://localhost:8000/player/Oregon State University` will return a list of all players that are part of
 > the OSU gymnastics team.
 
-We have made testing collections using postman that can be used to put information into the database and to test each endpoint. To import the collections, copy the links, click the import button on the top left inside postman, and then click "Import From Link" and paste. The endpoint collections work in the following order:
+We have made testing collections using postman that can be used to put information into the database and to test each endpoint. To import the collections, copy a link, click the import button on the top left inside postman, and then click "Import From Link" and paste. The endpoint collections work in the following order:
 
 [user](https://www.getpostman.com/collections/907ee91d4b8a480cd003)
 [meet](https://www.getpostman.com/collections/e05bb701069ae02f29bd)
