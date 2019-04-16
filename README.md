@@ -22,27 +22,8 @@ We have made testing collections using postman that can be used to put informati
 [score](https://www.getpostman.com/collections/ec25c002dad37ff19870)
 
 ## Endpoints
-### GET
-#### Team
-  * /team/:id
-    * returns the team name with :id
-  * /team/teams
-    * returns all team names
-#### Player
-  * /player/:teamName
-    * returns all players that belong to the :teamName
-#### Lineup
-  * /lineup/:team/:event
-    * returns the ordered lineup of :team doing :event
-### POST
-  * /team/
-    * Creates a new team
-      * Requires teamScore and teamName
-  * /player/
-    * Creates a new player
-      * Requires name and team
-  * /lineup/
-    * Creates a new lineup
-      * Requires player, order, team, event
-### PUT
-### DELETE
+
+To view the endpoint documentation.
+1. Start server using `docker-compose up --build`
+2. Wait for server to start.
+3. Go to `http://localhost:8000/endpoints.html` or if you are using docker toolbox <br>`http://<dockerIP>:8000/endpoints.html`
