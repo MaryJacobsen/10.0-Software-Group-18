@@ -1,0 +1,1861 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Gymnastics Scoring Software</title>
+    <style type="text/css">
+      body {
+      	font-family: Trebuchet MS, sans-serif;
+      	font-size: 15px;
+      	color: #444;
+      	margin-right: 24px;
+      }
+      
+      h1	{
+      	font-size: 25px;
+      }
+      h2	{
+      	font-size: 20px;
+      }
+      h3	{
+      	font-size: 16px;
+      	font-weight: bold;
+      }
+      hr	{
+      	height: 1px;
+      	border: 0;
+      	color: #ddd;
+      	background-color: #ddd;
+      }
+      
+      .app-desc {
+        clear: both;
+        margin-left: 20px;
+      }
+      .param-name {
+        width: 100%;
+      }
+      .license-info {
+        margin-left: 20px;
+      }
+      
+      .license-url {
+        margin-left: 20px;
+      }
+      
+      .model {
+        margin: 0 0 0px 20px;
+      }
+      
+      .method {
+        margin-left: 20px;
+      }
+      
+      .method-notes	{
+      	margin: 10px 0 20px 0;
+      	font-size: 90%;
+      	color: #555;
+      }
+      
+      pre {
+        padding: 10px;
+        margin-bottom: 2px;
+      }
+      
+      .http-method {
+       text-transform: uppercase;
+      }
+      
+      pre.get {
+        background-color: #0f6ab4;
+      }
+      
+      pre.post {
+        background-color: #10a54a;
+      }
+      
+      pre.put {
+        background-color: #c5862b;
+      }
+      
+      pre.delete {
+        background-color: #a41e22;
+      }
+      
+      .huge	{
+      	color: #fff;
+      }
+      
+      pre.example {
+        background-color: #f3f3f3;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+      
+      code {
+        white-space: pre;
+      }
+      
+      .nickname {
+        font-weight: bold;
+      }
+      
+      .method-path {
+        font-size: 1.5em;
+        background-color: #0f6ab4;
+      }
+      
+      .up {
+        float:right;
+      }
+      
+      .parameter {
+        width: 500px;
+      }
+      
+      .param {
+        width: 500px;
+        padding: 10px 0 0 20px;
+        font-weight: bold;
+      }
+      
+      .param-desc {
+        width: 700px;
+        padding: 0 0 0 20px;
+        color: #777;
+      }
+      
+      .param-type {
+        font-style: italic;
+      }
+      
+      .param-enum-header {
+      width: 700px;
+      padding: 0 0 0 60px;
+      color: #777;
+      font-weight: bold;
+      }
+      
+      .param-enum {
+      width: 700px;
+      padding: 0 0 0 80px;
+      color: #777;
+      font-style: italic;
+      }
+      
+      .field-label {
+        padding: 0;
+        margin: 0;
+        clear: both;
+      }
+      
+      .field-items	{
+      	padding: 0 0 15px 0;
+      	margin-bottom: 15px;
+      }
+      
+      .return-type {
+        clear: both;
+        padding-bottom: 10px;
+      }
+      
+      .param-header {
+        font-weight: bold;
+      }
+      
+      .method-tags {
+        text-align: right;
+      }
+      
+      .method-tag {
+        background: none repeat scroll 0% 0% #24A600;
+        border-radius: 3px;
+        padding: 2px 10px;
+        margin: 2px;
+        color: #FFF;
+        display: inline-block;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+  <h1>Gymnastics Scoring Software</h1>
+    <div class="app-desc">API for scoring gymnastics meets</div>
+    <div class="app-desc">More information: <a href="https://helloreverb.com">https://helloreverb.com</a></div>
+    <div class="app-desc">Contact Info: <a href="hello@helloreverb.com">hello@helloreverb.com</a></div>
+    <div class="app-desc">Version: 1.0.0</div>
+    
+    <div class="license-info">All rights reserved</div>
+    <div class="license-url">http://apache.org/licenses/LICENSE-2.0.html</div>
+  <h2>Access</h2>
+
+  <h2><a name="__Methods">Methods</a></h2>
+  [ Jump to <a href="#__Models">Models</a> ]
+
+  <h3>Table of Contents </h3>
+  <div class="method-summary"></div>
+  <h4><a href="#Judge">Judge</a></h4>
+  <ul>
+  <li><a href="#judgeGet"><code><span class="http-method">get</span> /judge</code></a></li>
+  <li><a href="#judgeJudgeIDDelete"><code><span class="http-method">delete</span> /judge/{judgeID}</code></a></li>
+  <li><a href="#judgeJudgeIDPut"><code><span class="http-method">put</span> /judge/{judgeID}</code></a></li>
+  <li><a href="#judgeMeetMeetIDGet"><code><span class="http-method">get</span> /judge/meet/{meetID}</code></a></li>
+  <li><a href="#judgePost"><code><span class="http-method">post</span> /judge</code></a></li>
+  </ul>
+  <h4><a href="#Lineup">Lineup</a></h4>
+  <ul>
+  <li><a href="#lineupLineupIDDelete"><code><span class="http-method">delete</span> /lineup/{lineupID}</code></a></li>
+  <li><a href="#lineupLineupIDPut"><code><span class="http-method">put</span> /lineup/{lineupID}</code></a></li>
+  <li><a href="#lineupMeetIDTeamIDEventGet"><code><span class="http-method">get</span> /lineup/{meetID}/{teamID}/{event}</code></a></li>
+  <li><a href="#lineupPost"><code><span class="http-method">post</span> /lineup</code></a></li>
+  <li><a href="#lineupScoreMeetIDTeamIDEventGet"><code><span class="http-method">get</span> /lineup/score/{meetID}/{teamID}/{event}</code></a></li>
+  </ul>
+  <h4><a href="#Meet">Meet</a></h4>
+  <ul>
+  <li><a href="#meetGet"><code><span class="http-method">get</span> /meet</code></a></li>
+  <li><a href="#meetMeetIDDelete"><code><span class="http-method">delete</span> /meet/{meetID}</code></a></li>
+  <li><a href="#meetMeetIDGet"><code><span class="http-method">get</span> /meet/{meetID}</code></a></li>
+  <li><a href="#meetMeetIDPut"><code><span class="http-method">put</span> /meet/{meetID}</code></a></li>
+  <li><a href="#meetPost"><code><span class="http-method">post</span> /meet</code></a></li>
+  </ul>
+  <h4><a href="#Player">Player</a></h4>
+  <ul>
+  <li><a href="#playerMeetIDMeetGet"><code><span class="http-method">get</span> /player/{meetID}/meet</code></a></li>
+  <li><a href="#playerPlayerIDDelete"><code><span class="http-method">delete</span> /player/{playerID}</code></a></li>
+  <li><a href="#playerPlayerIDEventGet"><code><span class="http-method">get</span> /player/{playerID}/{event}</code></a></li>
+  <li><a href="#playerPlayerIDGet"><code><span class="http-method">get</span> /player/{playerID}</code></a></li>
+  <li><a href="#playerPlayerNamePut"><code><span class="http-method">put</span> /player/{playerName}</code></a></li>
+  <li><a href="#playerPost"><code><span class="http-method">post</span> /player</code></a></li>
+  </ul>
+  <h4><a href="#Score">Score</a></h4>
+  <ul>
+  <li><a href="#scoreAverageMeetIDPlayerIDEventGet"><code><span class="http-method">get</span> /score/average/{meetID}/{playerID}/{event}</code></a></li>
+  <li><a href="#scoreGet"><code><span class="http-method">get</span> /score</code></a></li>
+  <li><a href="#scoreMeetMeetIDGet"><code><span class="http-method">get</span> /score/meet/{meetID}</code></a></li>
+  <li><a href="#scorePost"><code><span class="http-method">post</span> /score</code></a></li>
+  <li><a href="#scoreScoreIDDelete"><code><span class="http-method">delete</span> /score/{scoreID}</code></a></li>
+  <li><a href="#scoreScoreIDPut"><code><span class="http-method">put</span> /score/{scoreID}</code></a></li>
+  </ul>
+  <h4><a href="#Team">Team</a></h4>
+  <ul>
+  <li><a href="#teamMeetIDMeetGet"><code><span class="http-method">get</span> /team/{meetID}/meet</code></a></li>
+  <li><a href="#teamPost"><code><span class="http-method">post</span> /team</code></a></li>
+  <li><a href="#teamScoreTeamIDGet"><code><span class="http-method">get</span> /team/score/{teamID}</code></a></li>
+  <li><a href="#teamTeamIDDelete"><code><span class="http-method">delete</span> /team/{teamID}</code></a></li>
+  <li><a href="#teamTeamIDGet"><code><span class="http-method">get</span> /team/{teamID}</code></a></li>
+  <li><a href="#teamTeamIDPut"><code><span class="http-method">put</span> /team/{teamID}</code></a></li>
+  </ul>
+
+  <h1><a name="Judge">Judge</a></h1>
+  <div class="method"><a name="judgeGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /judge</code></pre></div>
+    <div class="method-summary">Fetches all judges in the database. (<span class="nickname">judgeGet</span>)</div>
+    <div class="method-notes">Returns all judges regardless of what meet they were in.</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200">inline_response_200</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#inline_response_200">inline_response_200</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="judgeJudgeIDDelete"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /judge/{judgeID}</code></pre></div>
+    <div class="method-summary">Delete data for a specific judge. (<span class="nickname">judgeJudgeIDDelete</span>)</div>
+    <div class="method-notes">Deletes the data for the judge specified by judgeID.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">judgeID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the judge. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Specified &lt;code&gt;judgeID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="judgeJudgeIDPut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /judge/{judgeID}</code></pre></div>
+    <div class="method-summary">Update data for a specific judge. (<span class="nickname">judgeJudgeIDPut</span>)</div>
+    <div class="method-notes">Replaces data for the judge specified by judgeID</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">judgeID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the judge. </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly formatted request body
+        <a href="#Judge">Judge</a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;judgeID&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="judgeMeetMeetIDGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /judge/meet/{meetID}</code></pre></div>
+    <div class="method-summary">Get judges for a specific meet. (<span class="nickname">judgeMeetMeetIDGet</span>)</div>
+    <div class="method-notes">returns a list of all judges that participated in a specific meet.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="judgePost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /judge</code></pre></div>
+    <div class="method-summary">Allows for judges to be added. (<span class="nickname">judgePost</span>)</div>
+    <div class="method-notes">Adds a judge to the database.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    New judge successfully created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly-formatted request body.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Lineup">Lineup</a></h1>
+  <div class="method"><a name="lineupLineupIDDelete"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /lineup/{lineupID}</code></pre></div>
+    <div class="method-summary">Delete data for a specific lineup. (<span class="nickname">lineupLineupIDDelete</span>)</div>
+    <div class="method-notes">Deletes the data for the lineup specified by lineupID.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">lineupID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the lineup. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Specified &lt;code&gt;lineupID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="lineupLineupIDPut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /lineup/{lineupID}</code></pre></div>
+    <div class="method-summary">Update data for a specific lineup. (<span class="nickname">lineupLineupIDPut</span>)</div>
+    <div class="method-notes">Replaces data for the lineup specified by lineupID</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">lineupID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the lineup. </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">order (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly formatted request body
+        <a href="#Lineup">Lineup</a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;lineupID&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="lineupMeetIDTeamIDEventGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /lineup/{meetID}/{teamID}/{event}</code></pre></div>
+    <div class="method-summary">Get the lineup for a team. (<span class="nickname">lineupMeetIDTeamIDEventGet</span>)</div>
+    <div class="method-notes">Returns the lineup for the team specified by &lt;code&gt;teamID&lt;/code&gt; for the event specified by &lt;code&gt;event&lt;/code&gt; from the meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the team. </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the event. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt;, &lt;code&gt;teamID&lt;/code&gt;, or &lt;code&gt;event&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="lineupPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /lineup</code></pre></div>
+    <div class="method-summary">Allows for lineups to be added. (<span class="nickname">lineupPost</span>)</div>
+    <div class="method-notes">Adds a lineup to the database.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">order (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    New lineup successfully created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly-formatted request body.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="lineupScoreMeetIDTeamIDEventGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /lineup/score/{meetID}/{teamID}/{event}</code></pre></div>
+    <div class="method-summary">Get the score for a team. (<span class="nickname">lineupScoreMeetIDTeamIDEventGet</span>)</div>
+    <div class="method-notes">Returns the score for the team specified by &lt;code&gt;teamID&lt;/code&gt; for the event specified by &lt;code&gt;event&lt;/code&gt; from the meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the team. </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the event. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt;, &lt;code&gt;teamID&lt;/code&gt;, or &lt;code&gt;event&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Meet">Meet</a></h1>
+  <div class="method"><a name="meetGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /meet</code></pre></div>
+    <div class="method-summary">Fetches all meets in the database. (<span class="nickname">meetGet</span>)</div>
+    <div class="method-notes">Returns all meets in the database.</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_1">inline_response_200_1</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#inline_response_200_1">inline_response_200_1</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="meetMeetIDDelete"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /meet/{meetID}</code></pre></div>
+    <div class="method-summary">Delete data for a specific meet. (<span class="nickname">meetMeetIDDelete</span>)</div>
+    <div class="method-notes">Deletes the data for the meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Specified &lt;code&gt;meetID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="meetMeetIDGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /meet/{meetID}</code></pre></div>
+    <div class="method-summary">Fetches a singular meet. (<span class="nickname">meetMeetIDGet</span>)</div>
+    <div class="method-notes">Returns the meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#Meet">Meet</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#Meet">Meet</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="meetMeetIDPut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /meet/{meetID}</code></pre></div>
+    <div class="method-summary">Update data for a specific meet. (<span class="nickname">meetMeetIDPut</span>)</div>
+    <div class="method-notes">Replaces data for the meet specified by &lt;code&gt;meetID&lt;/code&gt;</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly formatted request body
+        <a href="#Meet">Meet</a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="meetPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /meet</code></pre></div>
+    <div class="method-summary">Allows for meets to be added. (<span class="nickname">meetPost</span>)</div>
+    <div class="method-notes">Adds a meet to the database.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    New meet successfully created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly-formatted request body.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Player">Player</a></h1>
+  <div class="method"><a name="playerMeetIDMeetGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /player/{meetID}/meet</code></pre></div>
+    <div class="method-summary">Gets players specified by &lt;code&gt;meetID&lt;/code&gt;. (<span class="nickname">playerMeetIDMeetGet</span>)</div>
+    <div class="method-notes">Returns an array of players that participated in meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="playerPlayerIDDelete"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /player/{playerID}</code></pre></div>
+    <div class="method-summary">Delete data for a specific player. (<span class="nickname">playerPlayerIDDelete</span>)</div>
+    <div class="method-notes">Deletes the data for the player specified by playerID.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the player. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Specified &lt;code&gt;playerID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="playerPlayerIDEventGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /player/{playerID}/{event}</code></pre></div>
+    <div class="method-summary">Get the score for the player specified by &lt;code&gt;playerID&lt;/code&gt; in the event specified by &lt;code&gt;event&lt;/code&gt;. (<span class="nickname">playerPlayerIDEventGet</span>)</div>
+    <div class="method-notes">Returns the score for the player specified by &lt;code&gt;playerID&lt;/code&gt; for the event &lt;code&gt;event&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the player. </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the event. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;playerID&lt;/code&gt; or &lt;code&gt;event&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="playerPlayerIDGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /player/{playerID}</code></pre></div>
+    <div class="method-summary">Gets the player specified by &lt;code&gt;playerID&lt;/code&gt;. (<span class="nickname">playerPlayerIDGet</span>)</div>
+    <div class="method-notes">Returns a singular player specified by &lt;code&gt;playerID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the player. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;playerID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="playerPlayerNamePut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /player/{playerName}</code></pre></div>
+    <div class="method-summary">Update data for a specific player. (<span class="nickname">playerPlayerNamePut</span>)</div>
+    <div class="method-notes">Replaces data for the player specified by &lt;code&gt;playerName&lt;/code&gt;</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">playerName (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; The name of the player </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">playerNum (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">vaultScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">barsScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">beamScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">floorScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">AAScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly formatted request body
+        <a href="#Player">Player</a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;playerName&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="playerPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /player</code></pre></div>
+    <div class="method-summary">Allows for players to be added. (<span class="nickname">playerPost</span>)</div>
+    <div class="method-notes">Adds a player to the database.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">playerNum (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">name (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">vaultScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">barsScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">beamScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">floorScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">AAScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    New player successfully created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly-formatted request body.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Score">Score</a></h1>
+  <div class="method"><a name="scoreAverageMeetIDPlayerIDEventGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /score/average/{meetID}/{playerID}/{event}</code></pre></div>
+    <div class="method-summary">Get the average score for a player. (<span class="nickname">scoreAverageMeetIDPlayerIDEventGet</span>)</div>
+    <div class="method-notes">Returns the averaged score for the player specified by &lt;code&gt;playerID&lt;/code&gt; for the event specified by &lt;code&gt;event&lt;/code&gt; from the meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the gymnast. </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Name of the event. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt;, &lt;code&gt;playerID&lt;/code&gt;, or &lt;code&gt;event&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="scoreGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /score</code></pre></div>
+    <div class="method-summary">Fetches all scores in the database. (<span class="nickname">scoreGet</span>)</div>
+    <div class="method-notes">Returns all scores regardless of what meet they were in.</div>
+
+
+
+
+
+
+
+    <h3 class="field-label">Return type</h3>
+    <div class="return-type">
+      <a href="#inline_response_200_2">inline_response_200_2</a>
+      
+    </div>
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success
+        <a href="#inline_response_200_2">inline_response_200_2</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="scoreMeetMeetIDGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /score/meet/{meetID}</code></pre></div>
+    <div class="method-summary">Get scores for a specific meet. (<span class="nickname">scoreMeetMeetIDGet</span>)</div>
+    <div class="method-notes">returns a list of all scores that participated in a specific meet.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="scorePost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /score</code></pre></div>
+    <div class="method-summary">Allows for scores to be added. (<span class="nickname">scorePost</span>)</div>
+    <div class="method-notes">Adds a score to the database.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">judgeID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">score (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">exhibition (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    New score successfully created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly-formatted request body.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="scoreScoreIDDelete"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /score/{scoreID}</code></pre></div>
+    <div class="method-summary">Delete data for a specific score. (<span class="nickname">scoreScoreIDDelete</span>)</div>
+    <div class="method-notes">Deletes the data for the score specified by scoreID.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">scoreID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the score. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Specified &lt;code&gt;scoreID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="scoreScoreIDPut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /score/{scoreID}</code></pre></div>
+    <div class="method-summary">Update data for a specific score. (<span class="nickname">scoreScoreIDPut</span>)</div>
+    <div class="method-notes">Replaces data for the score specified by scoreID</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">scoreID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the score. </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">playerID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">judgeID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">score (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">event (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">exhibition (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly formatted request body
+        <a href="#Score">Score</a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;scoreID&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <h1><a name="Team">Team</a></h1>
+  <div class="method"><a name="teamMeetIDMeetGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /team/{meetID}/meet</code></pre></div>
+    <div class="method-summary">Gets teams specified by &lt;code&gt;meetID&lt;/code&gt;. (<span class="nickname">teamMeetIDMeetGet</span>)</div>
+    <div class="method-notes">Returns an array of teams that participated in meet specified by &lt;code&gt;meetID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the meet. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;meetID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="teamPost"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="post"><code class="huge"><span class="http-method">post</span> /team</code></pre></div>
+    <div class="method-summary">Allows for teams to be added. (<span class="nickname">teamPost</span>)</div>
+    <div class="method-notes">Adds a team to the database.</div>
+
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">teamScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">teamName (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">vaultScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">barsScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">beamScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">floorScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">201</h4>
+    New team successfully created
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly-formatted request body.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="teamScoreTeamIDGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /team/score/{teamID}</code></pre></div>
+    <div class="method-summary">Gets the total team score. (<span class="nickname">teamScoreTeamIDGet</span>)</div>
+    <div class="method-notes">Returns the total team score so far for the team specified by &lt;code&gt;teamID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the team. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;teamID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="teamTeamIDDelete"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="delete"><code class="huge"><span class="http-method">delete</span> /team/{teamID}</code></pre></div>
+    <div class="method-summary">Delete data for a specific team. (<span class="nickname">teamTeamIDDelete</span>)</div>
+    <div class="method-notes">Deletes the data for the team specified by teamID.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the team. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">204</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    Specified &lt;code&gt;teamID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="teamTeamIDGet"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="get"><code class="huge"><span class="http-method">get</span> /team/{teamID}</code></pre></div>
+    <div class="method-summary">Gets the team specified by &lt;code&gt;teamID&lt;/code&gt;. (<span class="nickname">teamTeamIDGet</span>)</div>
+    <div class="method-notes">Returns a singular team specified by &lt;code&gt;teamID&lt;/code&gt;.</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the team. </div>    </div>  <!-- field-items -->
+
+
+
+
+
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;teamID&lt;/code&gt; not found
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+  <div class="method"><a name="teamTeamIDPut"></a>
+    <div class="method-path">
+    <a class="up" href="#__Methods">Up</a>
+    <pre class="put"><code class="huge"><span class="http-method">put</span> /team/{teamID}</code></pre></div>
+    <div class="method-summary">Update data for a specific team. (<span class="nickname">teamTeamIDPut</span>)</div>
+    <div class="method-notes">Replaces data for the team specified by teamID</div>
+
+    <h3 class="field-label">Path parameters</h3>
+    <div class="field-items">
+      <div class="param">teamID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Path Parameter</span> &mdash; Unique ID of the team. </div>    </div>  <!-- field-items -->
+
+    <h3 class="field-label">Consumes</h3>
+    This API call consumes the following media types via the <span class="header">Content-Type</span> request header:
+    <ul>
+      <li><code>application/x-www-form-urlencoded</code></li>
+    </ul>
+
+
+
+
+    <h3 class="field-label">Form parameters</h3>
+    <div class="field-items">
+      <div class="param">teamScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">teamName (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">vaultScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">barsScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">beamScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">floorScore (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>      <div class="param">meetID (required)</div>
+      
+            <div class="param-desc"><span class="param-type">Form Parameter</span> &mdash;  </div>    </div>  <!-- field-items -->
+
+
+    <!--Todo: process Response Object and its headers, schema, examples -->
+
+
+    <h3 class="field-label">Produces</h3>
+    This API call produces the following media types according to the <span class="header">Accept</span> request header;
+    the media type will be conveyed by the <span class="header">Content-Type</span> response header.
+    <ul>
+      <li><code>application/json</code></li>
+    </ul>
+
+    <h3 class="field-label">Responses</h3>
+    <h4 class="field-label">200</h4>
+    Success.
+        <a href="#"></a>
+    <h4 class="field-label">400</h4>
+    Incorrectly formatted request body
+        <a href="#Team">Team</a>
+    <h4 class="field-label">404</h4>
+    specified &lt;code&gt;teamID&lt;/code&gt; not found.
+        <a href="#Error">Error</a>
+  </div> <!-- method -->
+  <hr/>
+
+  <h2><a name="__Models">Models</a></h2>
+  [ Jump to <a href="#__Methods">Methods</a> ]
+
+  <h3>Table of Contents</h3>
+  <ol>
+    <li><a href="#Error"><code>Error</code></a></li>
+    <li><a href="#Judge"><code>Judge</code></a></li>
+    <li><a href="#Lineup"><code>Lineup</code></a></li>
+    <li><a href="#Meet"><code>Meet</code></a></li>
+    <li><a href="#Player"><code>Player</code></a></li>
+    <li><a href="#Score"><code>Score</code></a></li>
+    <li><a href="#Team"><code>Team</code></a></li>
+    <li><a href="#inline_response_200"><code>inline_response_200</code></a></li>
+    <li><a href="#inline_response_200_1"><code>inline_response_200_1</code></a></li>
+    <li><a href="#inline_response_200_2"><code>inline_response_200_2</code></a></li>
+  </ol>
+
+  <div class="model">
+    <h3><a name="Error"><code>Error</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>A request body error</div>
+    <div class="field-items">
+      <div class="param">err (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> A message describing the error. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Judge"><code>Judge</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object describing a single judge.</div>
+    <div class="field-items">
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Judge. </div>
+          <div class="param-desc"><span class="param-type">example: Joe Beaver</span></div>
+<div class="param">meetID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique value of the meet the judge participated in. </div>
+          <div class="param-desc"><span class="param-type">example: 1</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Lineup"><code>Lineup</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object representing a single item of a lineup array</div>
+    <div class="field-items">
+      <div class="param">playerID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unqiue ID of the gymnast. </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+<div class="param">teamID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique ID of the team. </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+<div class="param">order </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> What order the gymnast goes in. </div>
+          <div class="param-desc"><span class="param-type">example: 1</span></div>
+<div class="param">event </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The event being represented. </div>
+          <div class="param-desc"><span class="param-type">example: Vault</span></div>
+<div class="param">meetID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique ID of the meet. </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Meet"><code>Meet</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object representing a single meet</div>
+    <div class="field-items">
+      <div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The name of the meet. </div>
+          <div class="param-desc"><span class="param-type">example: 4/15/2019</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Player"><code>Player</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object representing a single player.</div>
+    <div class="field-items">
+      <div class="param">playerNum (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> A number given to the Gymnast for a meet. </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+<div class="param">name </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the gymnast. </div>
+          <div class="param-desc"><span class="param-type">example: Mary Jacobsen</span></div>
+<div class="param">teamID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> ID of the team the gymnast belongs to </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+<div class="param">vaultScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the gymnast scored for vault. </div>
+          <div class="param-desc"><span class="param-type">example: 9.95</span></div>
+<div class="param">barsScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the gymnast scored for bars. </div>
+          <div class="param-desc"><span class="param-type">example: 9.95</span></div>
+<div class="param">beamScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the gymnast scored for beam. </div>
+          <div class="param-desc"><span class="param-type">example: 9.95</span></div>
+<div class="param">floorScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the gymnast scored for floor. </div>
+          <div class="param-desc"><span class="param-type">example: 9.95</span></div>
+<div class="param">AAScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The All Around score for the gymnast </div>
+<div class="param">meetID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique value of the meet the gymnast participated in. </div>
+          <div class="param-desc"><span class="param-type">example: 1</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Score"><code>Score</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object representing a single score.</div>
+    <div class="field-items">
+      <div class="param">playerID (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique ID of the gymnast that earned the score. </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+<div class="param">judgeID (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique ID of the judge who gave the score. </div>
+          <div class="param-desc"><span class="param-type">example: 12345</span></div>
+<div class="param">score (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score earned. </div>
+          <div class="param-desc"><span class="param-type">example: 9.95</span></div>
+<div class="param">event (optional)</div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> The event for the score. </div>
+          <div class="param-desc"><span class="param-type">example: Vault</span></div>
+<div class="param">exhibition (optional)</div><div class="param-desc"><span class="param-type"><a href="#boolean">Boolean</a></span> Whether the score is an exhibition score or not. </div>
+          <div class="param-desc"><span class="param-type">example: true</span></div>
+<div class="param">meetID (optional)</div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique value of the meet the team participated in. </div>
+          <div class="param-desc"><span class="param-type">example: 1</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="Team"><code>Team</code></a> <a class="up" href="#__Models">Up</a></h3>
+    <div class='model-description'>An object representing a single team.</div>
+    <div class="field-items">
+      <div class="param">teamScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The current score of the Team. </div>
+          <div class="param-desc"><span class="param-type">example: 190.75</span></div>
+<div class="param">teamName </div><div class="param-desc"><span class="param-type"><a href="#string">String</a></span> Name of the Team. </div>
+          <div class="param-desc"><span class="param-type">example: Oregon State University</span></div>
+<div class="param">vaultScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the team scored for vault. </div>
+          <div class="param-desc"><span class="param-type">example: 48.75</span></div>
+<div class="param">barsScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the team scored for bars. </div>
+          <div class="param-desc"><span class="param-type">example: 48.75</span></div>
+<div class="param">beamScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the team scored for beam. </div>
+          <div class="param-desc"><span class="param-type">example: 48.75</span></div>
+<div class="param">floorScore (optional)</div><div class="param-desc"><span class="param-type"><a href="#BigDecimal">BigDecimal</a></span> The score the team scored for floor. </div>
+          <div class="param-desc"><span class="param-type">example: 48.75</span></div>
+<div class="param">meetID </div><div class="param-desc"><span class="param-type"><a href="#integer">Integer</a></span> The unique value of the meet the team participated in. </div>
+          <div class="param-desc"><span class="param-type">example: 1</span></div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200"><code>inline_response_200</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">judges (optional)</div><div class="param-desc"><span class="param-type"><a href="#Judge">array[Judge]</a></span> The returned judges. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_1"><code>inline_response_200_1</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">meets (optional)</div><div class="param-desc"><span class="param-type"><a href="#Meet">array[Meet]</a></span> The returned meets. </div>
+    </div>  <!-- field-items -->
+  </div>
+  <div class="model">
+    <h3><a name="inline_response_200_2"><code>inline_response_200_2</code></a> <a class="up" href="#__Models">Up</a></h3>
+    
+    <div class="field-items">
+      <div class="param">scores (optional)</div><div class="param-desc"><span class="param-type"><a href="#Score">array[Score]</a></span> The returned scores. </div>
+    </div>  <!-- field-items -->
+  </div>
+  </body>
+</html>
