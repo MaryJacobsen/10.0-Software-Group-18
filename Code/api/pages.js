@@ -14,6 +14,9 @@ router.get('/login', function(req, res, next) {
   res.render('loginPage');
 });
 
+router.get('/export', function(req, res, next) {
+  res.render('export');
+});
 //Will serve createMeet page
 router.get('/createmeet', function(req, res, next) {
   if (req.cookies.credentials) {
@@ -166,10 +169,6 @@ router.get('/dashboard', function(req, res, next){
   } else {
     res.redirect('/login');
   }
-});
-
-router.get('/export', function(req, res, next) {
-  res.render('export');
 });
 
 //Serves 404 page

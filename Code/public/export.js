@@ -1,3 +1,53 @@
+    var cookie = Cookies.getJSON('credentials')
+    var meetID = cookie.meetSession;
+    console.log(meetID.meetSession);
+    var url = window.location.origin;
+    function get_data(){
+      var entry;
+      $.ajax({
+        method: "get",
+        headers: {
+          "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+        },
+        dataType: "json",
+        async: false,
+        url: url+ "/team/" + meetID+"/meet",
+        success: (teams) => {
+          entry = teams;
+          return entry;
+
+        }
+      });
+      /*$.ajax({
+        method: "get",
+        headers: {
+          "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+        },
+        dataType: "json",
+        url: url+ "/team/" + meetID+"/meet",
+        success: (teams) => {
+
+
+
+        }
+      });
+      $.ajax({
+        method: "get",
+        headers: {
+          "Authorization": 'Bearer ' + Cookies.getJSON('credentials').token
+        },
+        dataType: "json",
+        url: url+ "/team/" + meetID+"/meet",
+        success: (teams) => {
+
+
+
+        }
+      });*/
+    }
+
+    //get_data();
+
     var stockData = [
         {
             Symbol: "AAPL",
@@ -49,7 +99,7 @@
 
     function downloadCSV(args) {
         var data, filename, link;
-
+        get_data();
         var csv = convertArrayOfObjectsToCSV({
             data: stockData
         });
