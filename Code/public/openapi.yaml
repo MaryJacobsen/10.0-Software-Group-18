@@ -1,0 +1,1200 @@
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  title: Gymnastics Scoring Software
+  description: API for scoring gymnastics meets
+  
+paths:
+  /judge:
+    get:
+      summary: Fetches all judges in the database.
+      description: >
+        Returns all judges regardless of what meet they were in.
+      tags:
+        - Judge
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  judges:
+                    type: array
+                    description: The returned judges.
+                    items:
+                      $ref: '#/components/schemas/Judge'
+    
+    post:
+      summary: Allows for judges to be added.
+      description: >
+        Adds a judge to the database.
+      tags:
+        - Judge
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Judge'
+      responses:
+        201:
+          description: New judge successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    description: Unique id of the created judge.
+                    example: 12345
+        400:
+          description: Incorrectly-formatted request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  
+  /judge/{judgeID}:
+    parameters:
+      - name: judgeID
+        in: path
+        description: Unique ID of the judge.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+    
+    put:
+      summary: Update data for a specific judge.
+      description: >
+        Replaces data for the judge specified by judgeID
+      tags:
+        - Judge
+      requestBody:
+        description: >
+          Judge data to replace data for the judge specified by judgeID.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Judge'
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Incorrectly formatted request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Judge'
+        404:
+          description: specified `judgeID` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete data for a specific judge.
+      description: >
+        Deletes the data for the judge specified by judgeID.
+      tags:
+        - Judge
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Specified `judgeID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /judge/meet/{meetID}:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 1
+        required: true
+ 
+    get:
+      summary: Get judges for a specific meet.
+      description: >
+        returns a list of all judges that participated in a specific meet.
+      tags:
+        - Judge
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  judges:
+                    type: array
+                    description: The returned judges.
+                    items:
+                      $ref: '#/components/schemas/Judge'
+        404:
+          description: specified `meetID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /lineup:
+    post:
+      summary: Allows for lineups to be added.
+      description: >
+        Adds a lineup to the database.
+      tags:
+        - Lineup
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lineup'
+      responses:
+        201:
+          description: New lineup successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    description: Unique id of the created lineup.
+                    example: 12345
+        400:
+          description: Incorrectly-formatted request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+
+  /lineup/{lineupID}:
+    parameters:
+      - name: lineupID
+        in: path
+        description: Unique ID of the lineup.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    put:
+      summary: Update data for a specific lineup.
+      description: >
+        Replaces data for the lineup specified by lineupID
+      tags:
+        - Lineup
+      requestBody:
+        description: >
+          Lineup data to replace data for the lineup specified by lineupID.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lineup'
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Incorrectly formatted request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lineup'
+        404:
+          description: specified `lineupID` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete data for a specific lineup.
+      description: >
+        Deletes the data for the lineup specified by lineupID.
+      tags:
+        - Lineup
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Specified `lineupID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /lineup/{meetID}/{teamID}/{event}:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: teamID
+        in: path
+        description: Unique ID of the team.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: event
+        in: path
+        description: Name of the event.
+        schema:
+          type: string
+        example: Vault
+        required: true
+
+    get:
+      summary: Get the lineup for a team.
+      description: >
+        Returns the lineup for the team specified by `teamID` for the event specified by `event` from the meet specified by `meetID`.
+      tags:
+        - Lineup
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  lineups:
+                    type: array
+                    description: The array that makes up the lineup of the team
+                    items:
+                      $ref: '#/components/schemas/Lineup'
+        404:
+          description: specified `meetID`, `teamID`, or `event` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /lineup/score/{meetID}/{teamID}/{event}:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: teamID
+        in: path
+        description: Unique ID of the team.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: event
+        in: path
+        description: Name of the event.
+        schema:
+          type: string
+        example: Vault
+        required: true
+
+    get:
+      summary: Get the score for a team.
+      description: >
+        Returns the score for the team specified by `teamID` for the event specified by `event` from the meet specified by `meetID`.
+      tags:
+        - Lineup
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  score:
+                    type: number
+                    description: The score earned by the team.
+                    example: 48.95
+        404:
+          description: specified `meetID`, `teamID`, or `event` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /meet:
+    get:
+      summary: Fetches all meets in the database.
+      description: >
+        Returns all meets in the database.
+      tags:
+        - Meet
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  meets:
+                    type: array
+                    description: The returned meets.
+                    items:
+                      $ref: '#/components/schemas/Meet'
+
+    post:
+      summary: Allows for meets to be added.
+      description: >
+        Adds a meet to the database.
+      tags:
+        - Meet
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Meet'
+      responses:
+        201:
+          description: New meet successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    description: Unique id of the created meet.
+                    example: 12345
+        400:
+          description: Incorrectly-formatted request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+
+  /meet/{meetID}:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    get:
+      summary: Fetches a singular meet.
+      description: >
+        Returns the meet specified by `meetID`.
+      tags:
+        - Meet
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meet'
+
+    put:
+      summary: Update data for a specific meet.
+      description: >
+        Replaces data for the meet specified by `meetID`
+      tags:
+        - Meet
+      requestBody:
+        description: >
+          Meet data to replace data for the meet specified by `meetID`.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Meet'
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Incorrectly formatted request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Meet'
+        404:
+          description: specified `meetID` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete data for a specific meet.
+      description: >
+        Deletes the data for the meet specified by `meetID`.
+      tags:
+        - Meet
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Specified `meetID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /player:
+    post:
+      summary: Allows for players to be added.
+      description: >
+        Adds a player to the database.
+      tags:
+        - Player
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Player'
+      responses:
+        201:
+          description: New player successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    description: Unique id of the created player.
+                    example: 12345
+        400:
+          description: Incorrectly-formatted request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /player/{playerID}:
+    parameters:
+      - name: playerID
+        in: path
+        description: Unique ID of the player.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    get:
+      summary: Gets the player specified by `playerID`.
+      description: >
+        Returns a singular player specified by `playerID`.
+      tags:
+        - Player
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  player:
+                    $ref: '#/components/schemas/Player'
+        404:
+          description: specified `playerID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete data for a specific player.
+      description: >
+        Deletes the data for the player specified by playerID.
+      tags:
+        - Player
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Specified `playerID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /player/{playerName}:
+    parameters:
+      - name: playerName
+        in: path
+        description: The name of the player
+        schema:
+          type: string
+        example: Mary Jacobsen
+        required: true
+
+    put:
+      summary: Update data for a specific player.
+      description: >
+        Replaces data for the player specified by `playerName`
+      tags:
+        - Player
+      requestBody:
+        description: >
+          Player data to replace data for the player specified by `playerName`.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Player'
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Incorrectly formatted request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Player'
+        404:
+          description: specified `playerName` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /player/{playerID}/{event}:
+    parameters:
+      - name: playerID
+        in: path
+        description: Unique ID of the player.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: event
+        in: path
+        description: Name of the event.
+        schema:
+          type: integer
+        example: Vault
+        required: true
+
+    get:
+      summary: Get the score for the player specified by `playerID` in the event specified by `event`.
+      description: >
+        Returns the score for the player specified by `playerID` for the event `event`.
+      tags:
+        - Player
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  score:
+                    type: number
+                    description: The score the player got
+                    example: 9.95
+        404:
+          description: specified `playerID` or `event` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /player/{meetID}/meet:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 1
+        required: true
+
+    get:
+      summary: Gets players specified by `meetID`.
+      description: >
+        Returns an array of players that participated in meet specified by `meetID`.
+      tags:
+        - Player
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  players:
+                    type: array
+                    description: The returned players.
+                    items:
+                      $ref: '#/components/schemas/Player'
+        404:
+          description: specified `meetID` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /score:
+    get:
+      summary: Fetches all scores in the database.
+      description: >
+        Returns all scores regardless of what meet they were in.
+      tags:
+        - Score
+      responses:
+        200:
+          description: Success
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  scores:
+                    type: array
+                    description: The returned scores.
+                    items:
+                      $ref: '#/components/schemas/Score'
+
+    post:
+      summary: Allows for scores to be added.
+      description: >
+        Adds a score to the database.
+      tags:
+        - Score
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Score'
+      responses:
+        201:
+          description: New score successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    description: Unique id of the created score.
+                    example: 12345
+        400:
+          description: Incorrectly-formatted request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+
+  /score/{scoreID}:
+    parameters:
+      - name: scoreID
+        in: path
+        description: Unique ID of the score.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    put:
+      summary: Update data for a specific score.
+      description: >
+        Replaces data for the score specified by scoreID
+      tags:
+        - Score
+      requestBody:
+        description: >
+          Score data to replace data for the score specified by scoreID.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Score'
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Incorrectly formatted request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Score'
+        404:
+          description: specified `scoreID` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete data for a specific score.
+      description: >
+        Deletes the data for the score specified by scoreID.
+      tags:
+        - Score
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Specified `scoreID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /score/meet/{meetID}:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 1
+        required: true
+
+    get:
+      summary: Get scores for a specific meet.
+      description: >
+        returns a list of all scores that participated in a specific meet.
+      tags:
+        - Score
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  scores:
+                    type: array
+                    description: The returned scores.
+                    items:
+                      $ref: '#/components/schemas/Score'
+        404:
+          description: specified `meetID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /score/average/{meetID}/{playerID}/{event}:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: playerID
+        in: path
+        description: Unique ID of the gymnast.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+      - name: event
+        in: path
+        description: Name of the event.
+        schema:
+          type: string
+        example: Vault
+        required: true
+
+    get:
+      summary: Get the average score for a player.
+      description: >
+        Returns the averaged score for the player specified by `playerID` for the event specified by `event` from the meet specified by `meetID`.
+      tags:
+        - Score
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  score:
+                    type: number
+                    description: The score earned.
+                    example: 9.95
+        404:
+          description: specified `meetID`, `playerID`, or `event` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /team:
+    post:
+      summary: Allows for teams to be added.
+      description: >
+        Adds a team to the database.
+      tags:
+        - Team
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        201:
+          description: New team successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  id:
+                    type: integer
+                    description: Unique id of the created team.
+                    example: 12345
+        400:
+          description: Incorrectly-formatted request body.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error' 
+
+  /team/{teamID}:
+    parameters:
+      - name: teamID
+        in: path
+        description: Unique ID of the team.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    get:
+      summary: Gets the team specified by `teamID`.
+      description: >
+        Returns a singular team specified by `teamID`.
+      tags:
+        - Team
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  team:
+                    $ref: '#/components/schemas/Team'
+        404:
+          description: specified `teamID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      summary: Update data for a specific team.
+      description: >
+        Replaces data for the team specified by teamID
+      tags:
+        - Team
+      requestBody:
+        description: >
+          Team data to replace data for the team specified by teamID.
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Team'
+      responses:
+        200:
+          description: Success.
+        400:
+          description: Incorrectly formatted request body
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Team'
+        404:
+          description: specified `teamID` not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      summary: Delete data for a specific team.
+      description: >
+        Deletes the data for the team specified by teamID.
+      tags:
+        - Team
+      responses:
+        204:
+          description: Success.
+        404:
+          description: Specified `teamID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /team/score/{teamID}:
+    parameters:
+      - name: teamID
+        in: path
+        description: Unique ID of the team.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    get:
+      summary: Gets the total team score.
+      description: >
+        Returns the total team score so far for the team specified by `teamID`.
+      tags:
+        - Team
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  teamScore:
+                    type: number
+                    description: The team score for the team specified by `teamID`.
+                    example: 190.75
+        404:
+          description: specified `teamID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /team/{meetID}/meet:
+    parameters:
+      - name: meetID
+        in: path
+        description: Unique ID of the meet.
+        schema:
+          type: integer
+        example: 12345
+        required: true
+
+    get:
+      summary: Gets teams specified by `meetID`.
+      description: >
+        Returns an array of teams that participated in meet specified by `meetID`.
+      tags:
+        - Team
+      responses:
+        200:
+          description: Success.
+          content:
+            application/json:
+              schema:
+                properties:
+                  teams:
+                    type: array
+                    description: The returned teams.
+                    items:
+                      $ref: '#/components/schemas/Team'
+        404:
+          description: specified `meetID` not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    Error:
+      description: >
+        A request body error
+      type: object
+      properties:
+        err:
+          type: string
+          description: A message describing the error.
+
+    Judge:
+      description: >
+        An object describing a single judge.
+      type: object
+      properties:
+        name:
+          type: string
+          description: Name of the Judge.
+          example: Joe Beaver
+        meetID:
+          type: integer
+          description: The unique value of the meet the judge participated in.
+          example: 1
+      required:
+        - name
+        - meetID
+
+    Lineup:
+      description: >
+        An object representing a single item of a lineup array
+      type: object
+      properties:
+        playerID:
+          type: integer
+          description: The unqiue ID of the gymnast.
+          example: 12345
+        teamID:
+          type: integer
+          description: The unique ID of the team.
+          example: 12345
+        order:
+          type: integer
+          description: What order the gymnast goes in.
+          example: 1
+        event:
+          type: string
+          description: The event being represented.
+          example: Vault
+        meetID:
+          type: integer
+          description: The unique ID of the meet.
+          example: 12345
+      required:
+        - playerID
+        - teamID
+        - order
+        - event
+        - meetID
+
+    Meet:
+      description: >
+        An object representing a single meet
+      type: object
+      properties:
+        name:
+          type: string
+          description: The name of the meet.
+          example: 4/15/2019
+      required:
+        - name
+
+    Player:
+      description: >
+        An object representing a single player.
+      type: object
+      properties:
+        playerNum:
+          type: integer
+          description: A number given to the Gymnast for a meet.
+          example: 12345
+        name:
+          type: string
+          description: Name of the gymnast.
+          example: Mary Jacobsen
+        teamID:
+          type: integer
+          description: ID of the team the gymnast belongs to
+          example: 12345
+        vaultScore:
+          type: number
+          description: The score the gymnast scored for vault.
+          example: 9.95
+        barsScore:
+          type: number
+          description: The score the gymnast scored for bars.
+          example: 9.95
+        beamScore:
+          type: number
+          description: The score the gymnast scored for beam.
+          example: 9.95
+        floorScore:
+          type: number
+          description: The score the gymnast scored for floor.
+          example: 9.95
+        AAScore:
+          type: number
+          description: The All Around score for the gymnast
+        meetID:
+          type: integer
+          description: The unique value of the meet the gymnast participated in.
+          example: 1
+      required: 
+        - name
+        - teamID
+        - meetID
+
+    Score:
+      description: >
+        An object representing a single score.
+      type: object
+      properties:
+        playerID:
+          type: integer
+          description: The unique ID of the gymnast that earned the score.
+          example: 12345
+        judgeID:
+          type: integer
+          description: The unique ID of the judge who gave the score.
+          example: 12345
+        score:
+          type: number
+          description: The score earned.
+          example: 9.95
+        event:
+          type: string
+          description: The event for the score.
+          example: Vault
+        exhibition:
+          type: boolean
+          description: Whether the score is an exhibition score or not.
+          example: true
+        meetID:
+          type: integer
+          description: The unique value of the meet the team participated in.
+          example: 1
+
+    Team:
+      description: >
+        An object representing a single team.
+      type: object
+      properties:
+        teamScore:
+          type: number
+          description: The current score of the Team.
+          example: 190.75
+        teamName:
+          type: string
+          description: Name of the Team.
+          example: Oregon State University
+        vaultScore:
+          type: number
+          description: The score the team scored for vault.
+          example: 48.75
+        barsScore:
+          type: number
+          description: The score the team scored for bars.
+          example: 48.75
+        beamScore:
+          type: number
+          description: The score the team scored for beam.
+          example: 48.75
+        floorScore:
+          type: number
+          description: The score the team scored for floor.
+          example: 48.75
+        meetID:
+          type: integer
+          description: The unique value of the meet the team participated in.
+          example: 1
+      required: 
+        - teamName
+        - meetID
