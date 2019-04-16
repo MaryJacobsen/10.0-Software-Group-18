@@ -182,4 +182,5 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (null, 'admin', 1, "$2a$10$Qu40UMDdT70GDjVNGQc9aOcS/KujTJCx.5a0NizNb7QfsZ5EyEh2u");
+INSERT INTO `user` VALUES (null, 'scorer', 0, "$2a$10$Qu40UMDdT70GDjVNGQc9aOcS/KujTJCx.5a0NizNb7QfsZ5EyEh2u");
 UNLOCK TABLES;
