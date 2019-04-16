@@ -8,8 +8,8 @@ Since our project calls for a containerized API based web server, Docker is need
 # Using Postman to Test
 
 To test endpoints with Postman you must enter the endpoint and the HTTP method and click on send. Data must be sent using x-www-form-urlencoded format.
-> Ex. `GET http://localhost:8000/player/Oregon State University` will return a list of all players that are part of
-> the OSU gymnastics team.
+> Ex. `GET http://localhost:8000/team/20/meet` will return a list of all teams that are participating in 
+> the meet where the meet ID = 20
 
 We have made testing collections using postman that can be used to put information into the database and to test each endpoint. To import the collections, copy a link, click the import button on the top left inside postman, and then click "Import From Link" and paste. The endpoint collections work in the following order:
 
