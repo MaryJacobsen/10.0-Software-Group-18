@@ -25,9 +25,9 @@ router.get('/:meetID/meet', requireAuthentication, function (req, res, next) {
     const mysqlPool = req.app.locals.mysqlPool;
     const meetID = req.params.meetID;
     getTeamsByMeetID(meetID, mysqlPool)
-    .then((meetID) => {
-      if (meetID) {
-        res.status(200).json(meetID);
+    .then((team) => {
+      if (team) {
+        res.status(200).json(team);
       } else {
           next();
       }
@@ -118,11 +118,9 @@ router.get('/score/:id', requireAdmin, function (req, res, next) {
       if(scores.floorScore != null) {
         total += scores.floorScore;
       }
-      if (total) {
-        res.status(200).json(total);
-      } else {
-          next();
-      }
+      res.status(200).json({
+        teamScore: total
+      });
     })
     .catch((err) => {
       console.log(err);
@@ -132,17 +130,6 @@ router.get('/score/:id', requireAdmin, function (req, res, next) {
     });
 });
 
-function getTeamByID(id, mysqlPool) {
-  return new Promise((resolve, reject) => {
-    mysqlPool.query('SELECT * FROM team WHERE id = ?', [ id ], function (err, results) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(results[0]);
-      }
-    });
-  });
-};
 
 
 /*
