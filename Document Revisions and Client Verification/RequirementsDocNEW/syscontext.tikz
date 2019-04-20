@@ -1,0 +1,79 @@
+
+
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
+%uncomment if require: \path (0,300); %set diagram left start at 0, and has height of 300
+
+%Shape: Rectangle [id:dp2117936696300492] 
+\draw   (68.5,80) -- (156.5,80) -- (156.5,123) -- (68.5,123) -- cycle ;
+%Shape: Rectangle [id:dp8916861139417767] 
+\draw   (77,197) -- (147,197) -- (147,237) -- (77,237) -- cycle ;
+%Shape: Rectangle [id:dp26609270430973364] 
+\draw   (509.5,186) -- (620.5,186) -- (620.5,222) -- (509.5,222) -- cycle ;
+%Shape: Rectangle [id:dp29515141413759893] 
+\draw   (501.5,90) -- (609.5,90) -- (609.5,113) -- (501.5,113) -- cycle ;
+%Straight Lines [id:da26603257173351713] 
+\draw    (111.5,148) -- (111.5,127) ;
+\draw [shift={(111.5,125)}, rotate = 450] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+%Shape: Rectangle [id:dp2818483922568308] 
+\draw   (510,21) -- (617.5,21) -- (617.5,58) -- (510,58) -- cycle ;
+%Straight Lines [id:da6410651706195866] 
+\draw    (155.5,102) -- (171.5,102) ;
+
+
+%Straight Lines [id:da027316194160433294] 
+\draw    (473,101) -- (496.5,101) ;
+\draw [shift={(498.5,101)}, rotate = 180] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+%Straight Lines [id:da4845127072412607] 
+\draw    (242,124) -- (317.5,159) ;
+
+
+%Straight Lines [id:da11103063766699672] 
+\draw    (415.5,174) -- (498.67,211.18) ;
+\draw [shift={(500.5,212)}, rotate = 204.09] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+%Straight Lines [id:da0750850693241939] 
+\draw    (242,84) -- (310.5,58) ;
+
+
+%Straight Lines [id:da18872223183152936] 
+\draw    (444.5,58) -- (491.66,37.79) ;
+\draw [shift={(493.5,37)}, rotate = 516.8] [color={rgb, 255:red, 0; green, 0; blue, 0 }  ][line width=0.75]    (10.93,-3.29) .. controls (6.95,-1.4) and (3.31,-0.3) .. (0,0) .. controls (3.31,0.3) and (6.95,1.4) .. (10.93,3.29)   ;
+
+%Shape: Rectangle [id:dp7494070194947108] 
+\draw   (172,84) -- (242,84) -- (242,124) -- (172,124) -- cycle ;
+%Straight Lines [id:da18290866426365615] 
+\draw    (111.5,171) -- (111.5,197) ;
+
+
+%Straight Lines [id:da41283255297876276] 
+\draw    (241.5,102) -- (282.5,102) ;
+
+
+
+% Text Node
+\draw (112,101) node  [align=left] {Web Portal};
+% Text Node
+\draw (111,218) node  [align=left] {User};
+% Text Node
+\draw (555,100) node  [align=left] {Scoreboard};
+% Text Node
+\draw (562,205) node  [align=left] {SQL Database};
+% Text Node
+\draw (112,156) node  [align=left] {Score input/edit};
+% Text Node
+\draw (561,40) node  [align=left] {Printer};
+% Text Node
+\draw (366,165) node  [align=left] {Scoring Data};
+% Text Node
+\draw (372,100) node  [align=left] {Formatted scoreboard data};
+% Text Node
+\draw (375,55) node  [align=left] {Current scorecard};
+% Text Node
+\draw (203,102) node  [align=left] {API};
+
+
+\end{tikzpicture}
