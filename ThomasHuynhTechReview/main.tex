@@ -1,0 +1,100 @@
+\documentclass[letterpaper,10pt,draftclsnofoot,onecolumn,]{IEEEtran}
+\usepackage[utf8]{inputenc}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{listings}
+\usepackage{tikz}
+\setlength\parindent{0pt}
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \textbf{Gymnastics 10.0 Software }
+        
+        \vspace{0.5cm}
+        The purpose of this paper is to define requirements for the proposed gymnastics scoring software.
+        
+        \vspace{1.5cm}
+        
+        \textbf{Team 18}
+        
+        Tech Review\\
+        Thomas Huynh\\
+
+
+    \end{center}
+\end{titlepage}
+
+
+\begin{center}
+\textbf{Introduction}\\
+\end{center}
+
+\par Our team is trying to create a system for the scoring of gymnastics meets held in Gill Coliseum. The system will take in, calculate, organize, and display scores as well as format the scoring data. The proposed solution would be to create a program in a higher level language that handles all of the primary features stated above. One of the best ways to do this would be to create an API to handle all of the data. That way the program can use HTTP and CRUD methods to interact with the API in a secure and efficient manner. The API would be designed to handle all of the data in a single database with multiple tables, and the API will take all of the incoming data, parse it, and perform any data operations that are necessary. The program we create will essentially create CRUD methods to query the database. The program should be easy to use and allow for staff to choose what event is being scored, the gymnast, then the score from each judge; next, the API will send back a response with the event, the name of the gymnast, and her individual score. Once the last gymnast completes the event, the program will query the database to update the team score, and the newly updated team score will be sent back to the program. From here, the program will update the display boards with the new team score. The program will also continually update the display boards by team and event with every gymnast's score on the respective event. The current display boards in Gill Coliseum are manufactured by Daktronics. Many fans want to have a mobile application that can provide live scores whether they are at the gymnastics meet or not. This stretch goal would require an Android and iOS application that could connect to the data API used in the scoring software in order to show live scores. The applications would have multiple authentication levels. The fans could follow the meets with live scoring without being able to modify data or see everything that they don't need to. The staff with higher authentication could use the application to run the scoring system.\\
+
+\begin{center}
+\textbf{1. Android App Development Stretch Goal}\\
+\end{center}
+
+\textbf{Android Studio}
+\par Android Studio is the most popular integrated development (IDE) for Android developers. It is built on the IntelliJ IDE and is the official development tool for Android applications [1]. Google designed Android Studio specifically with Android development in mind and released Android Studio in December 2014 to replace Eclipse as the official Android development tool [1]. Android Studio works best with Java, so the Java Development Kit will also be required (JDK) to compile. Some useful features Android Studio has are a rendering of how the layout of the application would visually appear, widgets (basic application features) that we can drag over to add to the application, and an Android emulator to run our application [1].
+
+\textbf{Android Native Development Kit (NDK)}
+\par Although Java may be the most popular Android development language, it is not the most ideal for performance particularly for games [2]. One engine that allows developers to program Android applications in C or C++ is Android NDK. The source code written in C compiles directly into native machine code (ARM or x86) [2]. This can allow a developer to get more performance out of Android devices. Some features NDK has are CPU profiling (simpleperf), Visual Studio integration, and a variety of application programming interfaces (APIs) [2].
+
+\textbf{Xamarin and Other Frameworks}
+\par Using software frameworks to develop applications would give us a significant head start. Xamarin is a very popular framework that allows us to develop for several mobile platforms including Android, iOS, and Windows [3]. If our group were to develop both an Android and iOS application, Xamarin can be extremely useful. It allows us to use C# with the same IDE and API's across different platforms [3]. Instead of writing an Android application in Java and writing an iOS application in Swift, we can code using only C#. Using Xamarin allows us to use Visual Studio's powerful features such as debugging on an emulator, debugging, and code completion [3].
+
+\begin{center}
+\textbf{2. iOS App Development Stretch Goal}\\
+\end{center}
+\textbf{Xcode}
+\par Xcode is an IDE available on macOS containing development tools for writing macOS, iOS, watchOS, and tvOS software [4]. It supports many programming languages including Python, C, C++, Objective-C, Objective C++, Java, and Swift [4]. Currently, Swift is the most popular language because it was made specifically for iOS and macOS software development. Xcode contains the bulk of Apple's documentation for software developers and an application to build graphical user interfaces (GUIs) [4]. Since Xcode was developed by Apple from the ground up for iOS development, this is likely the easiest route to take for pure iOS application development. The main disadvantage to Xcode is we will need a Mac unless we use third party solutions.
+
+\textbf{React Native}
+\par Since Xcode will not work on Windows computers (without virtual machines), alternatives such as React Native can be used. With React Native, we program applications using JavaScript [5]. The fundamental user interface (UI) building blocks can be assembled together using JavaScript and React [5]. Many popular applications such as Instagram, Facebook, Skype, and Pinterest were developed using React Native. A handy feature of React Native is instead of recompiling, we can immediately test changed code. Snippets of code written in Swift, Java, and Objective-C can be used to optimize parts of the application.
+
+\textbf{Apache Cordova}
+\par Cordova is a cross platform framework available on Windows that allows to us develop for both iOS and Android. One disadvantage of these cross platform tools, however, is that they can be much more complex to use compared to native solutions such as Xcode and Android Studio. Unlike Xamarin, Cordova uses HTML5, CSS3, and JavaScript for application development [6]. The advantages of Cordova are cross platform development (potentially cutting development time in half) and it is easy for web developers to get into. The application code resides in a web application making it easy to review changes [6]. Plugins provide an interface for Cordova and allows Cordova to connect native components [6]. Other plugins can provide our application with access to certain device hardware components and software components such as battery, camera, location, etc [6].  
+
+\begin{center}
+\textbf{3. Display Output Interfaces}\\
+\end{center}
+
+\textbf{3.1 High-Definition Multimedia Interface (HDMI)}
+\par HDMI is an interface that transmits video and audio data [7]. It was developed by 7 electronics companies (Sony, Hitachi, Thomson (RCA), Philips, Panasonic, Toshiba, and Silicon Image) [7]. The latest specification for HDMI is 2.1 which can support 4k resolution at up to 120Hz refresh rate [7]. The more commonly found and supported 2.0 specification still supports up to 4K resolution at 60Hz. HDMI cables are for very affordable and generally range between a price of 6 and 15 dollars depending on the length of the cable. Generally, HDMI cables can a support a video signal reliable at up to 50 feet [7]. In addition, since HDMI is so widely adopted, both the display boards and computers should have HDMI ports. HDMI cables are also backwards compatible with older specifications [7]. 
+\par
+
+\textbf{3.2 DisplayPort (DP}
+DP is a digital video interface developed that can also carry audio and USB data [7]. It was developed by the Video Electronics Standards Association (VESA),a consortium of manufacturers, and debuted in 2006 [7]. A passive copper DP cable can support a 4k video resolution over a length of 6.5 feet [7]. If a longer cable length is required, the standard can support a maximum of 2560x1600 video resolution at a length up to 50 feet [7]. This can come in handy if a long cable length is needed to connect the computers to the display boards. Active copper DP cables can carry a 2560x1600 resolution over 65 feet and fiber DP cables can be hundreds of feet long [7]. Another handy feature for DP cables is that a single DP interface can support up to 4 displays at up to 1080p [7]. This means potentially we can use only two DP cables for the six display boards in Gil Coliseum.
+\par
+
+\textbf{3.3 Digital Visual Interface (DVI)}
+\par DVI is a digital video interface developed in 1999 by the Digital Display Working Group (DDWG) [8]. It is most closely associated with personal computers and monitors designed for computers [8]. Almost every personal computer video card has at least one DVI output port. The most versatile type of DVI cable is the DVI-I cable [8]. It is capable of transmitting either a digital to digital signal or analog signal to signal [8]. A single link DVI-I cable can transmit a video resolution of 1920x1200 at up to 60Hz while a dual link DVI-I cable can transmit a video resolution of 2560x1600 at up to 60Hz [8]. In general, DVI cables do not preform over long lengths as well as DisplayPort and HDMI [8]. Typically, DVI cables can maintain a signal at up to 25 feet [8].
+
+\begin{center}
+\textbf{Conclusion}\\
+\end{center}
+\par All of the technologies discussed are possible options that can be used for our gymnastics scoring software project. The Android and iOS applications so far are stretch goals that were not originally mentioned by our client. I think if we meet the primary requirements of this project early enough, we can easily meet our stretch goals of developing mobile applications. For the display output interface, I think our best choice is HDMI. It is very widely supported and can support a signal over a long distance. The mobile development option is a tougher choice to make. If we have a lot of spare time, then we will go with the native development options: Xcode and Android Studio. Otherwise if we are tight on time (but still have enough time to attempt stretch goals), then we will use either Xamarin or Apache Cordova.
+
+\newpage
+\begin{center}
+\textbf{References}
+\end{center}
+\par
+[1]A. Mullis, "Android Studio tutorial for beginners", Android Authority, 2017. [Online]. Available: https://www.androidauthority.com/android-studio-tutorial-beginners-637572/. [Accessed: 02- Nov- 2018].
+\par
+[2]A. Mullis, "Android NDK — Everything you need to know", Android Authority, 2017. [Online]. Available: https://www.androidauthority.com/android-ndk-everything-need-know-677642/. [Accessed: 10- Nov- 2018].
+\par
+[3]"Best 10 Android Frameworks for Building Android Apps", Medium, 2018. [Online]. Available: https://medium.com/@MasterOfCodeGlobal/best-10-android-frameworks-for-building-android-apps-44ceb3756880. [Accessed: 02- Nov- 2018].
+\par
+[4]T. Klosowski, "I Want to Write iOS Apps. Where Do I Start?", Lifehacker, 2018. [Online]. Available: https://lifehacker.com/i-want-to-write-ios-apps-where-do-i-start-1644802175. [Accessed: 02- Nov- 2018].
+\par
+[5]R. Vries, "How To Develop iOS Apps On A Windows PC – LearnAppMaking", LearnAppMaking, 2018. [Online]. Available: https://learnappmaking.com/develop-ios-apps-on-windows-pc/. [Accessed: 02- Nov- 2018].
+\par
+[6]M. McInerney, "Architectural overview of Cordova platform - Apache Cordova", Cordova.apache.org, 2018. [Online]. Available: https://cordova.apache.org/docs/en/latest/guide/overview/index.html. [Accessed: 02- Nov- 2018].
+\par
+[7] M. Brown, "HDMI vs. DisplayPort: Which display interface reigns supreme?", PCWorld, 2018. [Online]. Available: https://www.pcworld.com/article/2030669/laptop-accessories/hdmi-vs-displayport-which-display-interface-reigns-supreme.html. [Accessed: 02- Nov- 2018].
+\par
+[8] "A Complete Guide to the Digital Video Interface", Datapro, 2018. [Online]. [Accessed: 02- Nov- 2018].
+\end{document}
