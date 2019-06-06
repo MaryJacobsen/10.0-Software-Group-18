@@ -1,0 +1,89 @@
+\documentclass[a4paper, 10pt, draftclsnofoot, onecolumn]{article}
+\usepackage[letterpaper,margin=0.75in]{geometry}
+
+\begin{document}
+\begin{titlepage}
+    \begin{center}
+        \vspace*{1cm}
+        
+        \textbf{Gymnastics Scoring Software}
+        
+        \vspace{0.5cm}
+        The purpose of this paper is to review different technical options for the proposed gymnastics scoring software.
+        
+        \vspace{1.5cm}
+        
+        \textbf{Group 18}
+        
+        Tech Review\\
+        10.0 Software\\
+        CS 461\\
+        Fall 2018\\
+        
+    \end{center}
+    
+    \begin{center}
+    \section*{Abstract}
+    The gymnastics meets held in Gill Coliseum are fast paced, usually televised competitions attended by thousands of fans. In order to run the competitions smoothly and provide a positive experience for fans, athletes, and staff, there must be a way to record, organize, and display the scores that the judges give to each routine using the hardware already in Gill Coliseum. The Oregon State Gymnastics Team would like new scoring software. With the addition of a new jumbotron inside of Gill coliseum, the pre-existing software used to display and keep scores has become outdated and has issues displaying on the current hardware. Because of this, it is important for new, custom software to be built that can accurately and elegantly display scores on Gill Coliseum's hardware in a readable manner that is intuitive for fans to understand while providing all the necessary functionality such as exporting to specific formats.\\
+    \end{center}
+\end{titlepage}
+
+\begin{center}
+\section*{Introduction}
+\end{center}
+Our project is centered around design competitive scoring software for the Oregon State University Gymnastics Team. The OSU Gymnastics Team has many ideas in mind for how the software should work and has asked the team to create a new interface that is specifically designed to work at Gill Coliseum where the gymnastics meets are held. My role in this project is to work on the security of the application that will be built, for the software needs to be secure in order to ensure that the scores that are submitted to nationals are correct and were accurately recorded. If the software does not accurately keep score then it would lead to scores being taken by handed then double checked by the NCAA which would cause both a poor fan experience and take a lot of manpower to keep track and double check each score. Some major security concerns that need to be handled are protection of data, protection of user accounts, and lastly securing data for being sent across the internet. The three aspects this tech review will cover are hash functions, encryption ciphers, and transfer protocols.\\
+
+\begin{center}
+\section*{Hash functions}
+\end{center}
+The main purposes for hash functions are to store passwords, and due to the necessity of administrator accounts to ensure that data can only be used by authorized individuals. To begin, the purpose of a hash function is to manipulate data into a different string of a set length, usually 128, 256 or 512 bits. By using hashing, programmers can hide resources and reduce the size of the resource by hashing. For the password example, a user will enter a password which will then be sent into the hash function and the result is sent to the server; from there, the server checks if the hash password stored is the same as the hash received. One issue with hashes however, is that a hash of two separate strings can return the same output which is known as a hash collision. Hashes have multiple uses in security, but there are two major type of hash functions, cryptographic and non-cryptographic \cite{hashes}. \\
+
+\subsection*{Cryptographic hash functions}
+The major difference between cryptographic and non-cryptographic hash functions are the end goal of the hash. For cryptographic hash functions, the end goal is to create a hash that can not be easily worked back into the original string; for example, if a user inserts the password {\fontfamily{qcr}\selectfont password}, hashes the password to get a new string\newline {\fontfamily{qcr}\selectfont 5BAA61E4C9B93F3F0682250B6CF8331B7EE68FD8}, and from there sends that hash over the internet it will be very difficult for an adversary that would want to figure out the password to successfully work back the hash into the original password. The ability for a hash function to create a string where it would be unfeasible to recreate the original string is what separates cryptographic hashes from non-cryptographic hashes \cite{hashes}.
+
+\subsubsection*{SHA-2}
+One of the most well known and secure hash functions is SHA-2. It was developed by the National Security Agency, or NSA, of the United States of America. SHA-2 works by implementing numerous bit wise operations in order to mutilate and differentiate data \cite{SHA}. The SHA-2 algorithm takes in 64 characters at a time, and separates those 64 characters into eight blocks each containing eight characters. From there SHA-2 performs bit wise operations, operations where the characters are turned into their binary forms and logical operators are used with them, on all of the blocks and uses the outcomes of those bit wise operations to create the new string \cite{SHA}. A quick example is that for a message with blocks {\fontfamily{qcr}\selectfont A, B, C, D, E, F, G, H} the new block {\fontfamily{qcr}\selectfont G} is found by taking {\fontfamily{qcr}\selectfont G = (E AND F) XOR ((NOT E) AND G)}. This shows the amount of operations that are done on each block in order to completely change the output, for this was done just to find one of eight blocks, but due to the amount of operations done SHA-2 is seen as a slow and expensive hash due to the amount of time and the resources it needs to compute a hash.
+
+\subsection*{Non-cryptographic hash functions}
+Unlike cryptographic hashes, non-cryptographic hashes do not primarily care about the ability to hide the original input, and instead care about reducing the number of hash collisions that can occur. Now, since the main goal of non-cryptographic hashes is to stop collisions, they tend to be more efficient and quicker to run then their cryptographic cousins. This causes the primary use of non-cryptographic hashes to be used in local programs, or programs where the hash does not get sent over the internet. Overall non-cryptographic hashes can be seen as weaker than cryptographic hashes, but they make up for it with speed and simplicity \cite{hashes}.
+
+\subsubsection*{MurmurHash}
+MurmurHash is a non-cryptographic hash that takes a message and outputs a 64 bit hash. It does this by taking the first 32 bits of the message and essentially moving the bits either right or left x-places, think of the number {\fontfamily{qcr}\selectfont 8} which is {\fontfamily{qcr}\selectfont 1000} in binary. If one was to rotate the number 8 left by two bits the result would be {\fontfamily{qcr}\selectfont 100000} which is equal to {\fontfamily{qcr}\selectfont 32}. In general MurmurHash is a very simple hash function that can quickly create a hash that would be good for local use; however, this hash can easily be reversed to find the original message making it weak for being sent over unsecured channels \cite{murmur}.
+
+\begin{center}
+\section*{Encryption ciphers}
+\end{center}
+Encryption will be used when passing data from the client web app to the API server, nad ensuring that the data is protected. The basis of encryption is to take a message, and perform an operation on each character in order to completely change the message. Encryption has been used for centuries and one of the earliest encryption ciphers can be attributed to the ancient Romans \cite{ciphers}. Continuing, the only goal of an encryption cipher is to create a cipher text that cannot be deciphered by an adversary, but can be deciphered by a friendly agent. There are two major types of ciphers in modern cryptography, stream ciphers and block ciphers, and block ciphers are primarily used due to stream ciphers needing to know the exact length of a message \cite{ciphers}. Block ciphers on the other hand are not limited to knowing the length of message, and instead break the message up into x-bytes and encrypt each block as it goes. Moreover, there are many attributes that are desired in an encryption cipher such as self healing properties, the self healing property is a property where if a bit gets flipped on accident during sending, it will only hurt part of the encryption and not the whole thing, and avalanche effect, where if even a single character is different then at least half of the encryption cipher is different \cite{ciphers}. \\
+
+\subsection*{ECB}
+ECB, Encryption Cipher Block, is one of the first block ciphers that was created in modern cryptography, and as such it is now outdated and it is highly warned against using this cipher \cite{ciphers}. The way that ECB works is simple, it takes the first block of the message and encrypts to start the cipher text. It proceeds to do the same process for each of the blocks and appends the blocks to the ciphertext.  This creates a ciphertext that can easily be decrypted by running the decryption algorithm of the cipher for each block. One upside to ECB is that it can be run in parallel, meaning that each block can be decrypted at the same time, and has self healing properties, for the only block effect by a flipped bit would be the block with the flipped bit \cite{ciphers}. However, where ECB fails is the avalanche effect. The major problem with ECB is that there is no difference in a message of the same thing over and over again. So, if an adversary knew the encryption for password, then they could easily find every instance of that block. And due to that major failure of the avalanche effect ECB is considered one of the worst block ciphers to use.
+
+\subsection*{CTR}
+CTR mode, which stands for counter mode, heavily focuses on two things: the ability to run in parallel, and the avalanche effect \cite{ciphers}. CTR mode works by first creating a random string known as an initialization variable, or IV. From there, it encrypts the IV then runs a bit wise XOR with the plaintext in order to get the first ciphertext block \cite{ciphers}. For the second ciphertext block, it adds one to the IV in order to get a completely different IV, encrypts the IV, and then runs a bit wise XOR with the plaintext to get the second ciphertext block. So, for each block CTR mode simply adds N - 1 to the IV, encrypts the IV, then XOR the plaintext and encrypted IV, and once all blocks have been encrypted CTR mode appends the un-encrypted IV to the begging of the ciphertext \cite{ciphers}. Now, the main reason for the IV is to stop the same message from having the same ciphertext; moreover, the IV also helps to create an avalanche effect since adding one to the IV will result in a very different binary string that will cause a message composed of the same blocks to come out with very different results. Another big advantage of CTR mode is that it is considered a forward only encryption, which means that a decryption is not needed to retrieve the plaintext, instead the decryption process encrypts the IV and uses XOR with the ciphertext to then get the plaintext, and because of the forward encryption CTR can easily be run in parallel by simply sending in the cipher text, the IV, and the amount to increment the IV. Overall CTR mode is considered one of the best block ciphers to use when resources, such as storage space and processor speeds, are a constraint.
+
+\subsection*{CBC}
+The last mode that will be talked about is CBC, or Cipher Block Chaining, which was developed with avalanche and self healing properties in mind\cite{ciphers}. CBC works by first creating a random IV, much like CTR mode. Then, CBC uses XOR with the first plaintext block and the IV, and then encrypts the result to get the first ciphertext\cite{ciphers}. For the second block, CBC once again uses XOR on the plaintext, but instead of using XOR with the IV, CBC instead uses the first ciphertext as the other end of the XOR, and after the XOR the result is encrypted to get the next ciphertext block\cite{ciphers}. So the encryption algorithm for any ciphertext after the first is to XOR plaintext N with ciphertext N - 1, then encrypt N the result, and once the message has been fully encrypted the IV is appended to the beginning of the ciphertext\cite{ciphers}. Decryption works very similarly to encryption for CBC, first it decrypts the ciphertext, then it takes the XOR of the decrypted ciphertext and the previous ciphertext to get the plaintext message\cite{ciphers}. Due to the amount of chaining that CBC does, it is a very secure encryption method. CBC also shows avalanche effect because of the random IV in the beginning, and since the IV effects the first ciphertext which effects the second ciphertext and so on, it creates a completely different ciphertext at each stage. Next, CBC has self healing properties due to its decryption algorithm, for the mistake in a ciphertext would only persist for the block the mistake was made in, and the block after it. CBC is a very strong encryption block cipher and is the current standard for most security protocols.
+
+\begin{center}
+\section*{Transfer Protocols}
+\end{center}
+Transfer protocols are necessary for sending information over a connection. The base purpose of a transfer protocol is to send a message from point A to point B; however, more modern transfer protocols have started to care about making sure that each part of a message arrives, and that the message is going to the correct receiver and not being intercepted. With transfer protocols, the modern internet would not exist as they are a fundamental structure that the internet was built upon. \\
+
+\subsection*{UDP}
+UDP, or User Datagram Protocol, is the most basic transfer protocol available. It simply takes the message and sends it. It does this technically by getting the IP address of the receiver, then formats the header of the file to be sent to that IP address\cite{udp}. If the message is not received by the recipient, UDP does nothing to ensure that the packets are received or that the correct message is received either\cite{udp}. The best use for UDP is when data needs to be sent over a secure line in an efficient manner that has no excess.
+
+\subsection*{TCP}
+TCP, or Transmission Control Protocol, can be viewed as the more secure bigger brother of UDP. TCP works by sending a message to the receiver followed by the receiver sending a message back to the sender that they received the message\cite{tcp}. This is done through the use of acknowledgement, or ACK. To start the sender sends the message and starts a timer, and when the receiver gets the message, it will send back an ACK to the sender that means the message was received\cite{tcp}. If the message never makes it to the receiver then after a set amount of time passes, TCP assumes the message was lost and will send it again and will repeat this process until the receiver sends back an ACK\cite{tcp}. Overall, TCP cares a lot more about the package arriving to the correct place, and that the entire message gets sent.
+
+\subsection*{HTTP}
+HTTP, or Hyper Text Transfer Protocol, is a request-response protocol that is more commonly used with servers\cite{http}. What request-response means, is that a client will send a request to a server, and the server will fulfill the response with data\cite{http}. The first thing that happens is the client will send a request to the web server of either GET, which grabs data from the server; PUT, which updates data in the server; POST, which creates new data on the server; and lastly DELETE, which deletes data on the server\cite{http}. The client sends one of these four commands, sometimes with a message body that has more information, and the server will then attempt to fulfill the request. The server will process the request and send a response to the server with an HTTP status code. Usually the requests will be processed correctly and send a 200 level code, and the response to the client will have the data or the action request\cite{http}. If the server fails it will send either a 400 level code which indicates that the operation was not allowed, or a 500 level status code which means the server failed to send the data correctly\cite{http}. HTTP was specifically built for the internet and servers, and because of this HTTP is very well optimized to enhance the transfer protocol for data being sent and received from servers.
+
+\begin{center}
+\section*{Conclusion}
+\end{center}
+In conclusion, the needs of hash functions, encryption ciphers, and transfer protocols are very important for our project to make gymnastics scoring software. The current plan for the project is to make an API that acts as the server to deal with requests of authorized devices, and because of this the project needs to be very security minded in order to make sure that data isn't stolen or falsified. So, with that in mind the best options for creating a secure API is to use a cryptographic hash function, and in particular SHA-2, in order to successfully hash and securely store passwords. Next, the API will be sending data over wifi which can be captured by another device, so it is important to use a secure block cipher for encryption, and due to the amount of resources our server can have it will be best to use CBC mode. Lastly, since our API server is a server, the best transfer protocol to use is HTTP since it was designed to be used for web servers.
+
+\bibliographystyle{IEEEtran}
+\bibliography{ref.bib}
+
+\end{document}
